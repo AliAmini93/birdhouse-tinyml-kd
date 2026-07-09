@@ -1,0 +1,29 @@
+{
+  "audio": "/media/armin/External/AhmadWorks/audioclassification/Dataset/fsc22/23birdchirping/23_12301.wav",
+  "logmel_shape": [
+    40,
+    249
+  ],
+  "normalized_shape": [
+    40,
+    249
+  ],
+  "q_input_shape": [
+    40,
+    249
+  ],
+  "q_input_flat_layout": "[mel][frame]",
+  "normalizer": {
+    "mean": -9.193479537963867,
+    "std": 3.789201021194458,
+    "mode": "full_dataset"
+  },
+  "input_scale": 0.0200184378772974,
+  "input_zero_point": -67,
+  "logmel_min": -13.812060356140137,
+  "logmel_max": 0.4221670627593994,
+  "normalized_min": -1.2188798189163208,
+  "normalized_max": 2.537644863128662,
+  "q_input_min": -128,
+  "q_input_max": 60
+}
