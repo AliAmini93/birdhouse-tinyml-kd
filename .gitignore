@@ -55,3 +55,17 @@ teacher_kd/*.zip
 *.flac
 *.ogg
 *.log
+
+# Keep student training source code and docs, but not generated results/models.
+!student/
+!student/README.md
+!student/*.py
+!student/**/*.py
+student/cache/
+student/results/
+student/models/
+student/**/*.keras
+student/**/*.h5
+student/**/*.tflite
+student/**/*.npz
+student/**/*.npy
