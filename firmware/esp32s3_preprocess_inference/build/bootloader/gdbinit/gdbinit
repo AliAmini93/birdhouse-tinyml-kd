@@ -1,0 +1,2 @@
+source /media/armin/External/AhmadWorks/audioclassification/firmware/esp32s3_preprocess_inference/build/bootloader/gdbinit/symbols
+source /media/armin/External/AhmadWorks/audioclassification/firmware/esp32s3_preprocess_inference/build/bootloader/gdbinit/connect

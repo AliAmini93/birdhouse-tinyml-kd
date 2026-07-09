@@ -37,6 +37,7 @@
   "files": {
     "reference_pcm_float32_npy": "firmware/preprocess/testdata/reference_pcm_float32.npy",
     "reference_pcm_float32_bin": "firmware/preprocess/testdata/reference_pcm_float32.bin",
+    "reference_pcm_float32_h": "firmware/preprocess/testdata/reference_pcm_float32.h",
     "reference_logmel_npy": "firmware/preprocess/testdata/reference_logmel.npy",
     "reference_normalized_npy": "firmware/preprocess/testdata/reference_normalized.npy",
     "reference_input_int8_npy": "firmware/preprocess/testdata/reference_input_int8.npy",
