@@ -1,0 +1,608 @@
+{
+  "timestamp": "2026-07-09 16:38:36",
+  "python_version": "3.11.15",
+  "torch_version": "2.9.1+cu128",
+  "cuda_available": true,
+  "device": "cuda",
+  "dataset_root": "Dataset/fsc22",
+  "num_classes": 27,
+  "n_eval_samples": 405,
+  "eval_batch_size": 32,
+  "acc_threshold": 0.75,
+  "final_status": "FAIL (both)",
+  "checkpoint_used": "/media/armin/External/AhmadWorks/audioclassification/output_for_dissertation/fsc22/model/melspectrogram/Swint_LSTM/2025_07_21_16_06_03_Swint_LSTM_0.pth",
+  "decision_note": "Neither the primary nor the backup checkpoint passed verification. Do NOT retrain automatically; investigate label order / checkpoint integrity / preprocessing before proceeding.",
+  "attempts": {
+    "primary": {
+      "checkpoint": "/media/armin/External/AhmadWorks/audioclassification/output_for_dissertation/fsc22/model/melspectrogram/Swint_LSTM/2025_07_21_16_06_03_Swint_LSTM_0.pth",
+      "exists": true,
+      "loaded": true,
+      "error": null,
+      "num_classes": 27,
+      "bird_indices": [
+        2,
+        6
+      ],
+      "overall_accuracy": 0.0691,
+      "recorded_fold0_accuracy": 0.837,
+      "accuracy_ok": false,
+      "labelmap_ok": true,
+      "index_checks": {
+        "23birdchirping": {
+          "got": 2,
+          "expected": 2,
+          "ok": true
+        },
+        "24wingflapping": {
+          "got": 6,
+          "expected": 6,
+          "ok": true
+        }
+      },
+      "verification_status": "FAIL",
+      "n_eval_samples": 405,
+      "per_class_accuracy": {
+        "10axe": {
+          "index": 0,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "22frog": {
+          "index": 1,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "23birdchirping": {
+          "index": 2,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "25lion": {
+          "index": 3,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "18speaking": {
+          "index": 4,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "19footsteps": {
+          "index": 5,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "24wingflapping": {
+          "index": 6,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "05wind": {
+          "index": 7,
+          "n_eval": 15,
+          "correct": 15,
+          "accuracy": 1.0
+        },
+        "04waterdrops": {
+          "index": 8,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "17whistling": {
+          "index": 9,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "06silence": {
+          "index": 10,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "15gunshot": {
+          "index": 11,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "13handsaw": {
+          "index": 12,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "08helicopter": {
+          "index": 13,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "12generator": {
+          "index": 14,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "16woodchop": {
+          "index": 15,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "14firework": {
+          "index": 16,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "11chainsaw": {
+          "index": 17,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "03thunderstorm": {
+          "index": 18,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "02rain": {
+          "index": 19,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "01fire": {
+          "index": 20,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "07treefalling": {
+          "index": 21,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "26wolfhowl": {
+          "index": 22,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "21insect": {
+          "index": 23,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "09vehicleengine": {
+          "index": 24,
+          "n_eval": 15,
+          "correct": 13,
+          "accuracy": 0.8667
+        },
+        "27squirrel": {
+          "index": 25,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "20clapping": {
+          "index": 26,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        }
+      },
+      "pred_distribution": {
+        "10axe": {
+          "07treefalling": 14,
+          "26wolfhowl": 1
+        },
+        "22frog": {
+          "18speaking": 15
+        },
+        "23birdchirping": {
+          "13handsaw": 15
+        },
+        "25lion": {
+          "17whistling": 15
+        },
+        "18speaking": {
+          "20clapping": 14,
+          "23birdchirping": 1
+        },
+        "19footsteps": {
+          "11chainsaw": 15
+        },
+        "24wingflapping": {
+          "01fire": 14,
+          "12generator": 1
+        },
+        "05wind": {
+          "05wind": 15
+        },
+        "04waterdrops": {
+          "19footsteps": 14,
+          "12generator": 1
+        },
+        "17whistling": {
+          "02rain": 15
+        },
+        "06silence": {
+          "21insect": 15
+        },
+        "15gunshot": {
+          "27squirrel": 15
+        },
+        "13handsaw": {
+          "14firework": 15
+        },
+        "08helicopter": {
+          "04waterdrops": 12,
+          "09vehicleengine": 3
+        },
+        "12generator": {
+          "08helicopter": 14,
+          "09vehicleengine": 1
+        },
+        "16woodchop": {
+          "07treefalling": 12,
+          "24wingflapping": 2,
+          "19footsteps": 1
+        },
+        "14firework": {
+          "26wolfhowl": 14,
+          "27squirrel": 1
+        },
+        "11chainsaw": {
+          "25lion": 15
+        },
+        "03thunderstorm": {
+          "15gunshot": 15
+        },
+        "02rain": {
+          "22frog": 14,
+          "15gunshot": 1
+        },
+        "01fire": {
+          "12generator": 14,
+          "11chainsaw": 1
+        },
+        "07treefalling": {
+          "23birdchirping": 14,
+          "01fire": 1
+        },
+        "26wolfhowl": {
+          "06silence": 15
+        },
+        "21insect": {
+          "03thunderstorm": 15
+        },
+        "09vehicleengine": {
+          "09vehicleengine": 13,
+          "05wind": 1,
+          "08helicopter": 1
+        },
+        "27squirrel": {
+          "10axe": 12,
+          "05wind": 1,
+          "13handsaw": 1,
+          "21insect": 1
+        },
+        "20clapping": {
+          "16woodchop": 15
+        }
+      },
+      "mean_p_bird_on_true_bird": 0.0088,
+      "mean_p_bird_on_true_nonbird": 0.0717
+    },
+    "backup": {
+      "checkpoint": "/media/armin/External/AhmadWorks/audioclassification/output_p_10/fsc22/model/melspectrogram/Swint_LSTM/2025_07_11_14_36_59_Swint_LSTM_0.pth",
+      "exists": true,
+      "loaded": true,
+      "error": null,
+      "num_classes": 27,
+      "bird_indices": [
+        2,
+        6
+      ],
+      "overall_accuracy": 0.0691,
+      "recorded_fold0_accuracy": 0.837,
+      "accuracy_ok": false,
+      "labelmap_ok": true,
+      "index_checks": {
+        "23birdchirping": {
+          "got": 2,
+          "expected": 2,
+          "ok": true
+        },
+        "24wingflapping": {
+          "got": 6,
+          "expected": 6,
+          "ok": true
+        }
+      },
+      "verification_status": "FAIL",
+      "n_eval_samples": 405,
+      "per_class_accuracy": {
+        "10axe": {
+          "index": 0,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "22frog": {
+          "index": 1,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "23birdchirping": {
+          "index": 2,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "25lion": {
+          "index": 3,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "18speaking": {
+          "index": 4,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "19footsteps": {
+          "index": 5,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "24wingflapping": {
+          "index": 6,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "05wind": {
+          "index": 7,
+          "n_eval": 15,
+          "correct": 15,
+          "accuracy": 1.0
+        },
+        "04waterdrops": {
+          "index": 8,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "17whistling": {
+          "index": 9,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "06silence": {
+          "index": 10,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "15gunshot": {
+          "index": 11,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "13handsaw": {
+          "index": 12,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "08helicopter": {
+          "index": 13,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "12generator": {
+          "index": 14,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "16woodchop": {
+          "index": 15,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "14firework": {
+          "index": 16,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "11chainsaw": {
+          "index": 17,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "03thunderstorm": {
+          "index": 18,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "02rain": {
+          "index": 19,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "01fire": {
+          "index": 20,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "07treefalling": {
+          "index": 21,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "26wolfhowl": {
+          "index": 22,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "21insect": {
+          "index": 23,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "09vehicleengine": {
+          "index": 24,
+          "n_eval": 15,
+          "correct": 13,
+          "accuracy": 0.8667
+        },
+        "27squirrel": {
+          "index": 25,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "20clapping": {
+          "index": 26,
+          "n_eval": 15,
+          "correct": 0,
+          "accuracy": 0.0
+        }
+      },
+      "pred_distribution": {
+        "10axe": {
+          "07treefalling": 9,
+          "24wingflapping": 5,
+          "26wolfhowl": 1
+        },
+        "22frog": {
+          "18speaking": 15
+        },
+        "23birdchirping": {
+          "13handsaw": 15
+        },
+        "25lion": {
+          "17whistling": 15
+        },
+        "18speaking": {
+          "20clapping": 15
+        },
+        "19footsteps": {
+          "11chainsaw": 15
+        },
+        "24wingflapping": {
+          "01fire": 14,
+          "22frog": 1
+        },
+        "05wind": {
+          "05wind": 15
+        },
+        "04waterdrops": {
+          "19footsteps": 15
+        },
+        "17whistling": {
+          "02rain": 15
+        },
+        "06silence": {
+          "21insect": 15
+        },
+        "15gunshot": {
+          "27squirrel": 14,
+          "24wingflapping": 1
+        },
+        "13handsaw": {
+          "14firework": 15
+        },
+        "08helicopter": {
+          "04waterdrops": 14,
+          "09vehicleengine": 1
+        },
+        "12generator": {
+          "08helicopter": 14,
+          "09vehicleengine": 1
+        },
+        "16woodchop": {
+          "24wingflapping": 12,
+          "07treefalling": 3
+        },
+        "14firework": {
+          "26wolfhowl": 14,
+          "27squirrel": 1
+        },
+        "11chainsaw": {
+          "25lion": 15
+        },
+        "03thunderstorm": {
+          "15gunshot": 15
+        },
+        "02rain": {
+          "22frog": 14,
+          "15gunshot": 1
+        },
+        "01fire": {
+          "12generator": 15
+        },
+        "07treefalling": {
+          "23birdchirping": 15
+        },
+        "26wolfhowl": {
+          "06silence": 15
+        },
+        "21insect": {
+          "03thunderstorm": 15
+        },
+        "09vehicleengine": {
+          "09vehicleengine": 13,
+          "15gunshot": 1,
+          "08helicopter": 1
+        },
+        "27squirrel": {
+          "10axe": 12,
+          "13handsaw": 2,
+          "21insect": 1
+        },
+        "20clapping": {
+          "16woodchop": 15
+        }
+      },
+      "mean_p_bird_on_true_bird": 0.0097,
+      "mean_p_bird_on_true_nonbird": 0.081
+    }
+  },
+  "output_files": [
+    "teacher_kd/fold0_predictions.csv",
+    "teacher_kd/confusion_matrix.csv",
+    "teacher_kd/verified_label_map.json"
+  ]
+}

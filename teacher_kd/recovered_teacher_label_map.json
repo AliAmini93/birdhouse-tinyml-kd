@@ -1,0 +1,220 @@
+{
+  "checkpoint": "/media/armin/External/AhmadWorks/audioclassification/output_for_dissertation/fsc22/model/melspectrogram/Swint_LSTM/2025_07_21_16_06_03_Swint_LSTM_0.pth",
+  "method": "hungarian (scipy.linear_sum_assignment)",
+  "num_classes": 27,
+  "output_index_to_folder": {
+    "0": "27squirrel",
+    "1": "02rain",
+    "2": "07treefalling",
+    "3": "11chainsaw",
+    "4": "22frog",
+    "5": "04waterdrops",
+    "6": "16woodchop",
+    "7": "05wind",
+    "8": "08helicopter",
+    "9": "25lion",
+    "10": "26wolfhowl",
+    "11": "03thunderstorm",
+    "12": "23birdchirping",
+    "13": "12generator",
+    "14": "01fire",
+    "15": "20clapping",
+    "16": "13handsaw",
+    "17": "19footsteps",
+    "18": "21insect",
+    "19": "17whistling",
+    "20": "24wingflapping",
+    "21": "10axe",
+    "22": "14firework",
+    "23": "06silence",
+    "24": "09vehicleengine",
+    "25": "15gunshot",
+    "26": "18speaking"
+  },
+  "folder_to_output_index": {
+    "27squirrel": 0,
+    "02rain": 1,
+    "07treefalling": 2,
+    "11chainsaw": 3,
+    "22frog": 4,
+    "04waterdrops": 5,
+    "16woodchop": 6,
+    "05wind": 7,
+    "08helicopter": 8,
+    "25lion": 9,
+    "26wolfhowl": 10,
+    "03thunderstorm": 11,
+    "23birdchirping": 12,
+    "12generator": 13,
+    "01fire": 14,
+    "20clapping": 15,
+    "13handsaw": 16,
+    "19footsteps": 17,
+    "21insect": 18,
+    "17whistling": 19,
+    "24wingflapping": 20,
+    "10axe": 21,
+    "14firework": 22,
+    "06silence": 23,
+    "09vehicleengine": 24,
+    "15gunshot": 25,
+    "18speaking": 26
+  },
+  "bird_folders_output_index": {
+    "23birdchirping": 12,
+    "24wingflapping": 20
+  },
+  "recommended_bird_indices": [
+    12,
+    20
+  ],
+  "P_bird_formula": "P[12] + P[20]",
+  "P_non_bird_formula": "1 - (P[12] + P[20])",
+  "local_dataset_label_map": {
+    "10axe": 0,
+    "22frog": 1,
+    "23birdchirping": 2,
+    "25lion": 3,
+    "18speaking": 4,
+    "19footsteps": 5,
+    "24wingflapping": 6,
+    "05wind": 7,
+    "04waterdrops": 8,
+    "17whistling": 9,
+    "06silence": 10,
+    "15gunshot": 11,
+    "13handsaw": 12,
+    "08helicopter": 13,
+    "12generator": 14,
+    "16woodchop": 15,
+    "14firework": 16,
+    "11chainsaw": 17,
+    "03thunderstorm": 18,
+    "02rain": 19,
+    "01fire": 20,
+    "07treefalling": 21,
+    "26wolfhowl": 22,
+    "21insect": 23,
+    "09vehicleengine": 24,
+    "27squirrel": 25,
+    "20clapping": 26
+  },
+  "accuracy": {
+    "raw_all_clips": 0.0731,
+    "remapped_all_clips": 0.9467,
+    "raw_fold0_eval": 0.0691,
+    "remapped_fold0_eval": 0.9333
+  },
+  "mean_p_bird_on_true_bird": 0.912,
+  "mean_p_bird_on_true_nonbird": 0.0047,
+  "ambiguous_output_indices": [
+    {
+      "out_index": 6,
+      "claimants": [
+        [
+          "16woodchop",
+          19
+        ],
+        [
+          "10axe",
+          5
+        ]
+      ]
+    },
+    {
+      "out_index": 21,
+      "claimants": [
+        [
+          "10axe",
+          68
+        ],
+        [
+          "16woodchop",
+          55
+        ]
+      ]
+    },
+    {
+      "out_index": 24,
+      "claimants": [
+        [
+          "09vehicleengine",
+          72
+        ],
+        [
+          "08helicopter",
+          7
+        ]
+      ]
+    }
+  ],
+  "weak_assignments": [
+    {
+      "folder": "16woodchop",
+      "assigned_out_index": 6,
+      "count": 19,
+      "n": 75,
+      "argmax_out_index": 21,
+      "argmax_count": 55
+    }
+  ],
+  "batch_size_stability": {
+    "n_clips": 30,
+    "folders": [
+      "23birdchirping",
+      "24wingflapping",
+      "05wind",
+      "02rain",
+      "21insect",
+      "22frog",
+      "06silence"
+    ],
+    "bird_indices": [
+      12,
+      20
+    ],
+    "diffs": {
+      "bs1_vs_bs32": {
+        "mean_abs_diff": 0.07621767371892929,
+        "max_abs_diff": 0.31539589166641235
+      },
+      "bs8_vs_bs32": {
+        "mean_abs_diff": 0.0053624645806849,
+        "max_abs_diff": 0.06620526313781738
+      },
+      "bs1_vs_bs8": {
+        "mean_abs_diff": 0.07147078216075897,
+        "max_abs_diff": 0.3161860704421997
+      }
+    },
+    "overall_max_abs_diff": 0.3161860704421997,
+    "overall_mean_abs_diff": 0.05101697348679105,
+    "acceptable": false,
+    "batch_size_stable_ge_8": false,
+    "batch_size_1_is_outlier": true,
+    "recommendation": "P(bird) varies even between batch_size 8 and 32; soft labels are batch-order sensitive at every size. Pin one exact batch size AND clip ordering when generating labels and reuse it identically for teacher and any re-runs.",
+    "tolerance": 0.05
+  },
+  "verification_status": "CAUTION",
+  "preprocessing_summary": {
+    "loader": "librosa.load(path, sr=None)",
+    "sample_rate": "native (44100 Hz kept, no resample)",
+    "channels": "mono (librosa default mono=True)",
+    "feature": "librosa.feature.melspectrogram(y=y, sr=sr)  [library defaults]",
+    "n_fft": 2048,
+    "hop_length": 512,
+    "n_mels": 128,
+    "power": 2.0,
+    "power_to_db": false,
+    "log_scaling": false,
+    "normalization": false,
+    "time_frames": 432,
+    "length_handling": "if <432 tile/repeat along time axis then truncate; if >432 truncate",
+    "model_input_shape": "[B, 128, 432]",
+    "channel_expansion": "1 -> 3 channels via repeat(1,3,1,1) inside model.forward",
+    "resize_to_224": false,
+    "imagenet_mean_std_norm": false,
+    "eval_batch_size": 32,
+    "eval_batch_note": "swin_t output is 2-D (B,768); nn.LSTM treats it as an unbatched sequence of length B, so batch size/order affect predictions. batch_size=32 + shuffle=False replicate the original eval."
+  }
+}

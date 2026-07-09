@@ -1,0 +1,57 @@
+# Ignore everything by default to protect datasets, checkpoints, venvs, audio files, and large outputs.
+*
+
+# Keep project documentation.
+!.gitignore
+!README.md
+!docs/
+!docs/**
+!configs/
+!configs/**
+
+# Keep selected teacher_kd scripts and lightweight reports only.
+!teacher_kd/
+!teacher_kd/README.md
+!teacher_kd/*.py
+!teacher_kd/*.md
+!teacher_kd/*.json
+!teacher_kd/confusion_matrix.csv
+!teacher_kd/recovered_confusion_raw.csv
+!teacher_kd/recovered_confusion_remapped.csv
+!teacher_kd/recovered_confusion_all_clips.csv
+!teacher_kd/recovered_confusion_fold0.csv
+
+# Always ignore heavy / generated / unsafe artifacts.
+Dataset/
+dataset/
+datasets/
+venv/
+.venv/
+AQR/
+output_for_dissertation/
+output_for_revision/
+output_log_p10/
+output_p_10/
+output_p_10_lr_6/
+output_side_project/
+__pycache__/
+teacher_kd/__pycache__/
+teacher_kd/soft_labels/
+teacher_kd/distillation_outputs/
+teacher_kd/*.zip
+*.pth
+*.pt
+*.ckpt
+*.h5
+*.keras
+*.onnx
+*.tflite
+*.pkl
+*.joblib
+*.npy
+*.npz
+*.wav
+*.mp3
+*.flac
+*.ogg
+*.log

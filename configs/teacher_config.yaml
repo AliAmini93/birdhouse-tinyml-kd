@@ -1,0 +1,28 @@
+teacher:
+  name: "FSC22 mel-spectrogram SWinT-BiLSTM"
+  class_name: "Swint_LSTM"
+  framework: "PyTorch"
+  num_classes: 27
+  checkpoint: "output_for_dissertation/fsc22/model/melspectrogram/Swint_LSTM/2025_07_21_16_06_03_Swint_LSTM_0.pth"
+  status: "usable_with_caution"
+
+preprocessing:
+  loader: "librosa.load(path, sr=None)"
+  sample_rate: "native_44100"
+  mono: true
+  feature: "librosa.feature.melspectrogram"
+  n_fft: 2048
+  hop_length: 512
+  n_mels: 128
+  power: 2.0
+  power_to_db: false
+  log_scaling: false
+  normalization: false
+  output_shape: [128, 432]
+  channel_repeat_inside_model: true
+
+inference_constraints:
+  batch_size: 32
+  shuffle: false
+  fixed_ordering_required: true
+  reason: "Swint_LSTM consumes batch dimension as LSTM sequence dimension."

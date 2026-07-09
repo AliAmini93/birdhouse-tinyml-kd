@@ -1,0 +1,21 @@
+binary_collapse:
+  target_classes:
+    bird:
+      folders:
+        - "23birdchirping"
+        - "24wingflapping"
+      teacher_output_indices:
+        - 12
+        - 20
+    non_bird:
+      formula: "1 - P_bird"
+
+  formulas:
+    P_bird: "P[12] + P[20]"
+    P_non_bird: "1 - (P[12] + P[20])"
+
+  invalid_old_mapping:
+    old_local_indices:
+      - 2
+      - 6
+    reason: "Local os.listdir label order does not match checkpoint output order."
