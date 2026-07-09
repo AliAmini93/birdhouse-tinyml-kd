@@ -69,3 +69,10 @@ student/**/*.h5
 student/**/*.tflite
 student/**/*.npz
 student/**/*.npy
+
+# ESP-IDF generated artifacts
+firmware/**/build/
+firmware/**/managed_components/
+firmware/**/sdkconfig.old
+firmware/**/*.log
+firmware/**/build_*.log
