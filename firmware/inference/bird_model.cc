@@ -3,6 +3,7 @@
 #include "firmware/model/model_constants.h"
 #include "firmware/model/student_final_int8_model_data.h"
 
+#include "tensorflow/lite/c/common.h"
 #include "tensorflow/lite/micro/micro_interpreter.h"
 #include "tensorflow/lite/micro/micro_mutable_op_resolver.h"
 #include "tensorflow/lite/schema/schema_generated.h"
@@ -10,7 +11,13 @@
 namespace birdhouse {
 namespace {
 
-constexpr int kOpResolverSize = 12;
+// Current final model operator list:
+//   CONV_2D
+//   DEPTHWISE_CONV_2D
+//   MEAN
+//   FULLY_CONNECTED
+//   LOGISTIC
+constexpr int kOpResolverSize = 5;
 
 tflite::MicroMutableOpResolver<kOpResolverSize>* CreateResolver() {
   static tflite::MicroMutableOpResolver<kOpResolverSize> resolver;
@@ -19,16 +26,9 @@ tflite::MicroMutableOpResolver<kOpResolverSize>* CreateResolver() {
   if (!initialized) {
     resolver.AddConv2D();
     resolver.AddDepthwiseConv2D();
-    resolver.AddFullyConnected();
     resolver.AddMean();
+    resolver.AddFullyConnected();
     resolver.AddLogistic();
-    resolver.AddReshape();
-    resolver.AddQuantize();
-    resolver.AddDequantize();
-    resolver.AddAveragePool2D();
-    resolver.AddMaxPool2D();
-    resolver.AddAdd();
-    resolver.AddMul();
     initialized = true;
   }
 

@@ -1,0 +1,9 @@
+idf_component_register(
+  SRCS
+    "main.cc"
+    "../../../inference/bird_model.cc"
+    "../../../model/student_final_int8_model_data.cc"
+  INCLUDE_DIRS
+    "."
+    "../../.."
+)
