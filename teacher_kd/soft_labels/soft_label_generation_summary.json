@@ -1,0 +1,118 @@
+{
+  "timestamp": "2026-07-09 18:24:34",
+  "status": "PASS",
+  "fail_reasons": [],
+  "checkpoint": "/media/armin/External/AhmadWorks/audioclassification/output_for_dissertation/fsc22/model/melspectrogram/Swint_LSTM/2025_07_21_16_06_03_Swint_LSTM_0.pth",
+  "device": "cuda",
+  "torch_version": "2.9.1+cu128",
+  "num_classes": 27,
+  "bird_indices": [
+    12,
+    20
+  ],
+  "P_bird_formula": "P[12] + P[20]",
+  "recovery_decision": "CAUTION",
+  "ordering": "folders: recovered_teacher_label_map.json:local_dataset_label_map (discovery order); files: sorted() within each folder; batch_size=32, shuffle=False",
+  "batch_size": 32,
+  "deterministic": {
+    "shuffle": false,
+    "augmentation": false,
+    "torch_no_grad": true,
+    "model_eval": true,
+    "cudnn_deterministic": true
+  },
+  "counts": {
+    "clips": 2025,
+    "bird_clips": 150,
+    "non_bird_clips": 1875
+  },
+  "mean_p_bird_true_bird": 0.907487,
+  "mean_p_bird_true_non_bird": 0.005174,
+  "binary_at_0p5": {
+    "accuracy": 0.995556,
+    "bird_recall": 0.953333,
+    "bird_precision": 0.986207,
+    "non_bird_recall": 0.998933,
+    "confusion": {
+      "TP": 143,
+      "FN": 7,
+      "FP": 2,
+      "TN": 1873
+    }
+  },
+  "p_bird_distribution_deciles": {
+    "[0.0,0.1)": 1857,
+    "[0.1,0.2)": 10,
+    "[0.2,0.3)": 4,
+    "[0.3,0.4)": 6,
+    "[0.4,0.5)": 3,
+    "[0.5,0.6)": 2,
+    "[0.6,0.7)": 3,
+    "[0.7,0.8)": 4,
+    "[0.8,0.9)": 12,
+    "[0.9,1.0)": 124
+  },
+  "n_uncertain_0p4_0p6": 5,
+  "top20_uncertain": [
+    {
+      "file_path": "Dataset/fsc22/07treefalling/7_10708.wav",
+      "source_folder": "07treefalling",
+      "p_bird": 0.492213,
+      "teacher_pred_folder_recovered": "24wingflapping",
+      "is_true_bird": false
+    },
+    {
+      "file_path": "Dataset/fsc22/27squirrel/27_12771.wav",
+      "source_folder": "27squirrel",
+      "p_bird": 0.516018,
+      "teacher_pred_folder_recovered": "23birdchirping",
+      "is_true_bird": false
+    },
+    {
+      "file_path": "Dataset/fsc22/02rain/2_10249.wav",
+      "source_folder": "02rain",
+      "p_bird": 0.530516,
+      "teacher_pred_folder_recovered": "23birdchirping",
+      "is_true_bird": false
+    },
+    {
+      "file_path": "Dataset/fsc22/24wingflapping/24_12412.wav",
+      "source_folder": "24wingflapping",
+      "p_bird": 0.449685,
+      "teacher_pred_folder_recovered": "24wingflapping",
+      "is_true_bird": true
+    },
+    {
+      "file_path": "Dataset/fsc22/02rain/2_10271.wav",
+      "source_folder": "02rain",
+      "p_bird": 0.431174,
+      "teacher_pred_folder_recovered": "02rain",
+      "is_true_bird": false
+    }
+  ],
+  "preprocessing_summary": {
+    "loader": "librosa.load(path, sr=None)",
+    "sample_rate": "native (44100 Hz kept, no resample)",
+    "channels": "mono (librosa default mono=True)",
+    "feature": "librosa.feature.melspectrogram(y=y, sr=sr)  [library defaults]",
+    "n_fft": 2048,
+    "hop_length": 512,
+    "n_mels": 128,
+    "power": 2.0,
+    "power_to_db": false,
+    "log_scaling": false,
+    "normalization": false,
+    "time_frames": 432,
+    "length_handling": "if <432 tile/repeat along time axis then truncate; if >432 truncate",
+    "model_input_shape": "[B, 128, 432]",
+    "channel_expansion": "1 -> 3 channels via repeat(1,3,1,1) inside model.forward",
+    "resize_to_224": false,
+    "imagenet_mean_std_norm": false,
+    "eval_batch_size": 32,
+    "eval_batch_note": "swin_t output is 2-D (B,768); nn.LSTM treats it as an unbatched sequence of length B, so batch size/order affect predictions. batch_size=32 + shuffle=False replicate the original eval."
+  },
+  "output_files": [
+    "teacher_kd/soft_labels/fsc22_teacher_outputs_27class.npz",
+    "teacher_kd/soft_labels/fsc22_soft_labels_binary.csv"
+  ]
+}
