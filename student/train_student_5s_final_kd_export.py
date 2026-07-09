@@ -122,7 +122,7 @@ def main():
     model.compile(optimizer=tf.keras.optimizers.Adam(cfg.learning_rate), loss=kd.kd_loss_factory(a.hard_weight, a.kd_weight, a.focal_alpha, a.focal_gamma))
     hist = model.fit(seq, epochs=epochs, verbose=2, callbacks=[tf.keras.callbacks.ReduceLROnPlateau(monitor="loss", mode="min", factor=0.5, patience=6, min_lr=1e-5, verbose=1)])
     pd.DataFrame(hist.history).to_csv(out / "final_training_history.csv", index=False)
-    model.save_weights(out / "student_final.weights.h5"); model.save(out / "student_final.keras", include_optimizer=False)
+    model.save_weights(out / "student_final.weights.h5"); model.save(out / "student_final.keras")
     with open(out / "normalizer.json", "w", encoding="utf-8") as f: json.dump(normalizer, f, indent=2)
     pd.DataFrame({"file_path": rel_paths, "source_folder": folders, "binary_hard_label": y, "teacher_p_bird": y_soft}).to_csv(out / "final_training_manifest.csv", index=False)
     prob = model.predict(Xn[..., None].astype(np.float32), batch_size=a.batch_size, verbose=0).reshape(-1)
