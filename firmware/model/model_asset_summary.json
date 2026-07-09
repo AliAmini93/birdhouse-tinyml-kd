@@ -1,0 +1,218 @@
+{
+  "model_path": "student/final_models/5s_kd_hw08_kw02/student_final_int8.tflite",
+  "export_summary_path": "student/final_models/5s_kd_hw08_kw02/export_summary.json",
+  "model_data": {
+    "model_data_h": "firmware/model/student_final_int8_model_data.h",
+    "model_data_cc": "firmware/model/student_final_int8_model_data.cc",
+    "model_size_bytes": 59760,
+    "model_size_kib": 58.359375
+  },
+  "model_constants_h": "firmware/model/model_constants.h",
+  "ops": [
+    {
+      "index": 0,
+      "op_name": "CONV_2D",
+      "inputs": [
+        0,
+        27,
+        26
+      ],
+      "outputs": [
+        28
+      ]
+    },
+    {
+      "index": 1,
+      "op_name": "DEPTHWISE_CONV_2D",
+      "inputs": [
+        28,
+        25,
+        24
+      ],
+      "outputs": [
+        29
+      ]
+    },
+    {
+      "index": 2,
+      "op_name": "CONV_2D",
+      "inputs": [
+        29,
+        23,
+        22
+      ],
+      "outputs": [
+        30
+      ]
+    },
+    {
+      "index": 3,
+      "op_name": "DEPTHWISE_CONV_2D",
+      "inputs": [
+        30,
+        21,
+        20
+      ],
+      "outputs": [
+        31
+      ]
+    },
+    {
+      "index": 4,
+      "op_name": "CONV_2D",
+      "inputs": [
+        31,
+        19,
+        18
+      ],
+      "outputs": [
+        32
+      ]
+    },
+    {
+      "index": 5,
+      "op_name": "DEPTHWISE_CONV_2D",
+      "inputs": [
+        32,
+        17,
+        16
+      ],
+      "outputs": [
+        33
+      ]
+    },
+    {
+      "index": 6,
+      "op_name": "CONV_2D",
+      "inputs": [
+        33,
+        15,
+        14
+      ],
+      "outputs": [
+        34
+      ]
+    },
+    {
+      "index": 7,
+      "op_name": "DEPTHWISE_CONV_2D",
+      "inputs": [
+        34,
+        13,
+        12
+      ],
+      "outputs": [
+        35
+      ]
+    },
+    {
+      "index": 8,
+      "op_name": "CONV_2D",
+      "inputs": [
+        35,
+        11,
+        10
+      ],
+      "outputs": [
+        36
+      ]
+    },
+    {
+      "index": 9,
+      "op_name": "DEPTHWISE_CONV_2D",
+      "inputs": [
+        36,
+        9,
+        8
+      ],
+      "outputs": [
+        37
+      ]
+    },
+    {
+      "index": 10,
+      "op_name": "CONV_2D",
+      "inputs": [
+        37,
+        7,
+        6
+      ],
+      "outputs": [
+        38
+      ]
+    },
+    {
+      "index": 11,
+      "op_name": "MEAN",
+      "inputs": [
+        38,
+        1
+      ],
+      "outputs": [
+        39
+      ]
+    },
+    {
+      "index": 12,
+      "op_name": "FULLY_CONNECTED",
+      "inputs": [
+        39,
+        5,
+        4
+      ],
+      "outputs": [
+        40
+      ]
+    },
+    {
+      "index": 13,
+      "op_name": "FULLY_CONNECTED",
+      "inputs": [
+        40,
+        3,
+        2
+      ],
+      "outputs": [
+        41
+      ]
+    },
+    {
+      "index": 14,
+      "op_name": "LOGISTIC",
+      "inputs": [
+        41
+      ],
+      "outputs": [
+        42
+      ]
+    }
+  ],
+  "reference_inference": {
+    "reference_input_bin": "audioclassification/firmware/preprocess/testdata/reference_input_int8.bin",
+    "input_shape": [
+      1,
+      40,
+      249,
+      1
+    ],
+    "input_dtype": "<class 'numpy.int8'>",
+    "input_quantization": [
+      0.0200184378772974,
+      -67
+    ],
+    "output_shape": [
+      1,
+      1
+    ],
+    "output_dtype": "<class 'numpy.int8'>",
+    "output_quantization": [
+      0.00390625,
+      -128
+    ],
+    "output_int8": 116,
+    "p_bird": 0.953125,
+    "threshold": 0.673462986946106,
+    "is_bird": true
+  },
+  "reference_output_header": "firmware/inference/testdata/reference_model_output.h"
+}
