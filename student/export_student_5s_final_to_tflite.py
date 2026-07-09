@@ -79,7 +79,7 @@ def main():
         "final_name": a.final_name, "fp32_tflite_path": str(fp32.relative_to(repo)), "int8_tflite_path": str(int8.relative_to(repo)),
         "fp32_tflite_size_bytes": int(fp32.stat().st_size), "int8_tflite_size_bytes": int(int8.stat().st_size),
         "recommended_threshold": final_summary.get("recommended_threshold"), "normalizer": norm,
-        "feature_pipeline": {"sample_rate": cfg.sample_rate, "duration_s": cfg.duration_s, "n_mels": cfg.n_mels, "frame_ms": cfg.frame_ms, "hop_ms": cfg.hop_ms, "expected_frames": cfg.expected_frames},
+        "feature_pipeline": {"sample_rate": cfg.sample_rate, "duration_s": cfg.duration_s, "n_mels": cfg.n_mels, "frame_ms": cfg.frame_ms, "hop_ms": cfg.hop_ms, "expected_frames": int(Xn.shape[2])},
         "int8_input_details": {"shape": int8_in["shape"].tolist(), "dtype": str(int8_in["dtype"]), "quantization": int8_in["quantization"]},
         "int8_output_details": {"shape": int8_out["shape"].tolist(), "dtype": str(int8_out["dtype"]), "quantization": int8_out["quantization"]},
         "validation": {"fp32_mean_absdiff_vs_keras": float(np.mean(np.abs(keras_pred-pred32))), "fp32_max_absdiff_vs_keras": float(np.max(np.abs(keras_pred-pred32))), "int8_mean_absdiff_vs_keras": float(np.mean(np.abs(keras_pred-pred8))), "int8_max_absdiff_vs_keras": float(np.max(np.abs(keras_pred-pred8)))}
