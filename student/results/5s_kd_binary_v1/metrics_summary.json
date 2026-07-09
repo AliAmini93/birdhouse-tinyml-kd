@@ -1,0 +1,136 @@
+{
+  "run_name": "5s_kd_binary_v1",
+  "decision_context": "5 s binary KD v1 compared against hard-label v2",
+  "n_clips": 2025,
+  "n_bird": 150,
+  "n_nonbird": 1875,
+  "param_count": 32097,
+  "config": {
+    "sample_rate": 16000,
+    "duration_s": 5.0,
+    "n_mels": 40,
+    "frame_ms": 25.0,
+    "hop_ms": 20.0,
+    "n_fft": 512,
+    "fmin": 50.0,
+    "fmax": 8000.0,
+    "eps": 1e-06,
+    "batch_size": 32,
+    "epochs": 90,
+    "patience": 14,
+    "learning_rate": 0.001,
+    "n_splits": 5,
+    "seed": 44,
+    "threshold_default": 0.5,
+    "target_fpr": 0.02
+  },
+  "hard_weight": 0.5,
+  "kd_weight": 0.5,
+  "focal_alpha": 0.75,
+  "focal_gamma": 2.0,
+  "feature_shape": [
+    40,
+    249
+  ],
+  "input_shape": [
+    40,
+    249,
+    1
+  ],
+  "tensorflow_version": "2.15.1",
+  "output_dir": "student/results/5s_kd_binary_v1",
+  "soft_label_info": {
+    "soft_csv": "/media/armin/External/AhmadWorks/audioclassification/teacher_kd/soft_labels/fsc22_soft_labels_binary.csv",
+    "prob_col": "p_bird",
+    "path_col": "file_path",
+    "match_mode": "basename",
+    "n_soft_rows": 2025,
+    "n_matched": 2025,
+    "mean_teacher_p_bird": 0.07201181352138519
+  },
+  "teacher_mean_p_bird_true_bird": 0.9074867963790894,
+  "teacher_mean_p_bird_true_nonbird": 0.005173820536583662,
+  "teacher_binary_acc_0p5": 0.9955555555555555,
+  "accuracy_0p5_mean": 0.9703703703703704,
+  "accuracy_0p5_std": 0.012096245643373733,
+  "precision_0p5_mean": 0.7950797052861678,
+  "precision_0p5_std": 0.10702962039236455,
+  "recall_0p5_mean": 0.8333333333333334,
+  "recall_0p5_std": 0.04216370213557838,
+  "f1_0p5_mean": 0.8102571258191762,
+  "f1_0p5_std": 0.06672999172751248,
+  "roc_auc_mean": 0.9812444444444445,
+  "roc_auc_std": 0.01153612040826876,
+  "pr_auc_mean": 0.890517073174459,
+  "pr_auc_std": 0.055482592722702596,
+  "recall_at_fpr_target_mean": 0.8533333333333333,
+  "recall_at_fpr_target_std": 0.0581186525805423,
+  "precision_at_fpr_target_mean": 0.8170784818629645,
+  "precision_at_fpr_target_std": 0.0397335618940819,
+  "fpr_at_target_mean": 0.015466666666666667,
+  "fpr_at_target_std": 0.003919183588453085,
+  "oof_metrics_0p5": {
+    "threshold": 0.5,
+    "accuracy": 0.9703703703703703,
+    "precision": 0.78125,
+    "recall": 0.8333333333333334,
+    "f1": 0.8064516129032258,
+    "tn": 1840,
+    "fp": 35,
+    "fn": 25,
+    "tp": 125,
+    "fpr": 0.018666666666666668
+  },
+  "oof_metrics_target_fpr": {
+    "threshold": 0.49666160345077515,
+    "accuracy": 0.9703703703703703,
+    "precision": 0.7777777777777778,
+    "recall": 0.84,
+    "f1": 0.8076923076923077,
+    "tn": 1839,
+    "fp": 36,
+    "fn": 24,
+    "tp": 126,
+    "fpr": 0.0192,
+    "target_fpr": 0.02
+  },
+  "oof_roc_auc": 0.9786631111111112,
+  "oof_pr_auc": 0.87832429773045,
+  "hardlabel_v2_comparison": {
+    "accuracy_0p5": {
+      "hardlabel_v2": 0.9234567901234568,
+      "kd_v1": 0.9703703703703704,
+      "delta": 0.04691358024691361
+    },
+    "precision_0p5": {
+      "hardlabel_v2": 0.5362381671257674,
+      "kd_v1": 0.7950797052861678,
+      "delta": 0.25884153816040034
+    },
+    "recall_0p5": {
+      "hardlabel_v2": 0.9,
+      "kd_v1": 0.8333333333333334,
+      "delta": -0.06666666666666665
+    },
+    "f1_0p5": {
+      "hardlabel_v2": 0.6576915187946331,
+      "kd_v1": 0.8102571258191762,
+      "delta": 0.15256560702454314
+    },
+    "roc_auc": {
+      "hardlabel_v2": 0.9732977777777778,
+      "kd_v1": 0.9812444444444445,
+      "delta": 0.007946666666666657
+    },
+    "pr_auc": {
+      "hardlabel_v2": 0.8659382385523138,
+      "kd_v1": 0.890517073174459,
+      "delta": 0.024578834622145274
+    },
+    "recall_at_fpr_target": {
+      "hardlabel_v2": 0.7866666666666666,
+      "kd_v1": 0.8533333333333333,
+      "delta": 0.06666666666666665
+    }
+  }
+}
