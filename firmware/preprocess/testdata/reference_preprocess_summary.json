@@ -1,5 +1,11 @@
 {
   "audio": "/media/armin/External/AhmadWorks/audioclassification/Dataset/fsc22/23birdchirping/23_12301.wav",
+  "sample_rate": 16000,
+  "duration_s": 5.0,
+  "target_samples": 80000,
+  "pcm_shape": [
+    80000
+  ],
   "logmel_shape": [
     40,
     249
@@ -20,10 +26,21 @@
   },
   "input_scale": 0.0200184378772974,
   "input_zero_point": -67,
+  "pcm_min": -0.3054255545139313,
+  "pcm_max": 0.29934796690940857,
   "logmel_min": -13.812060356140137,
   "logmel_max": 0.4221670627593994,
   "normalized_min": -1.2188798189163208,
   "normalized_max": 2.537644863128662,
   "q_input_min": -128,
-  "q_input_max": 60
+  "q_input_max": 60,
+  "files": {
+    "reference_pcm_float32_npy": "firmware/preprocess/testdata/reference_pcm_float32.npy",
+    "reference_pcm_float32_bin": "firmware/preprocess/testdata/reference_pcm_float32.bin",
+    "reference_logmel_npy": "firmware/preprocess/testdata/reference_logmel.npy",
+    "reference_normalized_npy": "firmware/preprocess/testdata/reference_normalized.npy",
+    "reference_input_int8_npy": "firmware/preprocess/testdata/reference_input_int8.npy",
+    "reference_input_int8_bin": "firmware/preprocess/testdata/reference_input_int8.bin",
+    "reference_input_int8_h": "firmware/preprocess/testdata/reference_input_int8.h"
+  }
 }

@@ -1,0 +1,24 @@
+======================================================================
+PREPROCESS PARITY TEST
+======================================================================
+PCM samples: 80000
+Feature elements: 9960
+Layout: [mel][frame]
+Expected shape: 40 x 249
+----------------------------------------------------------------------
+exact_match_pct: 99.9598
+within_1_pct: 100
+within_2_pct: 100
+within_4_pct: 100
+mean_abs_diff_int8: 0.000401606
+rmse_int8: 0.0200401
+max_abs_diff_int8: 1
+max_diff_index: 3564
+max_diff_mel: 14
+max_diff_frame: 78
+cpp_value_at_max: -78
+python_value_at_max: -79
+----------------------------------------------------------------------
+initial_acceptance_rule: mean_abs_diff_int8 <= 2 and within_2_pct >= 95
+status: PASS
+======================================================================

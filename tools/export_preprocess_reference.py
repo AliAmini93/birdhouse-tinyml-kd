@@ -6,6 +6,7 @@ import json
 import sys
 from pathlib import Path
 
+import librosa
 import numpy as np
 
 REPO_ROOT_GUESS = Path(__file__).resolve().parents[1]
@@ -41,18 +42,7 @@ def format_int8_array(values: np.ndarray, values_per_line: int = 16) -> str:
     return "\n".join(lines)
 
 
-def main() -> None:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--repo-root", default=".")
-    parser.add_argument("--audio", default=None)
-    parser.add_argument("--out-dir", default="firmware/preprocess/testdata")
-    args = parser.parse_args()
-
-    repo = Path(args.repo_root).resolve()
-    audio = Path(args.audio).resolve() if args.audio else find_default_audio(repo)
-    out_dir = repo / args.out_dir
-    out_dir.mkdir(parents=True, exist_ok=True)
-
+def export_reference(repo: Path, audio: Path, out_dir: Path) -> dict:
     normalizer_path = repo / "student" / "final_models" / "5s_kd_hw08_kw02" / "normalizer.json"
     export_summary_path = repo / "student" / "final_models" / "5s_kd_hw08_kw02" / "export_summary.json"
 
@@ -66,14 +56,27 @@ def main() -> None:
     input_zero_point = int(q[1])
 
     cfg = v1.Config()
+    target_samples = int(round(cfg.sample_rate * cfg.duration_s))
+
+    pcm, _ = librosa.load(str(audio), sr=cfg.sample_rate, mono=True)
+    pcm = v1.fix_audio_length(pcm.astype(np.float32), target_samples).astype(np.float32)
+
     logmel = v1.extract_logmel(str(audio), cfg).astype(np.float32)
     normalized = ((logmel - float(normalizer["mean"])) / float(normalizer["std"])).astype(np.float32)
     q_input = np.round(normalized / input_scale + input_zero_point)
     q_input = np.clip(q_input, -128, 127).astype(np.int8)
 
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    # Numpy reference files for Python inspection.
+    np.save(out_dir / "reference_pcm_float32.npy", pcm)
     np.save(out_dir / "reference_logmel.npy", logmel)
     np.save(out_dir / "reference_normalized.npy", normalized)
     np.save(out_dir / "reference_input_int8.npy", q_input)
+
+    # Raw binary files for the C++ parity test.
+    pcm.astype("<f4").tofile(out_dir / "reference_pcm_float32.bin")
+    q_input.reshape(-1).astype(np.int8).tofile(out_dir / "reference_input_int8.bin")
 
     header = f"""#ifndef BIRDHOUSE_REFERENCE_INPUT_INT8_H_
 #define BIRDHOUSE_REFERENCE_INPUT_INT8_H_
@@ -99,6 +102,10 @@ const int8_t kReferenceInputInt8[kFeatureElements] = {{
 
     summary = {
         "audio": str(audio),
+        "sample_rate": cfg.sample_rate,
+        "duration_s": cfg.duration_s,
+        "target_samples": target_samples,
+        "pcm_shape": list(pcm.shape),
         "logmel_shape": list(logmel.shape),
         "normalized_shape": list(normalized.shape),
         "q_input_shape": list(q_input.shape),
@@ -106,26 +113,51 @@ const int8_t kReferenceInputInt8[kFeatureElements] = {{
         "normalizer": normalizer,
         "input_scale": input_scale,
         "input_zero_point": input_zero_point,
+        "pcm_min": float(np.min(pcm)),
+        "pcm_max": float(np.max(pcm)),
         "logmel_min": float(np.min(logmel)),
         "logmel_max": float(np.max(logmel)),
         "normalized_min": float(np.min(normalized)),
         "normalized_max": float(np.max(normalized)),
         "q_input_min": int(np.min(q_input)),
         "q_input_max": int(np.max(q_input)),
+        "files": {
+            "reference_pcm_float32_npy": str((out_dir / "reference_pcm_float32.npy").relative_to(repo)),
+            "reference_pcm_float32_bin": str((out_dir / "reference_pcm_float32.bin").relative_to(repo)),
+            "reference_logmel_npy": str((out_dir / "reference_logmel.npy").relative_to(repo)),
+            "reference_normalized_npy": str((out_dir / "reference_normalized.npy").relative_to(repo)),
+            "reference_input_int8_npy": str((out_dir / "reference_input_int8.npy").relative_to(repo)),
+            "reference_input_int8_bin": str((out_dir / "reference_input_int8.bin").relative_to(repo)),
+            "reference_input_int8_h": str((out_dir / "reference_input_int8.h").relative_to(repo)),
+        },
     }
+
     (out_dir / "reference_preprocess_summary.json").write_text(
         json.dumps(summary, indent=2), encoding="utf-8"
     )
 
+    return summary
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--repo-root", default=".")
+    parser.add_argument("--audio", default=None)
+    parser.add_argument("--out-dir", default="firmware/preprocess/testdata")
+    args = parser.parse_args()
+
+    repo = Path(args.repo_root).resolve()
+    audio = Path(args.audio).resolve() if args.audio else find_default_audio(repo)
+    out_dir = repo / args.out_dir
+
+    summary = export_reference(repo, audio, out_dir)
+
     print("Generated reference preprocessing files:")
-    print(f"  {out_dir / 'reference_logmel.npy'}")
-    print(f"  {out_dir / 'reference_normalized.npy'}")
-    print(f"  {out_dir / 'reference_input_int8.npy'}")
-    print(f"  {out_dir / 'reference_input_int8.h'}")
-    print(f"  {out_dir / 'reference_preprocess_summary.json'}")
+    for key, value in summary["files"].items():
+        print(f"  {key}: {repo / value}")
+    print("")
     print(json.dumps(summary, indent=2))
 
 
 if __name__ == "__main__":
     main()
-
