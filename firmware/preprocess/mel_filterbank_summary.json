@@ -1,0 +1,27 @@
+{
+  "sample_rate": 16000,
+  "duration_s": 5.0,
+  "n_fft": 512,
+  "win_length": 400,
+  "hop_length": 320,
+  "n_mels": 40,
+  "fmin": 50.0,
+  "fmax": 8000.0,
+  "htk": false,
+  "norm": "slaney",
+  "center": false,
+  "expected_frames": 249,
+  "fft_bins": 257,
+  "mel_shape": [
+    40,
+    257
+  ],
+  "window_shape": [
+    512
+  ],
+  "window_padding_left": 56,
+  "window_padding_right": 56,
+  "mel_filterbank_min": 0.0,
+  "mel_filterbank_max": 0.013419068418443203,
+  "mel_filterbank_sum": 1.280463457107544
+}
