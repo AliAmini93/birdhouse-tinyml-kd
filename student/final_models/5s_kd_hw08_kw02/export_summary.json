@@ -1,0 +1,51 @@
+{
+  "final_name": "5s_kd_hw08_kw02",
+  "fp32_tflite_path": "student/final_models/5s_kd_hw08_kw02/student_final_fp32.tflite",
+  "int8_tflite_path": "student/final_models/5s_kd_hw08_kw02/student_final_int8.tflite",
+  "fp32_tflite_size_bytes": 132128,
+  "int8_tflite_size_bytes": 59760,
+  "recommended_threshold": 0.673462986946106,
+  "normalizer": {
+    "mean": -9.193479537963867,
+    "std": 3.789201021194458,
+    "mode": "full_dataset"
+  },
+  "feature_pipeline": {
+    "sample_rate": 16000,
+    "duration_s": 5.0,
+    "n_mels": 40,
+    "frame_ms": 25.0,
+    "hop_ms": 20.0,
+    "expected_frames": 249
+  },
+  "int8_input_details": {
+    "shape": [
+      1,
+      40,
+      249,
+      1
+    ],
+    "dtype": "<class 'numpy.int8'>",
+    "quantization": [
+      0.0200184378772974,
+      -67
+    ]
+  },
+  "int8_output_details": {
+    "shape": [
+      1,
+      1
+    ],
+    "dtype": "<class 'numpy.int8'>",
+    "quantization": [
+      0.00390625,
+      -128
+    ]
+  },
+  "validation": {
+    "fp32_mean_absdiff_vs_keras": 1.0597911881404798e-08,
+    "fp32_max_absdiff_vs_keras": 5.066394805908203e-07,
+    "int8_mean_absdiff_vs_keras": 0.0011150884674862027,
+    "int8_max_absdiff_vs_keras": 0.034066736698150635
+  }
+}
