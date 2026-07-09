@@ -55,7 +55,7 @@ def main():
     X, y, rel_paths, folders = v1.load_or_build_cache(df, cache, cfg, a.force_cache)
     Xn = ((X - float(norm["mean"])) / float(norm["std"])).astype(np.float32)[..., None]
     model = v2.build_model_v2((Xn.shape[1], Xn.shape[2], 1), cfg.learning_rate, 0.75, 2.0)
-    model.load_weights(weights); model.save(final / "student_final.keras", include_optimizer=False)
+    model.load_weights(weights); model.save(final / "student_final.keras")
     fp32 = final / "student_final_fp32.tflite"; int8 = final / "student_final_int8.tflite"
     conv = tf.lite.TFLiteConverter.from_keras_model(model); fp32.write_bytes(conv.convert())
     rng = np.random.default_rng(a.seed); rep_n = min(a.representative_samples, len(Xn)); rep_idx = rng.choice(len(Xn), rep_n, replace=False)
