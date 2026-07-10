@@ -8,10 +8,25 @@
 
 namespace birdhouse {
 
-// Reference preprocessing path:
-// int16/float PCM -> log-mel -> normalize -> INT8 model input.
-// This contains a naive DFT for parity testing. Replace the DFT with an
-// optimized FFT backend for real ESP32S3 deployment.
+// Initializes the FFT backend. Safe to call more than once.
+// On ESP32S3 this initializes ESP-DSP. On desktop tests it initializes the
+// portable radix-2 fallback.
+bool InitializeAudioPreprocessor();
+
+// Returns a short backend identifier for logs and reports.
+const char* AudioPreprocessBackendName();
+
+// Scratch memory owned by the preprocessing implementation. This excludes the
+// caller-owned PCM buffer and output feature tensor.
+size_t AudioPreprocessScratchBytes();
+
+// Memory-safe preprocessing path:
+// int16/float PCM -> 512-point FFT -> power spectrum -> log-mel
+// -> normalization -> INT8 model input.
+//
+// The implementation processes one frame at a time and does not create a full
+// 80,000-sample float copy. These functions are not re-entrant because they
+// reuse a single static FFT workspace.
 bool PreprocessInt16PcmToInt8ModelInput(
     const int16_t* pcm,
     size_t num_samples,
@@ -30,4 +45,3 @@ bool IsBirdFromQuantizedOutput(int8_t output_value);
 }  // namespace birdhouse
 
 #endif  // BIRDHOUSE_AUDIO_PREPROCESS_H_
-

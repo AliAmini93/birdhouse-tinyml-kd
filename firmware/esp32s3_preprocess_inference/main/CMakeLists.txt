@@ -10,4 +10,7 @@ idf_component_register(
     "../../.."
   REQUIRES
     espressif__esp-tflite-micro
+    espressif__esp-dsp
+    esp_timer
+    heap
 )

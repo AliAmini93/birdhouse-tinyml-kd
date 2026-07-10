@@ -1,2 +1,3 @@
 dependencies:
-  espressif/esp-tflite-micro: "*"
+  espressif/esp-tflite-micro: "1.3.7"
+  espressif/esp-dsp: "1.8.2"

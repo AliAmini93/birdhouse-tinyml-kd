@@ -1,24 +1,28 @@
 ======================================================================
-PREPROCESS PARITY TEST
+OPTIMIZED PREPROCESS PARITY TEST
 ======================================================================
+Backend: portable-radix2-fc32
+Scratch bytes: 5124
 PCM samples: 80000
 Feature elements: 9960
 Layout: [mel][frame]
 Expected shape: 40 x 249
+elapsed_ms_host: 2.36426
+realtime_factor_host: 0.000472853
 ----------------------------------------------------------------------
-exact_match_pct: 99.9598
+exact_match_pct: 100
 within_1_pct: 100
 within_2_pct: 100
 within_4_pct: 100
-mean_abs_diff_int8: 0.000401606
-rmse_int8: 0.0200401
-max_abs_diff_int8: 1
-max_diff_index: 3564
-max_diff_mel: 14
-max_diff_frame: 78
-cpp_value_at_max: -78
-python_value_at_max: -79
+mean_abs_diff_int8: 0
+rmse_int8: 0
+max_abs_diff_int8: 0
+max_diff_index: 0
+max_diff_mel: 0
+max_diff_frame: 0
+cpp_value_at_max: 0
+python_value_at_max: 0
 ----------------------------------------------------------------------
-initial_acceptance_rule: mean_abs_diff_int8 <= 2 and within_2_pct >= 95
+acceptance_rule: mean_abs_diff_int8 <= 2 and within_2_pct >= 95
 status: PASS
 ======================================================================
