@@ -1,0 +1,19 @@
+{
+  "meeting_date": "2026-09-10",
+  "title": "Meeting with Prof. Rytis — Forest Internet scope and local processing architecture",
+  "project": "Forest Internet / Miško internetas",
+  "purpose": "Scope narrowing, responsibility clarification, and local mini-computer/ChirpStack architecture discussion",
+  "transcript_source": "User-supplied transcription",
+  "source_audio": {
+    "original_uploaded_filename": "Prof Rytis. Forest discussion (online-audio-converter.com).mp3",
+    "duration_seconds": 1025.18,
+    "original_sha256": "e777d35d1deb4b79596a8c012e635d58539ed3701975cee687df5695d2d273ec",
+    "repository_status": "Binary audio prepared for archival; direct binary upload is not supported by the current GitHub connector. Transcript and meeting decisions are committed in this directory."
+  },
+  "files_committed": [
+    "README.md",
+    "SCOPE_DECISIONS.md",
+    "transcript.md",
+    "manifest.json"
+  ]
+}
