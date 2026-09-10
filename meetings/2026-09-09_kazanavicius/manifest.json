@@ -1,0 +1,21 @@
+{
+  "meeting_date": "2026-09-09",
+  "title": "Meeting with Dr. Egidijus Kazanavičius",
+  "project": "Forest Internet / Miško internetas",
+  "transcript_source": "Transcript supplied by Ali after transcription in Gemini",
+  "binary_assets_prepared_locally": [
+    {
+      "name": "meeting_audio_8kbps.ogg",
+      "sha256": "67fbe2f88faf22e8688e89d5c80ad865656eb2936db7a745dfb7f0fb5ebdeac0",
+      "note": "Speech-oriented archival copy of the meeting recording"
+    },
+    {
+      "name": "Misko-internetas.pdf",
+      "sha256": "1f8924e590fa9ada96d8c7a79d091036f47a6717a688275b93d46e7d44cd1aef"
+    },
+    {
+      "name": "Nordic_Thingy91X_photo.jpg",
+      "sha256": "2efacffecf6318201f5372892c6c65e1ff53be75d623f6507dd476b9b4185c10"
+    }
+  ]
+}

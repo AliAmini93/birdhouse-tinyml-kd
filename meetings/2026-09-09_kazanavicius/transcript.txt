@@ -1,0 +1,96 @@
+Meeting with Dr. Egidijus Kazanavičius
+Date: 2026-09-09
+Project: Forest Internet
+
+Participants:
+- Dr. Egidijus Kazanavičius
+- Ali Amini
+
+Transcript
+==========
+
+Ali: Yes, please sir.
+
+Dr. Kazanavičius: So before we have a some developed small board, like a... this simple board was...
+
+Ali: Ahmed's, yeah.
+
+Dr. Kazanavičius: Ahmed's. And before that I developed PCB and manufactured manufacturing in China. And we have microcontroller with some interfaces to connect with different sensors, make the processing and to send data through two channels. One channel to go through transceiver to LoRa network... we have here the Helium network to send data. And another channel is related with GSM technology and we used 2G. As you know the European Commission and European Commission countries and Lithuania now stopping 2G. In 2030 will be 2G disconnected. And some European countries also are planning disconnect this technology. So we need to redesign new and to setup new device for the forest. And also the problem is that we're changing to the 4G or maybe 4G Narrowband IoT. You know these technologies. So the main idea that we're planning to choose some microcontroller... what will be microcontroller I need to a little bit to think and to discuss in the future, it depends on the tasks, but this is important because they are not powerful, but it's necessary to save energy, battery. Because all devices and nodes are working in open environment, there are no power supply. So we are planning make universal microcontroller with ability to connect different sensors: video, audio, ultrasound, temperature, humidity, and CO2, Lidar for distance measurement... We have some sensors Lidar for distance measurement not long distance measurement, but if we have in the forest tree, it's necessary to make measurement size of the tree. And growing of this tree. Sometimes it's necessary to make measurements on that. Moisture in the tree and in the ground, pH some chemical, flame, motion for maybe who is going in the forest or...
+
+Ali: Illegal entrance, illegal activities.
+
+Dr. Kazanavičius: Illegal activities. And maybe other sensors. So my group will be developing the firmware for here, for the measurement of these connected sensors like drivers, and drivers to send data to... Taip, aš jai paduodu... So to send data. But the problem to data send through two channels. One RS485 serial interface, and we have some devices maybe you see data loggers for LoRaWAN. This is from CS2100. He have some interface and local battery and can to send data and collect data from different modes. This box and device could be used as node or some another application like router. Maybe choose data from sensors from that, go, and another as I mentioned connected devices 4G or Narrowband transceiver. If it will be a router, I can make measurements and choose data from this and go and send 4G. It means that in the forest maybe some places it's LoRa announced that they could about 10-12 kilometers to send data. But we don't know how it looks and how it will be in the forest because some maybe obstacles and something else it could be. And if some obstacles and not available to send, we are planning to set up 4G Narrowband devices and like router choose this data and send through operators... in Lithuania we have operator Telia and coverage in all territory is fully coverage. 4G and in Europe also it's not a problem. So that's mainly all. As I mentioned the main idea that we have the forest like a lot of nodes. One node gateway or router, and he is sending data. We today decided that will not be used the Things board and will be developed some... not cloud computing but our own computing related with ChirpStack and so on to collect data and manage our network and collect data. Because it's more simpler and we don't want to use the third-party products because a little... and sometimes it's a little expensive, and sometimes it's risky with licenses, or sometimes happens that services are stopped.
+
+Ali: Yeah, and it's not customizable. You can customize it by yourself.
+
+Dr. Kazanavičius: Yes, yes. This is the idea, these nodes and gateways will be with some architecture like this. Okay?
+
+Ali: Yes.
+
+Dr. Kazanavičius: Very good. Some idea I think so that... what I would like mentioned one thing. Because to send data for each 10 or 15 minutes we need to switch on device and it's using power.
+
+Ali: Exactly.
+
+Dr. Kazanavičius: And maybe will be two options on that, we choose and make measurements and data and collect in data storage. Small chip on that, 256 megabytes, the same chip are 1 gigabyte and so on, it's very low power device and we can collect the data on that and according to the time or some event to send all data to the server. This means that the device will be in the sleep mode, and after sleep mode sending data and going to the sleep. It will be available to save energy.
+
+Ali: Exactly.
+
+Dr. Kazanavičius: But I think that it will be useful at some applications including inside small artificial intelligent algorithm, train... to detect some anomalies on that. For example, if device is sleeping, but these anomalies are checking is anomaly or not, if anomaly is, now we're trying to collect all data related with anomaly and send immediately to the cloud or to the server. It's very would be simple algorithm for that. Maybe, I hope, or sometimes if related. This is good 4G Narrowband test and use because the speed of transfer is up to 1 megabyte and size of data is not limited. In LoRa is limited.
+
+Ali: In LoRa is limited.
+
+Dr. Kazanavičius: We have experience with Ahmed when video we splitted to small pieces of payloads and payloads you are sending. And if a lot of payloads and you sending, the battery going down.
+
+Ali: Yeah. This is a challenge.
+
+Dr. Kazanavičius: Yes. We should choose between 4G or LoRa. So... I think so that sometimes we need to think about heterogeneous network. Some nodes could be local to send to this data and collect, it will be not using and to use LoRa if enough distance and good connectivity, to use a LoRa because LoRa we can if you use the ChirpStack for LoRa management, for us no costs. If you using commercial servers for LoRa, it costs. This is main activity is more cheaper and independent. And so we can use. If we use the 4G Narrowband, one month cost 2.45 euros.
+
+Ali: Per node.
+
+Dr. Kazanavičius: Per node. If for 1000 of nodes...
+
+Ali: Yes, a lot.
+
+Dr. Kazanavičius: It's a lot. And this is I think so that useful to make like a router when connectivity is critical to use 4G for that. For example, my nodes what I designed with 2G, per month I pay 10 euros in Lithuania.
+
+Ali: More than 4G.
+
+Dr. Kazanavičius: Yeah. It's four times less with 4G and speed and data transfer is... For example I will send you later a little bit make some analysis about these transceivers. Very interesting technology and developing Nordic technology as you maybe know, it's very useful for energy saving. But this small device, I think... what it have? Certified battery operated prototyping platform you can connect through I2C interface, LoRa, GNSS and Bluetooth and Wi-Fi antennas they have included, but if you want to save energy Wi-Fi is not important maybe for configuration if your device in the tree you can with mobile phone to make some configuration on that. User programmable buttons it's not important for us, environmental sensors for temperature, humidity, air quality and pressure and plus. It's included inside. And low power 3-axis accelerometer, gyroscope, and battery inside small. So for the first, for me it's impression...
+
+Ali: It's impressive actually, yeah.
+
+Dr. Kazanavičius: Looks good. I will planning to purchase from this project these things for the first prototyping to develop our concept. Okay? Nordic Thingy:91. And for this microprocessors Nordic they have developed Design Kit.
+
+Ali: Design Kit.
+
+Dr. Kazanavičius: And also I plan to purchase Design Kit to develop our own software and applications. And after that these developed applications could be on that, or maybe will be in future by us developed more minimized, but it's very suitable to change microcontroller by this device.
+
+Ali: Yes. It's compatible with different types of microcontrollers.
+
+Dr. Kazanavičius: Yes, yes, yes. And to proof of concept, to make for that for the steps will be useful for us because the project long is and in the final steps we have develop absolutely own our product. But this is could be... this is open, they provide schematics and layouts and so on, you can to extract schematics and put on your design and make a manufacturing for your own purposes. Okay? So I will send for you, okay?
+
+Ali: Sure, thank you.
+
+Dr. Kazanavičius: But it's not a problem, or you can make photo...
+
+Ali: Sure.
+
+Dr. Kazanavičius: And this concept I will send to you. Okay. Your email?
+
+Ali: My email, okay. Let me...
+
+Dr. Kazanavičius: Have you Gmail?
+
+Ali: Yes.
+
+Dr. Kazanavičius: Better Gmail because to send from remarkable through KTU network they going to the spam or removed like not...
+
+Ali: I will send directly to the Gmail for you.
+
+Dr. Kazanavičius: Okay, thank you.
+
+Ali: Thank you so much.
+
+Dr. Kazanavičius: That's all.
+
+Ali: That's all. Thank you so much for your time, professor.
