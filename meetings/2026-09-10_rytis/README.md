@@ -25,7 +25,7 @@ Agreed direction:
 Examples discussed as feasible:
 
 - acoustic / sound analysis;
-- bear / animal detection;
+- **bird detection / bioacoustic monitoring**;
 - illegal logging detection using acoustic signatures such as saw, engine, breaking or related sounds.
 
 ### 2. Disease detection should not drive the core scope
@@ -100,23 +100,26 @@ This was motivated by customisation, cost, control and project-evaluation consid
 - full network engineering as a primary responsibility;
 - full field validation of every application named in the proposal.
 
-Egidijus is expected to lead the universal hardware/board design and associated embedded/communication-side development, consistent with the previous meeting.
+Egidijus is expected to lead the universal/custom hardware direction, including the board concept with LoRa and cellular connectivity, consistent with the previous meeting.
 
 ## Immediate next step
 
-The immediate technical step agreed at the end of the meeting is to **deploy the existing acoustic AI model on the available XIAO ESP32S3 Sense-class hardware and validate it in the lab**, then proceed based on the result.
+The immediate technical step agreed at the end of the meeting is to **deploy the existing bird-detection acoustic AI model on the available XIAO ESP32S3 Sense-class hardware and validate it in the lab**, then proceed based on the result.
 
 ## Follow-up actions
 
 - Message Prof. Rytis on Telegram to obtain contact with VDU forestry specialists.
 - Discuss realistic disease indicators and validation timescales with forestry experts before committing to a disease-detection use case.
 - Finalise the 2–3 priority AI use cases.
-- Continue the acoustic Edge-AI deployment/lab test as the immediate implementation task.
+- Continue the **bird-detection acoustic Edge-AI** deployment/lab test as the immediate implementation task.
 - Later, clarify the exact ownership boundary for ChirpStack/database/local-box administration versus AI/data-processing integration.
 
 ## Files in this archive
 
-- `transcript.md` — full supplied transcription of the meeting.
-- `audio/part_00.opus` … `audio/part_05.opus` — sequential speech-oriented archival audio parts (3-minute segments; final part shorter), created from the original MP3 for reliable GitHub archival.
+- `transcript.md` — full supplied transcription of the meeting, with the confirmed `bird`/`bear` transcription error corrected.
 - `SCOPE_DECISIONS.md` — concise scope guardrail for future work.
 - `manifest.json` — provenance and checksums.
+
+## Transcript correction note
+
+The automated transcription originally rendered **“bird detection”** as **“bear detection”** in two places. This was inconsistent with the existing Birdhouse TinyML task context and was subsequently confirmed by Ali to be a transcription error. The meeting record has been corrected to **bird detection**.
