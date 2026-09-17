@@ -1,0 +1,1 @@
+timestamp_utc,sensor_id,configuration_id,heater_step,heater_target_c,heater_duration_ms,gas_resistance_ohm,temperature_c,relative_humidity_pct,pressure_hpa,status_flag,notes

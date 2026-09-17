@@ -1,0 +1,1 @@
+timestamp_utc,sensor_id,fixture_id,cycle,direction,reference_mm,temperature_c,adc_wiper_raw,adc_excitation_raw,v_wiper_v,v_excitation_v,ratio,calculated_mm,residual_mm,notes

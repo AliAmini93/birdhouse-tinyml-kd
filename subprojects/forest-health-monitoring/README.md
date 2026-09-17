@@ -2,7 +2,7 @@
 
 **Parent project:** Forest Internet / Birdhouse  
 **Subproject:** Forest Health Monitoring  
-**Current version:** v0.2.0-draft  
+**Current version:** v0.2.1-draft  
 **Primary biological target:** Norway spruce (*Picea abies*)  
 **Primary threat under study:** European spruce bark beetle (*Ips typographus*)
 
@@ -73,3 +73,14 @@ This subproject owns the AI/sensing experiment and sensor-side interface require
 - final BME688 heater profile and sampling policy;
 - sap-flow vendor/quantity;
 - final battery/solar subsystem after the IoT node is electrically characterized.
+
+## v0.2.1 bench-readiness package
+
+- `bench/BENCH_PROTOTYPE_EN.md`, `bench/BENCH_PROTOTYPE_FA.md`
+- `bench/DENDROMETER_CALIBRATION_EN.md`, `bench/DENDROMETER_CALIBRATION_FA.md`
+- `bench/BME688_CHARACTERIZATION_EN.md`, `bench/BME688_CHARACTERIZATION_FA.md`
+- `bench/ACCEPTANCE_CHECKLIST.md`
+- `bench/bench_bom_v0_2_1.csv`
+- calibration/data templates in `bench/*.csv`
+
+The next physical gate is a one-tree-equivalent bench build followed by a 2–3 tree outdoor pilot.

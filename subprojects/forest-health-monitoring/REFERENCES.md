@@ -103,3 +103,29 @@ For every future source, record:
 - validation split;
 - transferability to Lithuania;
 - hardware and calibration limitations.
+
+## E. v0.2.1 bench-specific evidence
+
+14. **Bosch BME AI-Studio current documentation**  
+    https://www.bosch-sensortec.com/software/bme/docs/  
+    Relevance: factory-new BME boards should stabilize for at least 24 h; default configuration is recommended for initial measurements; heater profile and duty cycle materially affect classification behavior.
+
+15. **Bosch BME68x SensorAPI**  
+    https://github.com/boschsensortec/BME68x_SensorAPI  
+    Relevance: official embedded driver path for raw BME680/BME688 measurements and gas-heater configuration.
+
+16. **Nordic Thingy:91 X environmental module / TWI documentation**  
+    https://docs.nordicsemi.com/r/bundle/asset-tracker-template-latest/page/modules/environmental.html  
+    Relevance: Thingy:91 X uses onboard BME680. Nordic TWI examples identify BME680 at I2C address 0x76; an external BME688 is therefore still necessary and address conflicts must be managed.
+
+17. **TI ADS1115 official product documentation**  
+    https://www.ti.com/product/ADS1115  
+    Relevance: 16-bit, 4-channel, I2C, PGA, up to 860 SPS, ~150 µA continuous-conversion current; suitable for the slow resistive dendrometer chain.
+
+18. **TT Electronics Model 404 official product page**  
+    https://www.ttelectronics.com/products/passive-components/potentiometers/404/  
+    Relevance: 12.7 mm spring-return linear displacement sensor, conductive plastic, 1% standard linearity; assembled-system calibration remains mandatory.
+
+19. **Low-cost dendrometer evaluation, Smart Agricultural Technology (2026)**  
+    DOI: `10.1016/j.atech.2026.102073`  
+    Relevance: validates a low-cost precision-linear-potentiometer dendrometer concept, reports long-term field/greenhouse use, and shows aluminum brackets are preferable to polymer structures for thermal stability.

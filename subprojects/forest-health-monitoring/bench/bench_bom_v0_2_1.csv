@@ -1,0 +1,12 @@
+item,preferred_part,quantity,required,status,reason
+e_nose_1,BME688 breakout,1,yes,to_procure_or_confirm,"tree-local gas/T/RH/P"
+e_nose_2,BME688 breakout,1,yes,to_procure_or_confirm,"co-location/reference variability"
+linear_sensor,TT Electronics BI 404R10KL1.0,1,yes,to_procure_or_confirm,"dendrometer transducer"
+adc,ADS1115 breakout,1,yes,to_procure_or_confirm,"16-bit dendrometer acquisition"
+bark_temperature,waterproof DS18B20,1,no,optional,"cheap secondary temperature channel"
+host_board,existing 3.3V MCU with I2C,1,yes,use_existing,"sensor validation is host-agnostic"
+i2c_mux,TCA9548A or second I2C bus,1,conditional,only_if_needed,"two BME688/address conflict"
+calibration_fixture,micrometer or precision translation stage,1,yes,lab_equipment,"traceable displacement reference"
+bracket_material,aluminum/stainless,1,yes,fabricate,"low thermal expansion mechanical fixture"
+power_supply,stable 3.3V source,1,yes,lab_equipment,"bench power"
+cabling_connectors,breadboard/jumpers/connectors,1,yes,lab_equipment,"prototype wiring"

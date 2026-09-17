@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.2.1] - 2026-09-17
+
+### Added
+
+- One-tree-equivalent bench prototype plan.
+- Dendrometer calibration and acceptance protocol.
+- BME688 stabilization/co-location/characterization protocol.
+- Bench BOM and raw-data templates.
+- Explicit Thingy:91 X BME680 / external-BME688 address-conflict note.
+- Bench acceptance checklist and 2–3 tree pilot gate.
+
+### Engineering rule
+
+No bark-beetle/biological classification claim is permitted from artificial bench odors. v0.2.1 validates hardware and data integrity only.
+
+
 ## [0.2.0] - 2026-09-17
 
 ### Added

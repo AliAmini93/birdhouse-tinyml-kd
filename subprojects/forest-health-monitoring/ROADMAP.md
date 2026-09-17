@@ -7,30 +7,34 @@
 - Data schema.
 - Decision/evidence ledger.
 
-## v0.2.x — Current stage
+## v0.2.0 — Hardware baseline completed
 
-**Sensor BOM + node architecture + cost/power/data estimate**
-
-v0.2.0 provides:
-
-- named candidate components;
+- named sensor candidates;
 - per-tree vs per-plot allocation;
-- acquisition ADC requirement;
-- scalable/open dendrometer route plus commercial reference;
-- first-order sensor power budget;
-- local-storage and LoRa summary strategy;
-- 15/18-tree pilot cost estimate;
-- compatibility boundary with the Forest Internet universal node.
+- scalable dendrometer + commercial reference strategy;
+- first-order power/data/cost estimate;
+- Forest Internet host/interface boundary.
 
-Before procurement freeze, v0.2.x still needs:
+## v0.2.1 — Current bench-readiness gate
 
-- one-tree bench prototype;
-- dendrometer mechanical CAD;
-- dendrometer calibration fixture/procedure;
-- BME688 heater-profile experiment;
-- measured power on chosen host;
-- exact final Forest Internet node I/O/power details;
-- sap-flow quotation if retained.
+Prepared:
+- one-tree-equivalent bench prototype;
+- dendrometer calibration protocol;
+- BME688 stabilization/co-location protocol;
+- bench BOM;
+- acceptance checklist;
+- raw calibration templates.
+
+Physical actions required before closing v0.2.x:
+1. assemble one sensor chain;
+2. perform 60-min + 24-h logger tests;
+3. perform dendrometer calibration;
+4. stabilize and co-locate two BME688 sensors;
+5. run 48–72 h outdoor dry test;
+6. measure real power;
+7. record deviations and update v0.2.2 if necessary.
+
+Then perform a 2–3 tree outdoor pilot.
 
 ## v0.3.0 — Field/forestry freeze
 
@@ -39,7 +43,7 @@ Before procurement freeze, v0.2.x still needs:
 - confirm inspection frequency;
 - confirm pheromone-trap type/placement;
 - confirm control matching;
-- revise sample size and number of plots based on site/budget/event probability.
+- revise sample size/plots based on site, budget, and event probability.
 
 ## v0.4.0 — Firmware/acquisition/Edge-AI plan
 

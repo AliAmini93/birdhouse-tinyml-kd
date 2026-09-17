@@ -1,5 +1,25 @@
 # Decision Log
 
+## v0.2.1 — Bench validation gate
+
+**Status:** Draft; must be executed physically before scale-up.
+
+### New decisions
+
+29. Validate a one-tree-equivalent sensor chain before purchasing/assembling the full 15–18 tree system.
+30. Use two BME688 devices in the bench phase to quantify sensor-to-sensor baseline differences.
+31. Factory-new BME688 devices require >=24 h initial stabilization before meaningful recording, following Bosch guidance.
+32. Bench BME688 configuration must be fixed/versioned; heater-profile changes must be recorded as configuration events.
+33. Artificial indoor odor/headspace tests may verify sensor response but must not be used to claim or train *Ips typographus* detection.
+34. Calibrate the **assembled** dendrometer mechanism, not the Model 404 alone.
+35. Prefer aluminum/stainless mechanical structures for primary calibration and field prototypes; polymer brackets require separate thermal characterization.
+36. Preserve raw dendrometer ADC, excitation measurement, ratio, and calibrated displacement.
+37. Project bench targets are monotonic response, <=0.010 mm repeated-position SD, <=0.050 mm maximum central-range calibration residual, and <=0.050 mm hysteresis; these are engineering targets, not manufacturer specifications.
+38. Thingy:91 X onboard environmental sensing is BME680, not BME688; external BME688 remains required. Avoid I2C address conflict with onboard BME680 at 0x76.
+39. A 48–72 h outdoor dry run is required before a 2–3 tree pilot.
+40. Biological/forestry field data remain separate from bench/calibration datasets.
+
+
 ## v0.2.0 — Sensor BOM and node architecture baseline
 
 **Status:** Draft engineering baseline; not procurement-frozen.
