@@ -2,66 +2,74 @@
 
 **Parent project:** Forest Internet / Birdhouse  
 **Subproject:** Forest Health Monitoring  
-**Current version:** v0.1.0-draft  
+**Current version:** v0.2.0-draft  
 **Primary biological target:** Norway spruce (*Picea abies*)  
 **Primary threat under study:** European spruce bark beetle (*Ips typographus*)
 
 ## Purpose
 
-This subproject records, versions, and evolves the experimental plan for a sensor- and AI-based forest-health monitoring use case within the Birdhouse / Forest Internet project.
+This subproject records, versions, and evolves the experimental, sensing, electronics, data, and AI plan for a forest-health monitoring use case within the Birdhouse / Forest Internet project.
 
-The current focus is deliberately narrow: determine whether low-cost, continuously operating, tree-level multimodal sensors can detect early physiological anomalies associated with *Ips typographus* attack in Lithuanian Norway spruce before clear late-stage visual symptoms appear.
+The current research question is deliberately narrow: can low-cost, continuously operating, tree-level multimodal sensors detect early physiological anomalies associated with *Ips typographus* attack in Lithuanian Norway spruce before clear late-stage visual symptoms appear?
 
-Markdown files are the source of truth. Generated PDFs, when available, are snapshots only.
+Markdown/CSV files are the source of truth. Generated PDFs, when available, are snapshots only.
 
 ## Canonical documents
 
-- `PROTOCOL_EN.md` — English experimental protocol.
-- `PROTOCOL_FA.md` — Persian experimental protocol.
-- `DATA_SCHEMA_EN.md` — English data schema.
-- `DATA_SCHEMA_FA.md` — Persian data schema.
+- `PROTOCOL_EN.md`, `PROTOCOL_FA.md` — experimental protocol.
+- `DATA_SCHEMA_EN.md`, `DATA_SCHEMA_FA.md` — data schema.
+- `BOM_EN.md`, `BOM_FA.md` — v0.2 candidate sensing BOM and procurement logic.
+- `NODE_ARCHITECTURE_EN.md`, `NODE_ARCHITECTURE_FA.md` — sensing-node architecture and integration boundary.
+- `POWER_DATA_BUDGET.md` — first-order sensor power and data-rate calculations.
+- `COST_ESTIMATE.md` — pilot cost scenarios and assumptions.
+- `bom/bom_v0_2_0.csv` — machine-readable candidate BOM.
 - `DECISIONS.md` — versioned technical decisions and unresolved questions.
-- `REFERENCES.md` — literature/evidence ledger.
-- `ROADMAP.md` — next stages toward a field-ready subproject.
-- `VERSION` — current semantic version.
-- `CHANGELOG.md` — revision history.
-- `schemas/*.csv` — machine-readable CSV templates/headers.
+- `REFERENCES.md` — literature, manufacturer, and market evidence ledger.
+- `ROADMAP.md` — next stages toward field-ready deployment.
+- `VERSION`, `CHANGELOG.md` — version and revision history.
+- `schemas/*.csv` — machine-readable data templates.
 
 ## Versioning policy
 
-This subproject uses semantic-style pre-release versioning:
-
 - `v0.1.x`: research framing, protocol, data schema.
-- `v0.2.x`: sensor BOM, node architecture, and cost estimate.
+- `v0.2.x`: sensor BOM, node architecture, power/data/cost estimate.
 - `v0.3.x`: field-site and forestry ground-truth protocol finalized.
 - `v0.4.x`: acquisition/firmware/power/communication implementation plan.
 - `v1.0.0`: field-ready protocol and frozen implementation baseline.
 
-Minor revisions that materially alter scientific design increment the minor version; corrections/clarifications increment the patch version.
+## Current system boundary
 
-## Current boundary
+This subproject owns the AI/sensing experiment and sensor-side interface requirements. The preferred final host is the Forest Internet universal MCU/communications node owned by the IoT team. Low-level LoRaWAN/LTE-M/NB-IoT modem firmware, RF/antenna engineering, gateway/network administration, and final PCB production remain outside this subproject unless explicitly reassigned.
 
-This subproject covers the AI/sensing experiment and the data required for it. Low-level radio/network engineering, custom PCB manufacturing, and the wider Forest Internet communications infrastructure remain outside this subproject unless explicitly added later.
+## Status at v0.2.0
 
-## Status at v0.1.0
+### Retained from v0.1
 
-Frozen for now:
+- *Picea abies* / *Ips typographus* prospective longitudinal pilot.
+- About 18 trees preferred; ~15 absolute pilot minimum pending field/budget review.
+- Core modalities: e-nose/VOC proxy + continuous dendrometry.
+- Plot context: soil moisture + ambient reference + weather + pheromone pressure.
+- Weekly forestry inspection as primary biological ground truth.
+- Grouped-by-tree validation; no random timestamp split.
+- Detection lead time and false alerts/tree/week are primary operational metrics.
 
-- species: *Picea abies*;
-- primary threat: *Ips typographus*;
-- prospective longitudinal design;
-- target cohort: about 18 trees, with ~15 as an absolute pilot minimum;
-- core per-tree sensing: electronic-nose/VOC proxy + dendrometer;
-- plot context: soil moisture + ambient reference + weather;
-- optional reference sensing: sap flow on a small subset;
-- weekly forestry inspection as the essential ground-truth process;
-- grouped-by-tree validation; no random timestamp split;
-- primary outcome includes detection lead time, not accuracy alone.
+### v0.2 candidate hardware baseline
 
-Not yet frozen:
+- BME688 retained as the primary low-cost e-nose/VOC proxy because it has direct bark-beetle literature continuity and a mature embedded/software ecosystem.
+- Scalable dendrometry path: TT Electronics/BI Model 404 precision linear potentiometer + ADS1115 16-bit ADC + temperature-stable metal bracket, with per-device calibration.
+- Two commercial Ecomatik DR1 units are recommended as reference/cross-check instruments rather than buying commercial dendrometers for every tree.
+- TEROS 10 is the preferred research-grade plot soil-moisture sensor; default planning quantity is three, not one per tree.
+- Waterproof DS18B20 bark/contact temperature is optional and low-cost.
+- Sap flow remains a small-subset reference measurement and is not included in the base cost until quotations are obtained.
+- Existing Forest Internet LoRa-capable universal node is preferred for field deployment. Nordic Thingy:91 X is a useful bench/cellular PoC fallback, not the final per-tree LoRa architecture.
+- Raw high-rate data remain local; LoRa carries compact summaries and alerts.
 
-- exact field site(s);
-- forestry definition/protocol for a confirmed fresh *Ips* attack;
-- final sensor models/BOM;
-- final node electronics and power design;
-- final sample size after budget/site review.
+### Still not frozen
+
+- exact field site;
+- specialist-approved fresh-attack definition;
+- exact Forest Internet universal-node I/O/power rails and final PCB;
+- final dendrometer mechanical design and calibration fixture;
+- final BME688 heater profile and sampling policy;
+- sap-flow vendor/quantity;
+- final battery/solar subsystem after the IoT node is electrically characterized.

@@ -1,5 +1,35 @@
 # Decision Log
 
+## v0.2.0 — Sensor BOM and node architecture baseline
+
+**Status:** Draft engineering baseline; not procurement-frozen.
+
+### New decisions
+
+16. Retain Bosch **BME688** as the primary e-nose/VOC proxy because it has direct literature continuity with spruce-bark-beetle sensing, exposes raw gas data, supports custom heater profiles, and is inexpensive/available.
+17. Use a **two-tier dendrometer strategy**: scalable in-house TT Electronics/BI Model 404 + ADS1115 + metal bracket on the main cohort, plus two commercial Ecomatik DR1 units as reference/cross-check instruments.
+18. Individual calibration and thermal/mechanical characterization are mandatory for every in-house dendrometer.
+19. Use **TEROS 10** as the preferred research-grade plot soil-moisture sensor; default planning allocation is three sensors per plot, not one sensor per tree.
+20. Waterproof DS18B20 bark/contact temperature is optional because it is cheap and easy to integrate, but it is not a primary disease/pest signal.
+21. Sap flow remains limited to a small reference subset and is excluded from the base cost until quotations and the field site are available.
+22. The preferred final host is the **Forest Internet universal LoRa-capable node** developed by the IoT team.
+23. Nordic Thingy:91 X is a bench/cellular-PoC fallback only; it is not the final per-tree radio architecture because it does not provide LoRaWAN.
+24. Keep I2C short. If one electronics box eventually serves several trees over multi-metre cabling, insert local acquisition and use a robust differential bus (e.g. RS-485/SDI-12) rather than long raw I2C.
+25. Store raw measurements locally and use LoRaWAN for compact summaries, diagnostics, risk scores, and event alerts.
+26. Power-gate the dendrometer excitation and other sensors wherever practical.
+27. Sensor-side planning current is provisionally budgeted at 0.2 mA average per tree excluding MCU/radio/storage/regulator losses, pending bench measurement.
+28. The v0.2 cost baseline is **sensor-subsystem only**; final universal-node, radio, battery/solar, and enclosure costs remain separate until the IoT design is frozen.
+
+### Explicitly not frozen
+
+- final PCB/layout;
+- final BME688 heater profile;
+- final dendrometer bracket geometry/material/thickness;
+- final battery/solar sizing;
+- final LoRa payload and spreading-factor policy;
+- exact number/placement of soil sensors and pheromone traps if multiple plots are selected;
+- sap-flow procurement.
+
 ## v0.1.0 — Initial experimental baseline
 
 **Status:** Draft / research baseline, not yet field-frozen.
