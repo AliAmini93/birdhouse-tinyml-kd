@@ -1,0 +1,1 @@
+timestamp_utc,tree_id,plot_id,node_id,sensor_id,gas_resistance_ohm,gas_heater_step,gas_heater_temp_c,air_temp_c,relative_humidity_pct,pressure_hpa,stem_circumference_mm,stem_radius_um,soil_moisture_pct,sap_flow_value,sap_flow_unit,battery_v,rssi_dbm,qc_flag

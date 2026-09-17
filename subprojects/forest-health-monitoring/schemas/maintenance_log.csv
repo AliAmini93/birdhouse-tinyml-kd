@@ -1,0 +1,1 @@
+timestamp_utc,node_id,sensor_id,action_type,battery_changed,sensor_replaced,sensor_cleaned,recalibrated,firmware_changed,old_firmware_version,new_firmware_version,problem_description,action_description,technician,notes

@@ -1,0 +1,24 @@
+version=0.1.0
+status=draft
+generated_at_utc=2026-09-17T11:02:44Z
+pdf_status=not-generated
+python_bin=/mnt/HDD/AliWorks/HCI Tagging Database/HCI/bin/python3
+files_sha256:
+6a643cde8a88c0c3336b08a4f342e870d8a223607c2ee82419f12cf43e6c521e  ./CHANGELOG.md
+bf24699ca98cc5ce7d70d124b99f9d6ccd828a49c08b2c5ff8ca3cc006078386  ./DATA_SCHEMA_EN.md
+da58af47d42e91d13e72b75f8fdcf90bcaa64c4f286af6c6de460da19a098561  ./DATA_SCHEMA_FA.md
+912abf639b66785a52ed00e779541da416a0aa3ff245d68a206e4c1a63e43cfe  ./DECISIONS.md
+5489d8cb11b2c8717505c9ef93fb0e852e425c5e12ef3c1a89aa585a974d7785  ./ENVIRONMENT.md
+e1b16e0c183067d206aefe1f68b2c32c7f5adbf24e55c61f61e57a2c9daa7d0f  ./PROTOCOL_EN.md
+c6855c7c3840b048c8f86850573ff2408737c38a591e94a34b3183e87b6f8628  ./PROTOCOL_FA.md
+1310877374da48b0b93b5624662ea60c1cfaafa8a99f8c8ad77bde36f7bb20c3  ./README.md
+91498aed960960c5476b07eb82ceffa4380011c24bafc68c5c78dbafff98acbf  ./REFERENCES.md
+498fd2ea547c71a5b53a6ae28ee206c74c0dec78c9e16d3cb394990d55ee05c8  ./ROADMAP.md
+06f0288aff3fd319a4b2965693cf4c8d1b04e08308ef762f37b8789031c2d326  ./schemas/maintenance_log.csv
+e55dff3d1a93ea66a359bde9e3356906fb38428344824f65bcbe858cecd08f45  ./schemas/pheromone_traps.csv
+befab64f6b6649c448172316dbcccdca231e92bbf87e815f9a27f559a802bda5  ./schemas/sensor_readings.csv
+cf084db0e89102de59da1d4615c6bfc1dd6d00a427e6f63e0b0ad3cc395aca31  ./schemas/sensor_registry.csv
+b1ed840a05c436f8bb1b5fce938ef9fde944f686ddbbb2ffc012cd64f4c72734  ./schemas/tree_inspections.csv
+44b48be477d7939a510ae9a00f16e38d9cda519b165e8b41cf40878ae5e7d9c3  ./schemas/tree_metadata.csv
+11d6cd07c13b5a8dbc9bb5cd0e7718fe60431462146da5f6bf0fde29c5727e8d  ./schemas/weather.csv
+e9dd8507f4bf0c6f42458e41aea833ad0bd3f6127272335eee9bf4d58541ed67  ./VERSION

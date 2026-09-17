@@ -1,0 +1,1 @@
+trap_id,plot_id,inspection_date,period_start,period_end,beetle_count,lure_type,trap_latitude,trap_longitude,distance_to_nearest_monitored_tree_m,notes

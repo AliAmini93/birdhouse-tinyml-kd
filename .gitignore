@@ -21,6 +21,10 @@
 !teacher_kd/recovered_confusion_all_clips.csv
 !teacher_kd/recovered_confusion_fold0.csv
 
+# Keep versioned Birdhouse subprojects.
+!subprojects/
+!subprojects/**
+
 # Always ignore heavy / generated / unsafe artifacts.
 Dataset/
 dataset/
