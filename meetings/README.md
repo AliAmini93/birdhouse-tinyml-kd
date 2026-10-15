@@ -30,6 +30,12 @@ Main topics:
 
 The concise working scope after this meeting is recorded in [`2026-09-10_rytis/SCOPE_DECISIONS.md`](2026-09-10_rytis/SCOPE_DECISIONS.md).
 
+### September 2026 (date to be confirmed) - Prof. Edgaras Linkevicius
+
+Directory: [`2026-09_edgaras_linkevicius/`](2026-09_edgaras_linkevicius/)
+
+Research feasibility consultation on spruce health and pest-related sensing, matched controls, tree physiology, costs, forestry expertise and limited study duration. Original user-supplied full-length transcript and a separately labelled Gemini-edited text, with provenance and advice-vs-decision boundaries. Not audio verified.
+
 ## Usage rule
 
 Before accepting a new task or materially expanding implementation scope, check the latest meeting record and scope-decision file. If a proposed task is outside the recorded responsibility boundary or the selected use cases, treat it as **not yet committed** until ownership/scope is explicitly clarified with the project leads.

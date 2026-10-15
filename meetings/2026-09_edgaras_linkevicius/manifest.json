@@ -1,0 +1,48 @@
+{
+  "meeting": "Prof. Edgaras Linkevicius research consultation",
+  "meeting_date": {
+    "value": "2026-09",
+    "verified_exact_day": false
+  },
+  "source": {
+    "file": "GeminiV0.10.1.pdf",
+    "pdf_export_date": "2026-09-24",
+    "original_user_transcript_message": 9,
+    "gemini_edited_message": 10,
+    "original_pages": "14-21",
+    "edited_pages": "21-28",
+    "earlier_truncated_version_superseded": true
+  },
+  "verification": {
+    "checked_against_audio": false,
+    "guaranteed_complete_recording": false,
+    "raw_characters": 24339,
+    "edited_characters": 23688,
+    "raw_turns": {
+      "Ali": 41,
+      "Edgaras": 42
+    },
+    "edited_turns": {
+      "Ali": 41,
+      "Edgaras": 42
+    }
+  },
+  "hashes_sha256": {
+    "raw_transcript_body": "f1be1c0d0e090d881876c1472ac41be6933adbc9880c7d7344c454055e310902",
+    "edited_transcript_body": "fee8a07f083ec61dc7febc168ceb0d4822924cafb7cf2773ce04cc0967f035d1"
+  },
+  "media": {
+    "audio_included": false,
+    "slides_included": false
+  },
+  "documents": [
+    "README.md",
+    "transcript_raw.md",
+    "transcript_edited.md",
+    "TRANSCRIPTION_NOTES.md",
+    "KEY_TAKEAWAYS.md",
+    "ADVICE_AND_DECISIONS.md",
+    "ACTION_ITEMS.md",
+    "manifest.json"
+  ]
+}
