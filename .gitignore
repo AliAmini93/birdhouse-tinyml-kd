@@ -80,3 +80,11 @@ firmware/**/managed_components/
 firmware/**/sdkconfig.old
 firmware/**/*.log
 firmware/**/build_*.log
+
+# Versioned Himax ARC experimental sources only.
+!firmware/
+!firmware/himax_arc/
+!firmware/himax_arc/README.md
+!firmware/himax_arc/experiments/
+!firmware/himax_arc/experiments/*.cc
+!firmware/himax_arc/experiments/*.mk
