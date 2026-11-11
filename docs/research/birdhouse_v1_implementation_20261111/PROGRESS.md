@@ -25,7 +25,7 @@ Evidence lives in `results/` next to this file: `summary.md`, `summary.json`, on
 | M2 | Offline TFLite Micro execution validated on host (reference kernels) | PASS | `9fd8368` |
 | M3 | Audio capture architecture implemented and host-tested | PASS | `7cb1d95` |
 | M4 | Firmware candidate built; post-link audit | PASS | `ac95ade` |
-| M5 | Offline packaging and image validation; final report | PASS | see git log |
+| M5 | Offline packaging and image validation; final report | PASS | `bffed70` |
 
 ## M0 — project state
 

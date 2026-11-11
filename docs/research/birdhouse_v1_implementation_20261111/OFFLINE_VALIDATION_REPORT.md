@@ -49,7 +49,7 @@ clock assumption cannot block the first demonstration.
 | M2 host inference validation | `9fd8368` |
 | M3 capture architecture and host tests | `7cb1d95` |
 | M4 firmware candidate and post-link audit | `ac95ade` |
-| M5 packaging validation and this report | the commit that adds this file |
+| M5 packaging validation and this report | `bffed70` |
 
 ## 3. Source files
 
