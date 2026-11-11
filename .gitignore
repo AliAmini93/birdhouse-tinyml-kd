@@ -88,3 +88,24 @@ firmware/**/build_*.log
 !firmware/himax_arc/experiments/
 !firmware/himax_arc/experiments/*.cc
 !firmware/himax_arc/experiments/*.mk
+\n
+# Himax V1 implementation: own sources, host tests and tools only.
+!firmware/himax_arc/birdhouse/
+!firmware/himax_arc/birdhouse/**
+!firmware/himax_arc/tests/
+!firmware/himax_arc/tests/**
+!tools/
+!tools/himax/
+!tools/himax/**
+# Generated or local-only files inside those directories.
+__pycache__/
+*.pyc
+*.o
+*.d
+*.elf
+*.map
+*.img
+*.uf2
+*.bin
+# Derived vendor entry point: research-only, never published.
+firmware/himax_arc/experiments/edge_impulse_visionai_birdhouse_step48.cc

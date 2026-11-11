@@ -1,0 +1,1172 @@
+{
+  "source": "firmware/model/student_final_int8_model_data.cc",
+  "size_bytes": 59760,
+  "sha256": "9e04d17723b87f9acbba3030c23e1e50b551493125e9bf7dc0aeb27f0b12db55",
+  "tflite_cross_check": {
+    "path": "student/final_models/5s_kd_hw08_kw02/student_final_int8.tflite",
+    "identical": true,
+    "sha256": "9e04d17723b87f9acbba3030c23e1e50b551493125e9bf7dc0aeb27f0b12db55"
+  },
+  "schema_version": 3,
+  "description": "MLIR Converted.",
+  "subgraph_inputs": [
+    {
+      "index": 0,
+      "name": "logmel",
+      "type": "INT8",
+      "shape": [
+        1,
+        40,
+        249,
+        1
+      ],
+      "is_constant": false,
+      "quant_channels": 1,
+      "quantized_dimension": 0,
+      "scale": 0.0200184378772974,
+      "zero_point": -67
+    }
+  ],
+  "subgraph_outputs": [
+    {
+      "index": 42,
+      "name": "Identity",
+      "type": "INT8",
+      "shape": [
+        1,
+        1
+      ],
+      "is_constant": false,
+      "quant_channels": 1,
+      "quantized_dimension": 0,
+      "scale": 0.00390625,
+      "zero_point": -128
+    }
+  ],
+  "operators": [
+    {
+      "index": 0,
+      "op": "CONV_2D",
+      "version": 3,
+      "inputs": [
+        {
+          "index": 0,
+          "name": "logmel",
+          "type": "INT8",
+          "shape": [
+            1,
+            40,
+            249,
+            1
+          ],
+          "is_constant": false,
+          "quant_channels": 1,
+          "quantized_dimension": 0,
+          "scale": 0.0200184378772974,
+          "zero_point": -67
+        },
+        {
+          "index": 27,
+          "name": "Conv2D;student_5s_logmel_dscnn_v2/stem_conv/StatefulPartitionedCall/StatefulPartitionedCall/Conv2D",
+          "type": "INT8",
+          "shape": [
+            24,
+            3,
+            3,
+            1
+          ],
+          "is_constant": true,
+          "quant_channels": 24,
+          "quantized_dimension": 0,
+          "scale_min": 0.0025087588001042604,
+          "scale_max": 0.014696703292429447,
+          "zero_points_all_zero": true
+        },
+        {
+          "index": 26,
+          "name": "FusedBatchNormV3;student_5s_logmel_dscnn_v2/stem_bn/StatefulPartitionedCall/FusedBatchNormV3",
+          "type": "INT32",
+          "shape": [
+            24
+          ],
+          "is_constant": true,
+          "quant_channels": 24,
+          "quantized_dimension": 0,
+          "scale_min": 5.022143159294501e-05,
+          "scale_max": 0.0002942050341516733,
+          "zero_points_all_zero": true
+        }
+      ],
+      "outputs": [
+        {
+          "index": 28,
+          "name": "Relu6;student_5s_logmel_dscnn_v2/stem_relu6/PartitionedCall/Relu6;FusedBatchNormV3;student_5s_logmel_dscnn_v2/stem_bn/StatefulPartitionedCall/FusedBatchNormV3;depthwise;student_5s_logmel_dscnn_v2/block1_dw/StatefulPartitionedCall/depthwise;Conv2D;student_5s_logmel_dscnn_v2/stem_conv/StatefulPartitionedCall/StatefulPartitionedCall/Conv2D",
+          "type": "INT8",
+          "shape": [
+            1,
+            20,
+            125,
+            24
+          ],
+          "is_constant": false,
+          "quant_channels": 1,
+          "quantized_dimension": 0,
+          "scale": 0.0235294122248888,
+          "zero_point": -128
+        }
+      ],
+      "options": {
+        "fusedActivationFunction": "RELU6",
+        "padding": "SAME",
+        "strideW": 2,
+        "strideH": 2,
+        "dilationWFactor": 1,
+        "dilationHFactor": 1
+      }
+    },
+    {
+      "index": 1,
+      "op": "DEPTHWISE_CONV_2D",
+      "version": 3,
+      "inputs": [
+        {
+          "index": 28,
+          "name": "Relu6;student_5s_logmel_dscnn_v2/stem_relu6/PartitionedCall/Relu6;FusedBatchNormV3;student_5s_logmel_dscnn_v2/stem_bn/StatefulPartitionedCall/FusedBatchNormV3;depthwise;student_5s_logmel_dscnn_v2/block1_dw/StatefulPartitionedCall/depthwise;Conv2D;student_5s_logmel_dscnn_v2/stem_conv/StatefulPartitionedCall/StatefulPartitionedCall/Conv2D",
+          "type": "INT8",
+          "shape": [
+            1,
+            20,
+            125,
+            24
+          ],
+          "is_constant": false,
+          "quant_channels": 1,
+          "quantized_dimension": 0,
+          "scale": 0.0235294122248888,
+          "zero_point": -128
+        },
+        {
+          "index": 25,
+          "name": "FusedBatchNormV3;student_5s_logmel_dscnn_v2/block1_dw_bn/StatefulPartitionedCall/FusedBatchNormV3;depthwise;student_5s_logmel_dscnn_v2/block1_dw/StatefulPartitionedCall/depthwise",
+          "type": "INT8",
+          "shape": [
+            1,
+            3,
+            3,
+            24
+          ],
+          "is_constant": true,
+          "quant_channels": 24,
+          "quantized_dimension": 3,
+          "scale_min": 0.00475154398009181,
+          "scale_max": 0.012843272648751736,
+          "zero_points_all_zero": true
+        },
+        {
+          "index": 24,
+          "name": "FusedBatchNormV3;student_5s_logmel_dscnn_v2/block1_dw_bn/StatefulPartitionedCall/FusedBatchNormV3",
+          "type": "INT32",
+          "shape": [
+            24
+          ],
+          "is_constant": true,
+          "quant_channels": 24,
+          "quantized_dimension": 0,
+          "scale_min": 0.00011180104047525674,
+          "scale_max": 0.0003021946467924863,
+          "zero_points_all_zero": true
+        }
+      ],
+      "outputs": [
+        {
+          "index": 29,
+          "name": "Relu6;student_5s_logmel_dscnn_v2/block1_dw_relu6/PartitionedCall/Relu6;FusedBatchNormV3;student_5s_logmel_dscnn_v2/block1_dw_bn/StatefulPartitionedCall/FusedBatchNormV3;depthwise;student_5s_logmel_dscnn_v2/block1_dw/StatefulPartitionedCall/depthwise",
+          "type": "INT8",
+          "shape": [
+            1,
+            20,
+            125,
+            24
+          ],
+          "is_constant": false,
+          "quant_channels": 1,
+          "quantized_dimension": 0,
+          "scale": 0.0235294122248888,
+          "zero_point": -128
+        }
+      ],
+      "options": {
+        "fusedActivationFunction": "RELU6",
+        "padding": "SAME",
+        "strideW": 1,
+        "strideH": 1,
+        "dilationWFactor": 1,
+        "dilationHFactor": 1,
+        "depthMultiplier": 1
+      }
+    },
+    {
+      "index": 2,
+      "op": "CONV_2D",
+      "version": 3,
+      "inputs": [
+        {
+          "index": 29,
+          "name": "Relu6;student_5s_logmel_dscnn_v2/block1_dw_relu6/PartitionedCall/Relu6;FusedBatchNormV3;student_5s_logmel_dscnn_v2/block1_dw_bn/StatefulPartitionedCall/FusedBatchNormV3;depthwise;student_5s_logmel_dscnn_v2/block1_dw/StatefulPartitionedCall/depthwise",
+          "type": "INT8",
+          "shape": [
+            1,
+            20,
+            125,
+            24
+          ],
+          "is_constant": false,
+          "quant_channels": 1,
+          "quantized_dimension": 0,
+          "scale": 0.0235294122248888,
+          "zero_point": -128
+        },
+        {
+          "index": 23,
+          "name": "Conv2D;student_5s_logmel_dscnn_v2/block1_pw/StatefulPartitionedCall/Conv2D",
+          "type": "INT8",
+          "shape": [
+            32,
+            1,
+            1,
+            24
+          ],
+          "is_constant": true,
+          "quant_channels": 32,
+          "quantized_dimension": 0,
+          "scale_min": 0.0031883048359304667,
+          "scale_max": 0.0077849277295172215,
+          "zero_points_all_zero": true
+        },
+        {
+          "index": 22,
+          "name": "FusedBatchNormV3;student_5s_logmel_dscnn_v2/block1_pw_bn/StatefulPartitionedCall/FusedBatchNormV3",
+          "type": "INT32",
+          "shape": [
+            32
+          ],
+          "is_constant": true,
+          "quant_channels": 32,
+          "quantized_dimension": 0,
+          "scale_min": 7.501893560402095e-05,
+          "scale_max": 0.0001831747795222327,
+          "zero_points_all_zero": true
+        }
+      ],
+      "outputs": [
+        {
+          "index": 30,
+          "name": "Relu6;student_5s_logmel_dscnn_v2/block1_pw_relu6/PartitionedCall/Relu6;FusedBatchNormV3;student_5s_logmel_dscnn_v2/block1_pw_bn/StatefulPartitionedCall/FusedBatchNormV3;depthwise;student_5s_logmel_dscnn_v2/block2_dw/StatefulPartitionedCall/depthwise;Conv2D;student_5s_logmel_dscnn_v2/block1_pw/StatefulPartitionedCall/Conv2D",
+          "type": "INT8",
+          "shape": [
+            1,
+            20,
+            125,
+            32
+          ],
+          "is_constant": false,
+          "quant_channels": 1,
+          "quantized_dimension": 0,
+          "scale": 0.0235294122248888,
+          "zero_point": -128
+        }
+      ],
+      "options": {
+        "fusedActivationFunction": "RELU6",
+        "padding": "SAME",
+        "strideW": 1,
+        "strideH": 1,
+        "dilationWFactor": 1,
+        "dilationHFactor": 1
+      }
+    },
+    {
+      "index": 3,
+      "op": "DEPTHWISE_CONV_2D",
+      "version": 3,
+      "inputs": [
+        {
+          "index": 30,
+          "name": "Relu6;student_5s_logmel_dscnn_v2/block1_pw_relu6/PartitionedCall/Relu6;FusedBatchNormV3;student_5s_logmel_dscnn_v2/block1_pw_bn/StatefulPartitionedCall/FusedBatchNormV3;depthwise;student_5s_logmel_dscnn_v2/block2_dw/StatefulPartitionedCall/depthwise;Conv2D;student_5s_logmel_dscnn_v2/block1_pw/StatefulPartitionedCall/Conv2D",
+          "type": "INT8",
+          "shape": [
+            1,
+            20,
+            125,
+            32
+          ],
+          "is_constant": false,
+          "quant_channels": 1,
+          "quantized_dimension": 0,
+          "scale": 0.0235294122248888,
+          "zero_point": -128
+        },
+        {
+          "index": 21,
+          "name": "FusedBatchNormV3;student_5s_logmel_dscnn_v2/block2_dw_bn/StatefulPartitionedCall/FusedBatchNormV3;depthwise;student_5s_logmel_dscnn_v2/block2_dw/StatefulPartitionedCall/depthwise",
+          "type": "INT8",
+          "shape": [
+            1,
+            3,
+            3,
+            32
+          ],
+          "is_constant": true,
+          "quant_channels": 32,
+          "quantized_dimension": 3,
+          "scale_min": 0.003741462482139468,
+          "scale_max": 0.012459436431527138,
+          "zero_points_all_zero": true
+        },
+        {
+          "index": 20,
+          "name": "FusedBatchNormV3;student_5s_logmel_dscnn_v2/block2_dw_bn/StatefulPartitionedCall/FusedBatchNormV3",
+          "type": "INT32",
+          "shape": [
+            32
+          ],
+          "is_constant": true,
+          "quant_channels": 32,
+          "quantized_dimension": 0,
+          "scale_min": 8.803441596683115e-05,
+          "scale_max": 0.0002931632043328136,
+          "zero_points_all_zero": true
+        }
+      ],
+      "outputs": [
+        {
+          "index": 31,
+          "name": "Relu6;student_5s_logmel_dscnn_v2/block2_dw_relu6/PartitionedCall/Relu6;FusedBatchNormV3;student_5s_logmel_dscnn_v2/block2_dw_bn/StatefulPartitionedCall/FusedBatchNormV3;depthwise;student_5s_logmel_dscnn_v2/block2_dw/StatefulPartitionedCall/depthwise",
+          "type": "INT8",
+          "shape": [
+            1,
+            10,
+            63,
+            32
+          ],
+          "is_constant": false,
+          "quant_channels": 1,
+          "quantized_dimension": 0,
+          "scale": 0.0235294122248888,
+          "zero_point": -128
+        }
+      ],
+      "options": {
+        "fusedActivationFunction": "RELU6",
+        "padding": "SAME",
+        "strideW": 2,
+        "strideH": 2,
+        "dilationWFactor": 1,
+        "dilationHFactor": 1,
+        "depthMultiplier": 1
+      }
+    },
+    {
+      "index": 4,
+      "op": "CONV_2D",
+      "version": 3,
+      "inputs": [
+        {
+          "index": 31,
+          "name": "Relu6;student_5s_logmel_dscnn_v2/block2_dw_relu6/PartitionedCall/Relu6;FusedBatchNormV3;student_5s_logmel_dscnn_v2/block2_dw_bn/StatefulPartitionedCall/FusedBatchNormV3;depthwise;student_5s_logmel_dscnn_v2/block2_dw/StatefulPartitionedCall/depthwise",
+          "type": "INT8",
+          "shape": [
+            1,
+            10,
+            63,
+            32
+          ],
+          "is_constant": false,
+          "quant_channels": 1,
+          "quantized_dimension": 0,
+          "scale": 0.0235294122248888,
+          "zero_point": -128
+        },
+        {
+          "index": 19,
+          "name": "Conv2D;student_5s_logmel_dscnn_v2/block2_pw/StatefulPartitionedCall/Conv2D",
+          "type": "INT8",
+          "shape": [
+            48,
+            1,
+            1,
+            32
+          ],
+          "is_constant": true,
+          "quant_channels": 48,
+          "quantized_dimension": 0,
+          "scale_min": 0.0031986848916858435,
+          "scale_max": 0.006514005828648806,
+          "zero_points_all_zero": true
+        },
+        {
+          "index": 18,
+          "name": "FusedBatchNormV3;student_5s_logmel_dscnn_v2/block2_pw_bn/StatefulPartitionedCall/FusedBatchNormV3",
+          "type": "INT32",
+          "shape": [
+            48
+          ],
+          "is_constant": true,
+          "quant_channels": 48,
+          "quantized_dimension": 0,
+          "scale_min": 7.526317494921386e-05,
+          "scale_max": 0.00015327072469517589,
+          "zero_points_all_zero": true
+        }
+      ],
+      "outputs": [
+        {
+          "index": 32,
+          "name": "Relu6;student_5s_logmel_dscnn_v2/block2_pw_relu6/PartitionedCall/Relu6;FusedBatchNormV3;student_5s_logmel_dscnn_v2/block2_pw_bn/StatefulPartitionedCall/FusedBatchNormV3;depthwise;student_5s_logmel_dscnn_v2/block3_dw/StatefulPartitionedCall/depthwise;Conv2D;student_5s_logmel_dscnn_v2/block2_pw/StatefulPartitionedCall/Conv2D",
+          "type": "INT8",
+          "shape": [
+            1,
+            10,
+            63,
+            48
+          ],
+          "is_constant": false,
+          "quant_channels": 1,
+          "quantized_dimension": 0,
+          "scale": 0.0235294122248888,
+          "zero_point": -128
+        }
+      ],
+      "options": {
+        "fusedActivationFunction": "RELU6",
+        "padding": "SAME",
+        "strideW": 1,
+        "strideH": 1,
+        "dilationWFactor": 1,
+        "dilationHFactor": 1
+      }
+    },
+    {
+      "index": 5,
+      "op": "DEPTHWISE_CONV_2D",
+      "version": 3,
+      "inputs": [
+        {
+          "index": 32,
+          "name": "Relu6;student_5s_logmel_dscnn_v2/block2_pw_relu6/PartitionedCall/Relu6;FusedBatchNormV3;student_5s_logmel_dscnn_v2/block2_pw_bn/StatefulPartitionedCall/FusedBatchNormV3;depthwise;student_5s_logmel_dscnn_v2/block3_dw/StatefulPartitionedCall/depthwise;Conv2D;student_5s_logmel_dscnn_v2/block2_pw/StatefulPartitionedCall/Conv2D",
+          "type": "INT8",
+          "shape": [
+            1,
+            10,
+            63,
+            48
+          ],
+          "is_constant": false,
+          "quant_channels": 1,
+          "quantized_dimension": 0,
+          "scale": 0.0235294122248888,
+          "zero_point": -128
+        },
+        {
+          "index": 17,
+          "name": "FusedBatchNormV3;student_5s_logmel_dscnn_v2/block3_dw_bn/StatefulPartitionedCall/FusedBatchNormV3;depthwise;student_5s_logmel_dscnn_v2/block3_dw/StatefulPartitionedCall/depthwise",
+          "type": "INT8",
+          "shape": [
+            1,
+            3,
+            3,
+            48
+          ],
+          "is_constant": true,
+          "quant_channels": 48,
+          "quantized_dimension": 3,
+          "scale_min": 0.0036010213661938906,
+          "scale_max": 0.012689532712101936,
+          "zero_points_all_zero": true
+        },
+        {
+          "index": 16,
+          "name": "FusedBatchNormV3;student_5s_logmel_dscnn_v2/block3_dw_bn/StatefulPartitionedCall/FusedBatchNormV3",
+          "type": "INT32",
+          "shape": [
+            48
+          ],
+          "is_constant": true,
+          "quant_channels": 48,
+          "quantized_dimension": 0,
+          "scale_min": 8.47299161250703e-05,
+          "scale_max": 0.0002985772443935275,
+          "zero_points_all_zero": true
+        }
+      ],
+      "outputs": [
+        {
+          "index": 33,
+          "name": "Relu6;student_5s_logmel_dscnn_v2/block3_dw_relu6/PartitionedCall/Relu6;FusedBatchNormV3;student_5s_logmel_dscnn_v2/block3_dw_bn/StatefulPartitionedCall/FusedBatchNormV3;depthwise;student_5s_logmel_dscnn_v2/block3_dw/StatefulPartitionedCall/depthwise",
+          "type": "INT8",
+          "shape": [
+            1,
+            10,
+            63,
+            48
+          ],
+          "is_constant": false,
+          "quant_channels": 1,
+          "quantized_dimension": 0,
+          "scale": 0.0235294122248888,
+          "zero_point": -128
+        }
+      ],
+      "options": {
+        "fusedActivationFunction": "RELU6",
+        "padding": "SAME",
+        "strideW": 1,
+        "strideH": 1,
+        "dilationWFactor": 1,
+        "dilationHFactor": 1,
+        "depthMultiplier": 1
+      }
+    },
+    {
+      "index": 6,
+      "op": "CONV_2D",
+      "version": 3,
+      "inputs": [
+        {
+          "index": 33,
+          "name": "Relu6;student_5s_logmel_dscnn_v2/block3_dw_relu6/PartitionedCall/Relu6;FusedBatchNormV3;student_5s_logmel_dscnn_v2/block3_dw_bn/StatefulPartitionedCall/FusedBatchNormV3;depthwise;student_5s_logmel_dscnn_v2/block3_dw/StatefulPartitionedCall/depthwise",
+          "type": "INT8",
+          "shape": [
+            1,
+            10,
+            63,
+            48
+          ],
+          "is_constant": false,
+          "quant_channels": 1,
+          "quantized_dimension": 0,
+          "scale": 0.0235294122248888,
+          "zero_point": -128
+        },
+        {
+          "index": 15,
+          "name": "Conv2D;student_5s_logmel_dscnn_v2/block3_pw/StatefulPartitionedCall/Conv2D",
+          "type": "INT8",
+          "shape": [
+            64,
+            1,
+            1,
+            48
+          ],
+          "is_constant": true,
+          "quant_channels": 64,
+          "quantized_dimension": 0,
+          "scale_min": 0.002466075122356415,
+          "scale_max": 0.005679345224052668,
+          "zero_points_all_zero": true
+        },
+        {
+          "index": 14,
+          "name": "FusedBatchNormV3;student_5s_logmel_dscnn_v2/block3_pw_bn/StatefulPartitionedCall/FusedBatchNormV3",
+          "type": "INT32",
+          "shape": [
+            64
+          ],
+          "is_constant": true,
+          "quant_channels": 64,
+          "quantized_dimension": 0,
+          "scale_min": 5.802529994980432e-05,
+          "scale_max": 0.00013363164907786995,
+          "zero_points_all_zero": true
+        }
+      ],
+      "outputs": [
+        {
+          "index": 34,
+          "name": "Relu6;student_5s_logmel_dscnn_v2/block3_pw_relu6/PartitionedCall/Relu6;FusedBatchNormV3;student_5s_logmel_dscnn_v2/block3_pw_bn/StatefulPartitionedCall/FusedBatchNormV3;depthwise;student_5s_logmel_dscnn_v2/block4_dw/StatefulPartitionedCall/depthwise;Conv2D;student_5s_logmel_dscnn_v2/block3_pw/StatefulPartitionedCall/Conv2D",
+          "type": "INT8",
+          "shape": [
+            1,
+            10,
+            63,
+            64
+          ],
+          "is_constant": false,
+          "quant_channels": 1,
+          "quantized_dimension": 0,
+          "scale": 0.0235294122248888,
+          "zero_point": -128
+        }
+      ],
+      "options": {
+        "fusedActivationFunction": "RELU6",
+        "padding": "SAME",
+        "strideW": 1,
+        "strideH": 1,
+        "dilationWFactor": 1,
+        "dilationHFactor": 1
+      }
+    },
+    {
+      "index": 7,
+      "op": "DEPTHWISE_CONV_2D",
+      "version": 3,
+      "inputs": [
+        {
+          "index": 34,
+          "name": "Relu6;student_5s_logmel_dscnn_v2/block3_pw_relu6/PartitionedCall/Relu6;FusedBatchNormV3;student_5s_logmel_dscnn_v2/block3_pw_bn/StatefulPartitionedCall/FusedBatchNormV3;depthwise;student_5s_logmel_dscnn_v2/block4_dw/StatefulPartitionedCall/depthwise;Conv2D;student_5s_logmel_dscnn_v2/block3_pw/StatefulPartitionedCall/Conv2D",
+          "type": "INT8",
+          "shape": [
+            1,
+            10,
+            63,
+            64
+          ],
+          "is_constant": false,
+          "quant_channels": 1,
+          "quantized_dimension": 0,
+          "scale": 0.0235294122248888,
+          "zero_point": -128
+        },
+        {
+          "index": 13,
+          "name": "FusedBatchNormV3;student_5s_logmel_dscnn_v2/block4_dw_bn/StatefulPartitionedCall/FusedBatchNormV3;depthwise;student_5s_logmel_dscnn_v2/block4_dw/StatefulPartitionedCall/depthwise",
+          "type": "INT8",
+          "shape": [
+            1,
+            3,
+            3,
+            64
+          ],
+          "is_constant": true,
+          "quant_channels": 64,
+          "quantized_dimension": 3,
+          "scale_min": 0.0033216597512364388,
+          "scale_max": 0.010075881145894527,
+          "zero_points_all_zero": true
+        },
+        {
+          "index": 12,
+          "name": "FusedBatchNormV3;student_5s_logmel_dscnn_v2/block4_dw_bn/StatefulPartitionedCall/FusedBatchNormV3",
+          "type": "INT32",
+          "shape": [
+            64
+          ],
+          "is_constant": true,
+          "quant_channels": 64,
+          "quantized_dimension": 0,
+          "scale_min": 7.815669960109517e-05,
+          "scale_max": 0.00023707955551799387,
+          "zero_points_all_zero": true
+        }
+      ],
+      "outputs": [
+        {
+          "index": 35,
+          "name": "Relu6;student_5s_logmel_dscnn_v2/block4_dw_relu6/PartitionedCall/Relu6;FusedBatchNormV3;student_5s_logmel_dscnn_v2/block4_dw_bn/StatefulPartitionedCall/FusedBatchNormV3;depthwise;student_5s_logmel_dscnn_v2/block4_dw/StatefulPartitionedCall/depthwise",
+          "type": "INT8",
+          "shape": [
+            1,
+            5,
+            32,
+            64
+          ],
+          "is_constant": false,
+          "quant_channels": 1,
+          "quantized_dimension": 0,
+          "scale": 0.0235294122248888,
+          "zero_point": -128
+        }
+      ],
+      "options": {
+        "fusedActivationFunction": "RELU6",
+        "padding": "SAME",
+        "strideW": 2,
+        "strideH": 2,
+        "dilationWFactor": 1,
+        "dilationHFactor": 1,
+        "depthMultiplier": 1
+      }
+    },
+    {
+      "index": 8,
+      "op": "CONV_2D",
+      "version": 3,
+      "inputs": [
+        {
+          "index": 35,
+          "name": "Relu6;student_5s_logmel_dscnn_v2/block4_dw_relu6/PartitionedCall/Relu6;FusedBatchNormV3;student_5s_logmel_dscnn_v2/block4_dw_bn/StatefulPartitionedCall/FusedBatchNormV3;depthwise;student_5s_logmel_dscnn_v2/block4_dw/StatefulPartitionedCall/depthwise",
+          "type": "INT8",
+          "shape": [
+            1,
+            5,
+            32,
+            64
+          ],
+          "is_constant": false,
+          "quant_channels": 1,
+          "quantized_dimension": 0,
+          "scale": 0.0235294122248888,
+          "zero_point": -128
+        },
+        {
+          "index": 11,
+          "name": "Conv2D;student_5s_logmel_dscnn_v2/block4_pw/StatefulPartitionedCall/Conv2D",
+          "type": "INT8",
+          "shape": [
+            96,
+            1,
+            1,
+            64
+          ],
+          "is_constant": true,
+          "quant_channels": 96,
+          "quantized_dimension": 0,
+          "scale_min": 0.002100011333823204,
+          "scale_max": 0.004938179161399603,
+          "zero_points_all_zero": true
+        },
+        {
+          "index": 10,
+          "name": "FusedBatchNormV3;student_5s_logmel_dscnn_v2/block4_pw_bn/StatefulPartitionedCall/FusedBatchNormV3",
+          "type": "INT32",
+          "shape": [
+            96
+          ],
+          "is_constant": true,
+          "quant_channels": 96,
+          "quantized_dimension": 0,
+          "scale_min": 4.94120322400704e-05,
+          "scale_max": 0.00011619245196925476,
+          "zero_points_all_zero": true
+        }
+      ],
+      "outputs": [
+        {
+          "index": 36,
+          "name": "Relu6;student_5s_logmel_dscnn_v2/block4_pw_relu6/PartitionedCall/Relu6;FusedBatchNormV3;student_5s_logmel_dscnn_v2/block4_pw_bn/StatefulPartitionedCall/FusedBatchNormV3;Conv2D;student_5s_logmel_dscnn_v2/block5_pw/StatefulPartitionedCall/Conv2D;Conv2D;student_5s_logmel_dscnn_v2/block4_pw/StatefulPartitionedCall/Conv2D",
+          "type": "INT8",
+          "shape": [
+            1,
+            5,
+            32,
+            96
+          ],
+          "is_constant": false,
+          "quant_channels": 1,
+          "quantized_dimension": 0,
+          "scale": 0.0235294122248888,
+          "zero_point": -128
+        }
+      ],
+      "options": {
+        "fusedActivationFunction": "RELU6",
+        "padding": "SAME",
+        "strideW": 1,
+        "strideH": 1,
+        "dilationWFactor": 1,
+        "dilationHFactor": 1
+      }
+    },
+    {
+      "index": 9,
+      "op": "DEPTHWISE_CONV_2D",
+      "version": 3,
+      "inputs": [
+        {
+          "index": 36,
+          "name": "Relu6;student_5s_logmel_dscnn_v2/block4_pw_relu6/PartitionedCall/Relu6;FusedBatchNormV3;student_5s_logmel_dscnn_v2/block4_pw_bn/StatefulPartitionedCall/FusedBatchNormV3;Conv2D;student_5s_logmel_dscnn_v2/block5_pw/StatefulPartitionedCall/Conv2D;Conv2D;student_5s_logmel_dscnn_v2/block4_pw/StatefulPartitionedCall/Conv2D",
+          "type": "INT8",
+          "shape": [
+            1,
+            5,
+            32,
+            96
+          ],
+          "is_constant": false,
+          "quant_channels": 1,
+          "quantized_dimension": 0,
+          "scale": 0.0235294122248888,
+          "zero_point": -128
+        },
+        {
+          "index": 9,
+          "name": "FusedBatchNormV3;student_5s_logmel_dscnn_v2/block5_dw_bn/StatefulPartitionedCall/FusedBatchNormV3;depthwise;student_5s_logmel_dscnn_v2/block5_dw/StatefulPartitionedCall/depthwise;Conv2D;student_5s_logmel_dscnn_v2/block5_pw/StatefulPartitionedCall/Conv2D",
+          "type": "INT8",
+          "shape": [
+            1,
+            3,
+            3,
+            96
+          ],
+          "is_constant": true,
+          "quant_channels": 96,
+          "quantized_dimension": 3,
+          "scale_min": 0.00363131589256227,
+          "scale_max": 0.010925603099167347,
+          "zero_points_all_zero": true
+        },
+        {
+          "index": 8,
+          "name": "FusedBatchNormV3;student_5s_logmel_dscnn_v2/block5_dw_bn/StatefulPartitionedCall/FusedBatchNormV3",
+          "type": "INT32",
+          "shape": [
+            96
+          ],
+          "is_constant": true,
+          "quant_channels": 96,
+          "quantized_dimension": 0,
+          "scale_min": 8.544272714061663e-05,
+          "scale_max": 0.00025707302847877145,
+          "zero_points_all_zero": true
+        }
+      ],
+      "outputs": [
+        {
+          "index": 37,
+          "name": "Relu6;student_5s_logmel_dscnn_v2/block5_dw_relu6/PartitionedCall/Relu6;FusedBatchNormV3;student_5s_logmel_dscnn_v2/block5_dw_bn/StatefulPartitionedCall/FusedBatchNormV3;Conv2D;student_5s_logmel_dscnn_v2/block5_pw/StatefulPartitionedCall/Conv2D;depthwise;student_5s_logmel_dscnn_v2/block5_dw/StatefulPartitionedCall/depthwise",
+          "type": "INT8",
+          "shape": [
+            1,
+            5,
+            32,
+            96
+          ],
+          "is_constant": false,
+          "quant_channels": 1,
+          "quantized_dimension": 0,
+          "scale": 0.0235294122248888,
+          "zero_point": -128
+        }
+      ],
+      "options": {
+        "fusedActivationFunction": "RELU6",
+        "padding": "SAME",
+        "strideW": 1,
+        "strideH": 1,
+        "dilationWFactor": 1,
+        "dilationHFactor": 1,
+        "depthMultiplier": 1
+      }
+    },
+    {
+      "index": 10,
+      "op": "CONV_2D",
+      "version": 3,
+      "inputs": [
+        {
+          "index": 37,
+          "name": "Relu6;student_5s_logmel_dscnn_v2/block5_dw_relu6/PartitionedCall/Relu6;FusedBatchNormV3;student_5s_logmel_dscnn_v2/block5_dw_bn/StatefulPartitionedCall/FusedBatchNormV3;Conv2D;student_5s_logmel_dscnn_v2/block5_pw/StatefulPartitionedCall/Conv2D;depthwise;student_5s_logmel_dscnn_v2/block5_dw/StatefulPartitionedCall/depthwise",
+          "type": "INT8",
+          "shape": [
+            1,
+            5,
+            32,
+            96
+          ],
+          "is_constant": false,
+          "quant_channels": 1,
+          "quantized_dimension": 0,
+          "scale": 0.0235294122248888,
+          "zero_point": -128
+        },
+        {
+          "index": 7,
+          "name": "Conv2D;student_5s_logmel_dscnn_v2/block5_pw/StatefulPartitionedCall/Conv2D",
+          "type": "INT8",
+          "shape": [
+            96,
+            1,
+            1,
+            96
+          ],
+          "is_constant": true,
+          "quant_channels": 96,
+          "quantized_dimension": 0,
+          "scale_min": 0.0018820276018232107,
+          "scale_max": 0.0041620465926826,
+          "zero_points_all_zero": true
+        },
+        {
+          "index": 6,
+          "name": "FusedBatchNormV3;student_5s_logmel_dscnn_v2/block5_pw_bn/StatefulPartitionedCall/FusedBatchNormV3",
+          "type": "INT32",
+          "shape": [
+            96
+          ],
+          "is_constant": true,
+          "quant_channels": 96,
+          "quantized_dimension": 0,
+          "scale_min": 4.42830023530405e-05,
+          "scale_max": 9.793051140150055e-05,
+          "zero_points_all_zero": true
+        }
+      ],
+      "outputs": [
+        {
+          "index": 38,
+          "name": "Relu6;student_5s_logmel_dscnn_v2/block5_pw_relu6/PartitionedCall/Relu6;FusedBatchNormV3;student_5s_logmel_dscnn_v2/block5_pw_bn/StatefulPartitionedCall/FusedBatchNormV3;Conv2D;student_5s_logmel_dscnn_v2/block5_pw/StatefulPartitionedCall/Conv2D",
+          "type": "INT8",
+          "shape": [
+            1,
+            5,
+            32,
+            96
+          ],
+          "is_constant": false,
+          "quant_channels": 1,
+          "quantized_dimension": 0,
+          "scale": 0.0235294122248888,
+          "zero_point": -128
+        }
+      ],
+      "options": {
+        "fusedActivationFunction": "RELU6",
+        "padding": "SAME",
+        "strideW": 1,
+        "strideH": 1,
+        "dilationWFactor": 1,
+        "dilationHFactor": 1
+      }
+    },
+    {
+      "index": 11,
+      "op": "MEAN",
+      "version": 2,
+      "inputs": [
+        {
+          "index": 38,
+          "name": "Relu6;student_5s_logmel_dscnn_v2/block5_pw_relu6/PartitionedCall/Relu6;FusedBatchNormV3;student_5s_logmel_dscnn_v2/block5_pw_bn/StatefulPartitionedCall/FusedBatchNormV3;Conv2D;student_5s_logmel_dscnn_v2/block5_pw/StatefulPartitionedCall/Conv2D",
+          "type": "INT8",
+          "shape": [
+            1,
+            5,
+            32,
+            96
+          ],
+          "is_constant": false,
+          "quant_channels": 1,
+          "quantized_dimension": 0,
+          "scale": 0.0235294122248888,
+          "zero_point": -128
+        },
+        {
+          "index": 1,
+          "name": "Mean/reduction_indices;student_5s_logmel_dscnn_v2/gap/PartitionedCall/Mean/reduction_indices",
+          "type": "INT32",
+          "shape": [
+            2
+          ],
+          "is_constant": true,
+          "quant_channels": 0,
+          "quantized_dimension": 0,
+          "scale": null,
+          "zero_point": null
+        }
+      ],
+      "outputs": [
+        {
+          "index": 39,
+          "name": "Mean;student_5s_logmel_dscnn_v2/gap/PartitionedCall/Mean",
+          "type": "INT8",
+          "shape": [
+            1,
+            96
+          ],
+          "is_constant": false,
+          "quant_channels": 1,
+          "quantized_dimension": 0,
+          "scale": 0.012230564840137959,
+          "zero_point": -128
+        }
+      ],
+      "options": {
+        "keepDims": false
+      }
+    },
+    {
+      "index": 12,
+      "op": "FULLY_CONNECTED",
+      "version": 4,
+      "inputs": [
+        {
+          "index": 39,
+          "name": "Mean;student_5s_logmel_dscnn_v2/gap/PartitionedCall/Mean",
+          "type": "INT8",
+          "shape": [
+            1,
+            96
+          ],
+          "is_constant": false,
+          "quant_channels": 1,
+          "quantized_dimension": 0,
+          "scale": 0.012230564840137959,
+          "zero_point": -128
+        },
+        {
+          "index": 5,
+          "name": "MatMul;student_5s_logmel_dscnn_v2/dense64/StatefulPartitionedCall/MatMul",
+          "type": "INT8",
+          "shape": [
+            64,
+            96
+          ],
+          "is_constant": true,
+          "quant_channels": 1,
+          "quantized_dimension": 0,
+          "scale": 0.0036179565358906984,
+          "zero_point": 0
+        },
+        {
+          "index": 4,
+          "name": "student_5s_logmel_dscnn_v2/dense64/3982",
+          "type": "INT32",
+          "shape": [
+            64
+          ],
+          "is_constant": true,
+          "quant_channels": 1,
+          "quantized_dimension": 0,
+          "scale": 4.424965300131589e-05,
+          "zero_point": 0
+        }
+      ],
+      "outputs": [
+        {
+          "index": 40,
+          "name": "MatMul;student_5s_logmel_dscnn_v2/dense64/StatefulPartitionedCall/MatMul;Relu;student_5s_logmel_dscnn_v2/dense64/StatefulPartitionedCall/Relu;BiasAdd;student_5s_logmel_dscnn_v2/dense64/StatefulPartitionedCall/BiasAdd",
+          "type": "INT8",
+          "shape": [
+            1,
+            64
+          ],
+          "is_constant": false,
+          "quant_channels": 1,
+          "quantized_dimension": 0,
+          "scale": 0.03852207213640213,
+          "zero_point": -128
+        }
+      ],
+      "options": {
+        "fusedActivationFunction": "RELU",
+        "keepNumDims": false
+      }
+    },
+    {
+      "index": 13,
+      "op": "FULLY_CONNECTED",
+      "version": 4,
+      "inputs": [
+        {
+          "index": 40,
+          "name": "MatMul;student_5s_logmel_dscnn_v2/dense64/StatefulPartitionedCall/MatMul;Relu;student_5s_logmel_dscnn_v2/dense64/StatefulPartitionedCall/Relu;BiasAdd;student_5s_logmel_dscnn_v2/dense64/StatefulPartitionedCall/BiasAdd",
+          "type": "INT8",
+          "shape": [
+            1,
+            64
+          ],
+          "is_constant": false,
+          "quant_channels": 1,
+          "quantized_dimension": 0,
+          "scale": 0.03852207213640213,
+          "zero_point": -128
+        },
+        {
+          "index": 3,
+          "name": "MatMul;student_5s_logmel_dscnn_v2/p_bird/StatefulPartitionedCall/MatMul",
+          "type": "INT8",
+          "shape": [
+            1,
+            64
+          ],
+          "is_constant": true,
+          "quant_channels": 1,
+          "quantized_dimension": 0,
+          "scale": 0.004213808104395866,
+          "zero_point": 0
+        },
+        {
+          "index": 2,
+          "name": "student_5s_logmel_dscnn_v2/p_bird/3988",
+          "type": "INT32",
+          "shape": [
+            1
+          ],
+          "is_constant": true,
+          "quant_channels": 1,
+          "quantized_dimension": 0,
+          "scale": 0.00016232462076004595,
+          "zero_point": 0
+        }
+      ],
+      "outputs": [
+        {
+          "index": 41,
+          "name": "MatMul;student_5s_logmel_dscnn_v2/p_bird/StatefulPartitionedCall/MatMul;BiasAdd;student_5s_logmel_dscnn_v2/p_bird/StatefulPartitionedCall/BiasAdd",
+          "type": "INT8",
+          "shape": [
+            1,
+            1
+          ],
+          "is_constant": false,
+          "quant_channels": 1,
+          "quantized_dimension": 0,
+          "scale": 0.1901509016752243,
+          "zero_point": 96
+        }
+      ],
+      "options": {
+        "fusedActivationFunction": "NONE",
+        "keepNumDims": false
+      }
+    },
+    {
+      "index": 14,
+      "op": "LOGISTIC",
+      "version": 2,
+      "inputs": [
+        {
+          "index": 41,
+          "name": "MatMul;student_5s_logmel_dscnn_v2/p_bird/StatefulPartitionedCall/MatMul;BiasAdd;student_5s_logmel_dscnn_v2/p_bird/StatefulPartitionedCall/BiasAdd",
+          "type": "INT8",
+          "shape": [
+            1,
+            1
+          ],
+          "is_constant": false,
+          "quant_channels": 1,
+          "quantized_dimension": 0,
+          "scale": 0.1901509016752243,
+          "zero_point": 96
+        }
+      ],
+      "outputs": [
+        {
+          "index": 42,
+          "name": "Identity",
+          "type": "INT8",
+          "shape": [
+            1,
+            1
+          ],
+          "is_constant": false,
+          "quant_channels": 1,
+          "quantized_dimension": 0,
+          "scale": 0.00390625,
+          "zero_point": -128
+        }
+      ],
+      "options": {}
+    }
+  ],
+  "operator_histogram": {
+    "CONV_2D": 6,
+    "DEPTHWISE_CONV_2D": 5,
+    "FULLY_CONNECTED": 2,
+    "LOGISTIC": 1,
+    "MEAN": 1
+  },
+  "peak_live_activation_bytes": 140000,
+  "peak_live_activation_at_op": 2,
+  "tensor_count": 43
+}

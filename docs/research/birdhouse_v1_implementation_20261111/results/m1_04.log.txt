@@ -1,0 +1,6 @@
+$ <python-env>/bin/python3 -I <repo>/tools/himax/verify_tflm_ops.py --label stage50 --manifest <repo>/firmware/himax_arc/birdhouse/model_manifest.json --kernel-src <repo>/.local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3/app/scenario_app/edge_impulse_visionai/ei-model/edge-impulse-sdk/tensorflow/lite/micro/kernels --macros <repo>/.local-tools/port-himax/bh-config-vendor/birdhouse/tflm_config.macros --json-out <repo>/docs/research/birdhouse_v1_implementation_20261111/results/ops_stage50.json --obj-root <repo>/.local-tools/port-himax/birdhouse-executable-step50/obj_socket_24/gnu_arcem9d_wei_r16 --elf <repo>/.local-tools/port-himax/birdhouse-executable-step50/obj_socket_24/gnu_arcem9d_wei_r16/WEI_FW_gnu_arcem9d_wei_r16.elf --toolchain-bin <repo>/.local-tools/toolchains/arc_gnu_ei_prebuilt_minimal_elf32_le_linux_install/bin
+[stage50] 80 checks, 3 failed -> FAIL
+  FAIL [configuration] FULLY_CONNECTED: EI_TFLITE_DISABLE_FULLY_CONNECTED_IN_I8 is not set: value='1'
+  FAIL [configuration] FULLY_CONNECTED: EI_TFLITE_DISABLE_FULLY_CONNECTED_OUT_I8 is not set: value='1'
+  FAIL [objects] FULLY_CONNECTED: Eval is not a stub: tflite::Eval size=46 reachable_code=46B workers=[]
+[exit 1]

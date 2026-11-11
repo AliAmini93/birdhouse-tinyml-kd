@@ -1,0 +1,7 @@
+$ <python-env>/bin/python3 <repo>/tools/himax/model_manifest.py --model-cc firmware/model/student_final_int8_model_data.cc --out <repo>/.local-tools/port-himax/bh-results/model_manifest.regen.json
+model 59760 bytes sha256 9e04d17723b87f9a…
+operators: {'CONV_2D': 6, 'DEPTHWISE_CONV_2D': 5, 'FULLY_CONNECTED': 2, 'LOGISTIC': 1, 'MEAN': 1}
+peak live activations: 140000 bytes at op 2
+  io logmel: INT8 [1, 40, 249, 1] scale=0.0200184378772974 zp=-67
+  io Identity: INT8 [1, 1] scale=0.00390625 zp=-128
+[exit 0]

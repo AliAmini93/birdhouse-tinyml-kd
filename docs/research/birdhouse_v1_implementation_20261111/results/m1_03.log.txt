@@ -1,0 +1,16 @@
+$ <repo>/tools/himax/sdk_make.sh <repo>/.local-tools/port-himax/bh-config-vendor BH_TFLM_OVERLAY=0 bh_tflm_config
+make: Entering directory '<repo>/.local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3'
+board/board.mk:112: "------------------------------------------"
+board/board.mk:113: 
+board/board.mk:114: 162765
+board/board.mk:115: "------------------------------------------"
+arc-elf32-g++ -E -dM -include ./board/socket/configs/24/core_config.h -DBOARD_HIMAXEM9D -DBOARD_SOCKET -DCHANG_PLL_BEFORE_PMU -DCIS_COMMON -DCIS_OV2640_BAYER -DCIS_OV_SENSOR -DCIS_XSHUT_SGPIO1 -DCPU_ARC -DCURRENT_CORE=arcem9d_wei_r16 -DDBG_LESS -DDEBUG -DEDGE_IMPULSE_VISIONAI -DEIDSP_QUANTIZE_FILTERBANK=0 -DEI_CLASSIFIER_ALLOCATION_STATIC_HIMAX_GNU -DEI_DSP_IMAGE_BUFFER_STATIC_SIZE=1024 -DEI_PORTI …[line truncated]
+    <repo>/firmware/himax_arc/birdhouse/build/tflm_config_probe.cc -o <repo>/.local-tools/port-himax/bh-config-vendor/birdhouse/tflm_config.macros
+Wrote <repo>/.local-tools/port-himax/bh-config-vendor/birdhouse/tflm_config.macros
+make: Leaving directory '<repo>/.local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3'
+[exit 0]
+$ <python-env>/bin/python3 -I <repo>/tools/himax/verify_tflm_ops.py --label arc_config_vendor --manifest <repo>/firmware/himax_arc/birdhouse/model_manifest.json --kernel-src <repo>/.local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3/app/scenario_app/edge_impulse_visionai/ei-model/edge-impulse-sdk/tensorflow/lite/micro/kernels --macros <repo>/.local-tools/port-himax/bh-config-vendor/birdhouse/tflm_config.macros --json-out <repo>/docs/research/birdhouse_v1_implementation_20261111/results/ops_arc_config_vendor.json
+[arc_config_vendor] 70 checks, 2 failed -> FAIL
+  FAIL [configuration] FULLY_CONNECTED: EI_TFLITE_DISABLE_FULLY_CONNECTED_IN_I8 is not set: value='1'
+  FAIL [configuration] FULLY_CONNECTED: EI_TFLITE_DISABLE_FULLY_CONNECTED_OUT_I8 is not set: value='1'
+[exit 1]
