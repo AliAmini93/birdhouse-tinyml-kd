@@ -216,7 +216,7 @@ ModelStatus RuntimeEnsureModel() {
 
 int RuntimeRequestRuns(uint32_t count) {
   if (count == 0) return -2;
-  if (g_state == kRunCapturing || g_pending != 0) return -1;
+  if (g_state == kRunCapturing || g_pending != 0 || bh_port_pdm_faulted() || bh_port_vendor_busy()) return -1;
   g_pending = count;
   return 0;
 }
@@ -272,7 +272,7 @@ const int16_t* RuntimePcm() { return g_pcm; }
 const int8_t* RuntimeFeatures() { return g_features; }
 
 int RuntimeSelfTestModel(int step) {
-  if (g_state == kRunCapturing) return -1;
+  if (g_state == kRunCapturing || g_pending != 0 || bh_port_pdm_faulted() || bh_port_vendor_busy()) return -1;
   if (step < 1 || step > kSelfTestSteps) return -1;
   BeginResult(kSourceReference);
   const ModelStatus ms = RuntimeEnsureModel();
@@ -330,7 +330,7 @@ int RuntimeSelfTestModelAll() {
 }
 
 int RuntimeRunSynthetic(int kind) {
-  if (g_state == kRunCapturing) return -1;
+  if (g_state == kRunCapturing || g_pending != 0 || bh_port_pdm_faulted() || bh_port_vendor_busy()) return -1;
   BeginResult(kSourceSynthetic);
   const ModelStatus ms = RuntimeEnsureModel();
   if (ms != kModelOk) {

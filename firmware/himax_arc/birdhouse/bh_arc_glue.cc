@@ -31,7 +31,8 @@
 #include "firmware/himax_arc/birdhouse/bh_port.h"
 #include "firmware/himax_arc/birdhouse/bh_runtime.h"
 
-#include "firmware-sdk/at-server/ei_at_server.h"
+#include "firmware/himax_arc/birdhouse/bh_console.h"
+#include "sensors/ei_camera_ov2640.h"
 
 extern "C" {
 #include "hx_drv_pdm_rx.h"
@@ -50,6 +51,10 @@ extern char _f_heap[];
 }
 
 uint64_t bh_port_now_us() { return board_get_cur_us(); }
+bool bh_port_vendor_busy() {
+  return __real_is_inference_running() ||
+         static_cast<EiCameraOV2640*>(EiCameraOV2640::get_camera())->is_stream_active();
+}
 uint32_t bh_port_irq_save() {
   const uint32_t state = cpu_lock_save();
   __asm__ volatile("" ::: "memory");
@@ -97,99 +102,6 @@ uint32_t StackPeakBytes() {
   return static_cast<uint32_t>(high - reinterpret_cast<uintptr_t>(p));
 }
 
-uint32_t ParseU32(const char* text, bool* ok) {
-  char* end = nullptr;
-  const unsigned long v = std::strtoul(text, &end, 10);
-  *ok = (end != text && *end == '\0');
-  return static_cast<uint32_t>(v);
-}
-
-bool AtInfo() {
-  bh::RuntimePrintInfo();
-  return true;
-}
-
-bool AtRunOnce() {
-  const int rc = bh::RuntimeRequestRuns(1);
-  bh_port_printf("BIRDHOUSE RUN queued=%d rc=%d\n", rc == 0 ? 1 : 0, rc);
-  return true;
-}
-
-bool AtRunMany(const char** argv, const int argc) {
-  bool ok = false;
-  const uint32_t n = argc >= 1 ? ParseU32(argv[0], &ok) : 0;
-  if (!ok || n == 0 || n > 1000) {
-    bh_port_printf("BIRDHOUSE ERROR bad run count\n");
-    return true;
-  }
-  const int rc = bh::RuntimeRequestRuns(n);
-  bh_port_printf("BIRDHOUSE RUN queued=%lu rc=%d\n", static_cast<unsigned long>(rc == 0 ? n : 0), rc);
-  return true;
-}
-
-bool AtStop() {
-  bh::RuntimeCancel();
-  bh_port_printf("BIRDHOUSE STOP state=%s\n", bh::RunStateName(bh::RuntimeState()));
-  return true;
-}
-
-bool AtLast() {
-  bh::RuntimePrintResult(bh::RuntimeLastResult());
-  return true;
-}
-
-bool AtSelfTest() {
-  bh::RuntimeSelfTestModelAll();
-  return true;
-}
-
-bool AtSelfTestStep(const char** argv, const int argc) {
-  bool ok = false;
-  const uint32_t step = argc >= 1 ? ParseU32(argv[0], &ok) : 0;
-  if (!ok || bh::RuntimeSelfTestModel(static_cast<int>(step)) < 0) {
-    bh_port_printf("BIRDHOUSE ERROR self-test step must be 1..8 and no capture active\n");
-  }
-  return true;
-}
-
-bool AtSynth(const char** argv, const int argc) {
-  bool ok = false;
-  const uint32_t kind = argc >= 1 ? ParseU32(argv[0], &ok) : 0;
-  if (!ok || kind >= static_cast<uint32_t>(bh::kSynthKindCount)) {
-    bh_port_printf("BIRDHOUSE ERROR bad synth kind\n");
-    return true;
-  }
-  bh::RuntimeRunSynthetic(static_cast<int>(kind));
-  return true;
-}
-
-bool AtDump(const char** argv, const int argc, bool pcm) {
-  bool ok_a = false, ok_b = false;
-  const uint32_t offset = argc >= 2 ? ParseU32(argv[0], &ok_a) : 0;
-  const uint32_t count = argc >= 2 ? ParseU32(argv[1], &ok_b) : 0;
-  const bool done = ok_a && ok_b &&
-                    (pcm ? bh::RuntimeDumpPcm(offset, count) : bh::RuntimeDumpFeatures(offset, count));
-  if (!done) bh_port_printf("BIRDHOUSE ERROR bad dump range or capture active\n");
-  return true;
-}
-
-bool AtDumpPcm(const char** argv, const int argc) { return AtDump(argv, argc, true); }
-bool AtDumpFeatures(const char** argv, const int argc) { return AtDump(argv, argc, false); }
-
-void RegisterCommandsOnce() {
-  static bool registered = false;
-  if (registered) return;
-  registered = true;
-  ATServer* at = ATServer::get_instance();
-  at->register_command("BIRDINFO", "Birdhouse: version, model and configuration", nullptr, AtInfo, nullptr, nullptr);
-  at->register_command("BIRDRUN", "Birdhouse: capture 5 s and classify (=N to repeat)", AtRunOnce, nullptr, AtRunMany, "COUNT");
-  at->register_command("BIRDSTOP", "Birdhouse: abort capture and queued runs", AtStop, nullptr, nullptr, nullptr);
-  at->register_command("BIRDLAST", "Birdhouse: print the last result", nullptr, AtLast, nullptr, nullptr);
-  at->register_command("BIRDSELFTEST", "Birdhouse: model self-test on reference features (=STEP for one)", AtSelfTest, nullptr, AtSelfTestStep, "STEP");
-  at->register_command("BIRDSYNTH", "Birdhouse: pipeline self-test on a built-in signal", nullptr, nullptr, AtSynth, "KIND");
-  at->register_command("BIRDPCM", "Birdhouse: base64 dump of captured PCM", nullptr, nullptr, AtDumpPcm, "OFFSET,COUNT");
-  at->register_command("BIRDFEAT", "Birdhouse: base64 dump of features", nullptr, nullptr, AtDumpFeatures, "OFFSET,COUNT");
-}
 
 }  // namespace
 
@@ -207,7 +119,7 @@ extern "C" bool __wrap_is_inference_running(void) {
   // First call happens in the vendor main loop, after the vendor has created
   // its AT server and initialised the microphone.
   PaintStackOnce();
-  RegisterCommandsOnce();
+  bh::ConsoleRegisterCommands();
   bh::RuntimePoll();
   return __real_is_inference_running();
 }

@@ -16,6 +16,7 @@ int bh_port_pdm_start(bh::Capture* capture);
 // explicit stop retry succeeds. No callback may touch the detached object.
 int bh_port_pdm_stop();
 bool bh_port_pdm_faulted();
+bool bh_port_vendor_busy();  // vendor inference or camera streaming owns resources
 uint32_t bh_port_pdm_late_callbacks();  // lifetime count, not per-capture stats
 // Single-core IRQ exclusion with compiler memory barriers; restore prior state.
 uint32_t bh_port_irq_save();

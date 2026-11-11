@@ -39,3 +39,27 @@ ARC build succeeds without first-party warnings; SDK working tree stays pristine
 LeakSanitizer is unavailable under this sandbox's tracing environment. Address and
 undefined-behavior checks remain enabled. The existing Makefile did not instrument
 vendor TFLM objects; that coverage gap is addressed in the later tooling milestone.
+
+## M2 — real vendor serial command integration: PASS
+
+Moved the existing first-party AT handlers into `bh_console.cc`, compiled on
+both host and ARC. Host tests send bytes through unmodified vendor ATServer,
+ATParser, line buffer/history and singleton sources, not a fake registry. Only
+printing/transport and hardware handler endpoints are stubbed.
+
+The new adversarial test failed 11 assertions before fixes: signed and oversized
+numbers wrapped/truncated to run counts; extra arguments were accepted; synthetic
+requests while capturing were silently ignored and could overwrite queued work.
+Strict decimal uint32 parsing and exact argument counts now agree across ILP32
+and LP64. Busy operations emit explicit errors. Vendor sampling/camera AT handlers
+are guarded while Birdhouse captures or has queued work; idle handlers still
+forward to the SDK. Birdhouse refuses requests while vendor inference/streaming
+is active or the PDM stop fault remains latched.
+
+Reproduce M1 commands plus the integrated `test_console` suite in `run-unit`.
+`results/m2.json` records the regression and post-fix results. ARC builds using
+the same new handlers. Vendor header warnings from the camera API are visible;
+M3 strengthens warning attribution rather than treating a successful link as proof.
+
+M1 synchronization: local and remote were both
+`30e713139ea6a8d3eff18c222839020f3543f774` immediately after its successful push.

@@ -63,6 +63,7 @@ bh_tflm_config: $(CORE_ARG_FILES)
 ifeq ($(BH_LINK),1)
 
 BH_SOURCES := \
+    firmware/himax_arc/birdhouse/bh_console.cc \
     firmware/himax_arc/birdhouse/bh_capture.cc \
     firmware/himax_arc/birdhouse/bh_diag.cc \
     firmware/himax_arc/birdhouse/bh_model.cc \

@@ -58,7 +58,7 @@ VENDOR_CXXFLAGS := $(STD_CXX) $(OPT) $(DEFS) $(INC) -w
 VENDOR_CFLAGS   := -std=gnu99 $(OPT) $(DEFS) $(INC) -w
 # Vendor headers are reached through -isystem so that strict warnings apply to
 # Birdhouse code only.
-OUR_INC         := $(CFG_INC) -isystem $(EI_MODEL) -I$(REPO)
+OUR_INC         := $(CFG_INC) -isystem $(EI_MODEL) -isystem $(EI_MODEL)/.. -I$(REPO)
 OUR_CXXFLAGS    := $(STD_CXX) $(OPT) $(DEFS) $(OUR_INC) -Wall -Wextra -Werror $(SANFLAGS)
 
 # --- vendor TFLite Micro (reference kernels on a non-ARC host) ---------------
@@ -131,6 +131,17 @@ $(OBJ)/test_runtime: $(R)/himax_arc/tests/test_runtime.o $(CORE_OBJS) $(PORT_OBJ
 	$(CXX) $(SANFLAGS) -o $@ $^ -lm
 
 UNIT_TESTS := $(OBJ)/test_diag $(OBJ)/test_capture $(OBJ)/test_pdm_port $(OBJ)/test_runtime
+
+# Use the real vendor AT parser, server, line buffer/history and singleton.
+AT_DIR := $(EI_MODEL)/../firmware-sdk/at-server
+AT_OBJS := $(patsubst %,$(OBJ)/at/%.o,ei_at_parser ei_at_server ei_at_server_singleton)
+$(OBJ)/at/%.o: $(AT_DIR)/%.cpp
+	@mkdir -p $(dir $@)
+	$(CXX) $(VENDOR_CXXFLAGS) $(SANFLAGS) -I$(EI_MODEL)/.. -MMD -MP -c $< -o $@
+$(OBJ)/test_console: $(R)/himax_arc/tests/test_console.o $(R)/himax_arc/birdhouse/bh_console.o \
+                     $(CORE_OBJS) $(PORT_OBJS) $(FAKE_OBJS) $(PIPE_OBJS) $(MODEL_OBJS) $(AT_OBJS) $(TFLM_LIB)
+	$(CXX) $(SANFLAGS) -o $@ $^ -lm
+UNIT_TESTS += $(OBJ)/test_console
 
 .PHONY: unit run-unit run-all
 unit: $(UNIT_TESTS)

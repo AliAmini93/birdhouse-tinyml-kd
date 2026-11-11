@@ -1,0 +1,41 @@
+{
+  "status": "PASS",
+  "original_console_regressions": {
+    "passed": 14,
+    "failed": 11
+  },
+  "suites": [
+    {
+      "suite": "diag",
+      "checks_passed": 71,
+      "checks_failed": 0,
+      "status": "PASS"
+    },
+    {
+      "suite": "capture",
+      "checks_passed": 280,
+      "checks_failed": 0,
+      "status": "PASS"
+    },
+    {
+      "suite": "pdm_port",
+      "checks_passed": 92,
+      "checks_failed": 0,
+      "status": "PASS"
+    },
+    {
+      "suite": "runtime",
+      "checks_passed": 302,
+      "checks_failed": 0,
+      "status": "PASS"
+    },
+    {
+      "suite": "console",
+      "checks_passed": 28,
+      "checks_failed": 0,
+      "status": "PASS"
+    }
+  ],
+  "arc_build": "PASS; vendor-header warnings identified, first-party warning gate hardened in M3",
+  "hardware_access": false
+}
