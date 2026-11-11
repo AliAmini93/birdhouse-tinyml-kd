@@ -1,0 +1,25 @@
+{
+  "scope": "new deployment-barrier analyzer only; prior completed suites not rerun",
+  "command": "\"$BH_PYTHON\" -m unittest discover -s tools/himax/tests -p test_deployment_barriers.py -v",
+  "interpreter": "session-mandated existing HCI Python; private absolute path omitted",
+  "exit_code": 0,
+  "tests_run": 10,
+  "failures": 0,
+  "errors": 0,
+  "status": "PASS",
+  "tests": [
+    "test_actual_binary_control_flow",
+    "test_actual_loader_call_order",
+    "test_cached_transport_facts_without_identifiers",
+    "test_internal_branches_are_not_external_calls",
+    "test_interrupt_enable_mutation_is_rejected",
+    "test_loader_mutations_fail",
+    "test_observer_defaults_and_scope",
+    "test_regular_file_guard_and_recovery_limits",
+    "test_unknown_helper_mutation_is_rejected",
+    "test_wrong_switch_table_is_rejected"
+  ],
+  "hardware_access": false,
+  "recovery_experiment": false,
+  "candidate_rebuilt": false
+}

@@ -1,0 +1,260 @@
+{
+  "starting_source_commit": "1095349f459d974975e606d243c84d26635f67bf",
+  "candidate": {
+    "path": ".local-tools/port-himax/bh-codex-validated/bh-candidate/obj_socket_24/gnu_arcem9d_wei_r16/WEI_FW_gnu_arcem9d_wei_r16.elf",
+    "bytes": 1650872,
+    "sha256": "8a280fa470c5e6a40b10a941a4e1fe99625233e8d28253b6bcfe4104aff7142f"
+  },
+  "pdm": {
+    "checks": [
+      {
+        "check": "required functions exist in the exact linked candidate",
+        "status": "PASS"
+      },
+      {
+        "check": "first-party start brackets vendor start with IRQ save/restore",
+        "status": "PASS"
+      },
+      {
+        "check": "IRQ primitives are real clri/seti instructions",
+        "status": "PASS"
+      },
+      {
+        "check": "switch tables are identified rather than disassembled as instructions",
+        "status": "PASS"
+      },
+      {
+        "check": "16 kHz selector reaches the expected oversampling setup",
+        "status": "PASS"
+      },
+      {
+        "check": "rate ioctl reaches a register-write leaf, not an interrupt wait",
+        "status": "PASS"
+      },
+      {
+        "check": "reviewed transfer helpers have no global IRQ-enable, indirect call or named wait",
+        "status": "PASS"
+      },
+      {
+        "check": "normal DMA read helpers have only the reviewed direct callees",
+        "status": "PASS"
+      },
+      {
+        "check": "vendor RX callback re-arms PDM before the indirect application callback",
+        "status": "PASS"
+      },
+      {
+        "check": "vendor ISR invokes its indirect callback before the DMA IRQ clear tail",
+        "status": "PASS"
+      },
+      {
+        "check": "first-party stop restores IRQ state before vendor stop",
+        "status": "PASS"
+      },
+      {
+        "check": "stop has channel disable/reset but no explicit DMA completion clear",
+        "status": "PASS"
+      },
+      {
+        "check": "channel reset and completion clear write distinct auxiliary registers",
+        "status": "PASS"
+      },
+      {
+        "check": "low-level start return is discarded by audio start",
+        "status": "PASS"
+      },
+      {
+        "check": "error recovery calls hardware initialization inside callback path",
+        "status": "PASS"
+      },
+      {
+        "check": "hardware open contains an unbounded ready-bit poll",
+        "status": "PASS"
+      }
+    ],
+    "dispatch": {
+      "sample_rate_selector": 1,
+      "oversampling_case": "0x1001d29a",
+      "ioctl_command": "0x26",
+      "ioctl_register_write_case": "0x1002a5e0"
+    },
+    "normal_start_assessment": "No software ISR wait found on the traced initialized-PDM 16 kHz path; elapsed time remains unmeasured.",
+    "open_risks": [
+      {
+        "id": "P1",
+        "status": "OPEN",
+        "risk": "An IRQ may interleave with vendor stop, and a pending old DMA IRQ may re-arm it after stop or count a completion against a new run. Channel-reset implicit IRQ-clearing semantics are not established."
+      },
+      {
+        "id": "P2",
+        "status": "VERIFIED_LIMIT",
+        "risk": "Application late-callback tests do not emulate vendor ISR re-arm/ack behavior. Safe PCM ownership is not proof of stopped hardware."
+      },
+      {
+        "id": "P3",
+        "status": "VERIFIED_LIMIT",
+        "risk": "Audio start discards the lower transfer return; success is not proof of active DMA. The low-level read API also returns void on its queue-full exit."
+      },
+      {
+        "id": "P4",
+        "status": "OPEN",
+        "risk": "Boot initialization and FIFO-error ISR recovery can poll a peripheral ready bit without a software deadline; main-loop capture timeout cannot interrupt them."
+      }
+    ],
+    "function_addresses": {
+      "bh_port_pdm_start(bh::Capture*)": "0x10002664",
+      "bh_port_pdm_stop()": "0x10002620",
+      "hx_lib_audio_start": "0x10024200",
+      "hx_drv_pdm_set_pcm_freq": "0x1001d25c",
+      "io_pdm_rx_ioctl": "0x1002a4b0",
+      "hx_drv_pdm_init_transfer": "0x1001d20c",
+      "hx_drv_ckgen_set_gated": "0x10020c2c",
+      "io_pdm_rx_read": "0x1002a348",
+      "_dma_chan_desc": "0x1002385c",
+      "_dma_chan_enable": "0x10023850",
+      "_dma_chan_desc_aux": "0x10023874",
+      "_dma_chan_reset": "0x10023844",
+      "_dma_int_clear": "0x10023838",
+      "cpu_lock_save": "0x10023a98",
+      "cpu_unlock_restore": "0x10023aa0",
+      "hx_lib_audio_rx_callback": "0x10024024",
+      "pdm_rx0_rx_ISR": "0x1002a018",
+      "hx_drv_pdm_stop_transfer": "0x1001d238",
+      "io_pdm_rx_stop": "0x1002a460",
+      "hx_lib_audio_err_callback": "0x100241a4",
+      "io_pdm_rx_open": "0x1002a0f8"
+    }
+  },
+  "recovery": {
+    "checks": {
+      "first_loader_xmodem_menu_marker": true,
+      "second_loader_dump_and_erase_markers": true,
+      "rom_loader_filename_matches_part_and_package": true,
+      "rom_loader_under_128_KiB": true,
+      "guide_documents_conditional_rom_boot": true,
+      "guide_requires_version_matching": true
+    },
+    "inputs": [
+      {
+        "path": ".local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3/tools/image_gen_cstm/input/BLp/QFN72/HX6537-A09TDIG-1111V/sign_formal_PA8530_EM9D_Bootloader.bin",
+        "bytes": 48428,
+        "sha256": "6ed391b0eea39eafacf6f5f621cdd5afda4351b651b8234e87c4b9554b98d1f0"
+      },
+      {
+        "path": ".local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3/tools/image_gen_cstm/input/BLp/QFN72/HX6537-A09TDIG-1111V/sign_formal_PA8530_EM9D_2nd_Bootloader.bin",
+        "bytes": 47756,
+        "sha256": "a4db778603072b8151b7fb3bbb55a7640b4d3623bc3fb1a4813a00b6b50586fe"
+      },
+      {
+        "path": ".local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3/tools/OTA_Tool/BootUpFromI2C/HX6537-A09TDIG-1111V_QFN72/sign_formal_PA8530_EM9D_2nd_Bootloader.bin",
+        "bytes": 47500,
+        "sha256": "d223adc96db68a64059e78b6b783d8db044b4ddc72b01c4c3e2203c0cb089400"
+      },
+      {
+        "path": ".local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3/tools/OTA_Tool/doc/WE-I OTA_v2.1.0 usage guide for cstm.docx",
+        "bytes": 203192,
+        "sha256": "c4e7bf12089118318354dae72aaa5738d677402216646fa8fc4bec10881c76dd"
+      }
+    ],
+    "new_asset_found": "Exact-part-labelled Himax ROM-I2C bootstrap already exists in SDK; it is not a BL702 recovery image or a tested Grove recovery route.",
+    "limits": [
+      "Installed 2022 BL702 source/binary not present in the inspected cache.",
+      "ROM-entry straps, external-host wiring and loader signature acceptance on this Grove are unverified.",
+      "A generic WE-I OTA guide and menu markers do not prove Grove-specific reachability, safe readback, update atomicity or successful recovery.",
+      "The SDK ota.exe default action is force-upgrade; it is not an approved diagnostic tool."
+    ],
+    "recovery_capability": "UNTESTED / NOT ESTABLISHED",
+    "first_loader_call_order": {
+      "checks": {
+        "caller_passes_RAM_buffer_0x20050000": true,
+        "caller_receives_before_erase_and_program_calls": true,
+        "caller_does_not_inspect_program_return_before_done_message": true,
+        "negative_receive_result_branches_away_from_write_path": true,
+        "receiver_EOT_path_ACKs_then_returns": true,
+        "receiver_direct_callees_are_reviewed_byte_IO_flush_CRC_and_copy": true,
+        "sector_erase_helper_constructs_0x20_command": true,
+        "page_program_helper_selects_0x02_or_0x12_command": true
+      },
+      "evidence_kind": "STATIC CALL-ORDER ANALYSIS OF PINNED SDK BINARY",
+      "receive_buffer": "0x20050000",
+      "receive_call": "0x200015ae",
+      "EOT_ACK_call": "0x20009c82",
+      "erase_call": "0x200016b2",
+      "program_call": "0x200016cc",
+      "conclusion": "In this SDK receiver, transfer ACK precedes the caller erase/program path; ACK is not burn completion or update atomicity. The caller does not inspect the program return before its done message.",
+      "limits": [
+        "Installed Himax loader identity and BL702 forwarding/segmentation are unknown.",
+        "UART byte I/O uses driver function pointers; this is not an exhaustive flash-write call-graph proof.",
+        "No interrupted-transfer, power-loss, flash verification or recovery experiment was performed."
+      ]
+    }
+  },
+  "historical_transport": {
+    "reset_events": 22,
+    "reset_intervals_in_25_to_35_second_band": [
+      31.745,
+      30.72,
+      30.721,
+      30.724,
+      30.714,
+      31.836,
+      30.725,
+      31.739,
+      31.744,
+      31.745,
+      31.744,
+      30.72,
+      31.744,
+      30.72,
+      30.719,
+      30.72
+    ],
+    "failed_read10_commands": 1,
+    "mode_sense_log_entries": 12,
+    "observed_product_ids": [
+      "0060",
+      "8060"
+    ],
+    "distinct_serial_string_count": 2,
+    "diagnostic_scope": "historical cached logs only, not current hardware state",
+    "causation": "Not established: the log does not isolate the exact stalled SCSI command, driver bug, power issue or competing process."
+  },
+  "historical_bootloader": {
+    "build_id": "2d5b48b",
+    "date": "2022-08-23"
+  },
+  "cached_input_fingerprints": [
+    {
+      "path": ".local-tools/diagnostics/grove-ai-v1/kernel_grove_full.log",
+      "bytes": 33445,
+      "sha256": "def3f8dd523aaaa8e2c0a403afb76b2e08206564d2b47c0852a22ed30cced689"
+    },
+    {
+      "path": ".local-tools/diagnostics/grove-ai-v1/INFO_UF2.TXT",
+      "bytes": 211,
+      "sha256": "24830b00eacbee834fa81c48fc4b224348e78a6be8080e9d3eea0fe7d5857b43"
+    }
+  ],
+  "observer_plan_review": {
+    "status": "NO-GO",
+    "missing_prerequisites": [
+      "owner_phase_approval",
+      "already_powered_connected_no_replug",
+      "host_probes_quiescent",
+      "msc_driver_activity_prevented",
+      "no_open_tty_or_block_clients",
+      "device_path_verified_from_cached_os_metadata",
+      "stop_rule_acknowledged"
+    ],
+    "out_of_scope_actions": [],
+    "authorization": "This offline checklist is not approval and does not inspect or access hardware."
+  },
+  "firmware_modified_or_rebuilt": false,
+  "hardware_access": false,
+  "decision": {
+    "firmware_write": "NO-GO",
+    "hardware_diagnostic_execution": "NO-GO pending explicit reviewed scope and host isolation",
+    "next_boundary": "Any live USB enumeration/attachment, tty/block-device open, serial/I2C transfer or board control"
+  },
+  "static_audit": "PASS"
+}

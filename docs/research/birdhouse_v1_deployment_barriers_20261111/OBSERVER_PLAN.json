@@ -1,0 +1,25 @@
+{
+  "plan_version": 1,
+  "scope": "PROPOSED observer-only phase; no live commands executed or approved",
+  "owner_phase_approval": false,
+  "already_powered_connected_no_replug": false,
+  "host_probes_quiescent": false,
+  "msc_driver_activity_prevented": false,
+  "no_open_tty_or_block_clients": false,
+  "device_path_verified_from_cached_os_metadata": false,
+  "stop_rule_acknowledged": false,
+  "prerequisite_state": "All false means NOT ESTABLISHED, not an assertion about current hardware state.",
+  "requested_actions": [
+    "read_cached_kernel_journal",
+    "read_cached_usb_identity"
+  ],
+  "observation_seconds": 120,
+  "abort_on_first": [
+    "USB reset or disconnect",
+    "new mode or identity change",
+    "SCSI timeout, I/O error or filesystem activity",
+    "unexpected tty/block client or host probe",
+    "uncertain board identity or unapproved transaction"
+  ],
+  "abort_action": "Stop observations, save host-side evidence, return for review. No automatic reset, unplug, mode change or recovery."
+}

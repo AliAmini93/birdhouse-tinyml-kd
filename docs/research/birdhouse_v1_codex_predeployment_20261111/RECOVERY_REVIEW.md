@@ -4,6 +4,14 @@
 board interaction was performed. This is a protocol for later owner and ChatGPT
 review, not authorization to carry it out.
 
+Follow-up: [the deployment-barrier assessment](../birdhouse_v1_deployment_barriers_20261111/ASSESSMENT.md)
+identifies an existing exact-part Himax ROM-I2C bootstrap and examines the SDK
+first-loader receive/burn order. These strengthen offline evidence but establish
+no tested Grove recovery route. Use its more specific
+[observer-only protocol](../birdhouse_v1_deployment_barriers_20261111/READ_ONLY_DIAGNOSTIC_PROTOCOL.md)
+for the next review boundary; the broader later-stage outline below is not an
+approved hardware sequence.
+
 Two existing factory fallback copies pass SHA-256 and UF2 checks:
 `8854e09348cec166c127e3bafda89b0b35e3a7a62916e27661410ff03f4b5b3c`.
 The copies are identical and each is 1,541,632 bytes. They are factory fallbacks,

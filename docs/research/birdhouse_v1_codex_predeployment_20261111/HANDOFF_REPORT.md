@@ -3,6 +3,10 @@
 2026-11-11. Starting source: `120a72831db4d36904848a2b92e5a366d3ae5451`.
 Branch: `research/birdhouse-v1-predeployment-codex-20261111`. No merge to main.
 
+Follow-up from `1095349`: [independent deployment-barrier assessment](../birdhouse_v1_deployment_barriers_20261111/ASSESSMENT.md)
+narrows normal PDM startup risk, qualifies the late-callback evidence, adds cached
+recovery analysis and proposes an observer-only session. The candidate is unchanged.
+
 **Offline checks: PASS, 22/22. Physical deployment: NO-GO. Recovery readiness:
 BLOCKED.** No serial, USB-device enumeration, I2C, JTAG, board reset, flash,
 UF2 transfer or mounted-device access was performed. Only reviewed source and
