@@ -102,7 +102,7 @@ int main() {
     c.Finish();
   }
 
-  BH_CASE("a failing stop is reported once and does not block later starts");
+  BH_CASE("failed stop detaches ownership and blocks restart until explicit stop succeeds");
   {
     Fresh();
     bh::Capture c;
@@ -111,7 +111,18 @@ int main() {
     fake_aud::faults().fail_stop = true;
     BH_CHECK(bh_port_pdm_stop() == -2);
     c.Finish();
+    BH_CHECK(fake_aud::running());  // failure is not proof DMA stopped
+    BH_CHECK(bh_port_pdm_start(&c) == -1);
+    const bh::CaptureStats frozen = c.stats();
+    std::vector<int16_t> snapshot = g_pcm;
+    fake_aud::faults().bad_address = 1;
+    fake_aud::CompleteBlocks(4);
+    BH_CHECK(snapshot == g_pcm);
+    BH_CHECK(std::memcmp(&frozen, &c.stats(), sizeof(frozen)) == 0);
+    BH_CHECK(c.error() == bh::kCapNone);
+    fake_aud::faults().bad_address = 0;
     fake_aud::faults().fail_stop = false;
+    BH_CHECK(bh_port_pdm_stop() == 0);
     BH_CHECK(c.Begin(g_pcm.data(), bh::kTargetSamples, kConfig));
     BH_CHECK(bh_port_pdm_start(&c) == 0);      // stage50 would have refused forever
     BH_CHECK(bh_port_pdm_stop() == 0);
@@ -202,16 +213,49 @@ int main() {
     bh::Capture c;
     BH_CHECK(c.Begin(g_pcm.data(), bh::kTargetSamples, kConfig));
     BH_CHECK(bh_port_pdm_start(&c) == 0);
-    while (!c.complete()) fake_aud::CompleteBlock();
+    fake_aud::CompleteBlocks(4);
+    fake_aud::faults().suppress_callbacks = 1;
+    fake_aud::CompleteBlock();  // nonempty ring at stop
+    fake_aud::faults().callback_during_stop = true;
+    const uint32_t requests = fake_aud::counters().requests;
+    const uint32_t late = bh_port_pdm_late_callbacks();
     BH_CHECK(bh_port_pdm_stop() == 0);
+    BH_CHECK(fake_aud::counters().requests == requests);
+    BH_CHECK(bh_port_pdm_late_callbacks() == late + 1);
     c.Finish();
     std::vector<int16_t> snapshot(g_pcm.begin(), g_pcm.end());
+    const bh::CaptureStats frozen = c.stats();
+    fake_aud::faults().fail_request_read = 1;
     fake_aud::DeliverLateCallback();
+    BH_CHECK(fake_aud::counters().requests == requests);
+    BH_CHECK(std::memcmp(&frozen, &c.stats(), sizeof(frozen)) == 0);
     BH_CHECK(snapshot == g_pcm);
     BH_CHECK(c.error() == bh::kCapNone);
   }
 
-  BH_CASE("one-tick clock error at a callback is tolerated");
+  BH_CASE("failed partial start plus failed cleanup cannot publish or reuse an owner");
+  {
+    Fresh();
+    {
+      bh::Capture c;
+      BH_CHECK(c.Begin(g_pcm.data(), bh::kTargetSamples, kConfig));
+      fake_aud::faults().fail_start = true;
+      fake_aud::faults().fail_stop = true;
+      BH_CHECK(bh_port_pdm_start(&c) == -3);
+      BH_CHECK(bh_port_pdm_faulted());
+      BH_CHECK(bh_port_pdm_start(&c) == -1);
+      c.Finish();
+    }  // callback target has now been destroyed
+    const uint32_t requests = fake_aud::counters().requests;
+    fake_aud::CompleteBlocks(6);
+    fake_aud::DeliverLateCallback();
+    BH_CHECK(fake_aud::counters().requests == requests);
+    BH_CHECK(GuardIntact());
+    fake_aud::faults().fail_stop = false;
+    BH_CHECK(bh_port_pdm_stop() == 0);
+  }
+
+  BH_CASE("one-tick clock error is counted and timing remains unverified");
   {
     Fresh();
     bh::Capture c;
@@ -227,7 +271,7 @@ int main() {
     c.Finish();
     BH_CHECK(c.stats().clock_steps == 2);  // the early reading and the return to true time
     BH_CHECK(c.stats().interval_anomalies == 0);
-    BH_CHECK(bh::JudgeCapture(c.stats(), kConfig) == bh::kQualityClean);
+    BH_CHECK(bh::JudgeCapture(c.stats(), kConfig) == bh::kQualityClock);
     BH_CHECK(Matches(g_pcm.data(), 80000, 2048));
   }
 

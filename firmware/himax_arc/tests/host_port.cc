@@ -18,6 +18,8 @@ void SetEcho(bool echo) { g_echo = echo; }
 }  // namespace host_port
 
 uint64_t bh_port_now_us() { return fake_aud::now_us(); }
+uint32_t bh_port_irq_save() { return 0; }
+void bh_port_irq_restore(uint32_t) {}
 
 void bh_port_printf(const char* format, ...) {
   char buffer[512];

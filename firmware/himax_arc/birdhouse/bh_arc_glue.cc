@@ -35,6 +35,7 @@
 
 extern "C" {
 #include "hx_drv_pdm_rx.h"
+#include "arc/arc_exception.h"
 #include "xprintf.h"
 uint64_t board_get_cur_us(void);
 bool __real_is_inference_running(void);
@@ -49,6 +50,15 @@ extern char _f_heap[];
 }
 
 uint64_t bh_port_now_us() { return board_get_cur_us(); }
+uint32_t bh_port_irq_save() {
+  const uint32_t state = cpu_lock_save();
+  __asm__ volatile("" ::: "memory");
+  return state;
+}
+void bh_port_irq_restore(uint32_t state) {
+  __asm__ volatile("" ::: "memory");
+  cpu_unlock_restore(state);
+}
 
 void bh_port_printf(const char* format, ...) {
   va_list args;

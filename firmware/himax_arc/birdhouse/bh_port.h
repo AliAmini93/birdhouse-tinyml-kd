@@ -12,13 +12,19 @@ class Capture;
 // Starts PDM capture; audio blocks are delivered to `capture` from interrupt
 // context until bh_port_pdm_stop(). Returns 0 on success.
 int bh_port_pdm_start(bh::Capture* capture);
-// Stops PDM capture. Returns 0 on success. A later start is always allowed.
+// Detaches the capture before stopping. Failed stop blocks starts until an
+// explicit stop retry succeeds. No callback may touch the detached object.
 int bh_port_pdm_stop();
+bool bh_port_pdm_faulted();
+uint32_t bh_port_pdm_late_callbacks();  // lifetime count, not per-capture stats
+// Single-core IRQ exclusion with compiler memory barriers; restore prior state.
+uint32_t bh_port_irq_save();
+void bh_port_irq_restore(uint32_t state);
 // Called when the PDM driver is torn down and restarted by the audio library's
 // own error handling (FIFO overflow). Interrupt context.
 void bh_port_on_pdm_reinit();
 
-// Monotonic microseconds. On the Himax this may be off by one second for a
+// Microseconds, NOT monotonic. On the Himax this may be off by one second for a
 // single reading (see bh_config.h).
 uint64_t bh_port_now_us();
 

@@ -28,6 +28,8 @@ uint32_t g_seq = 0;
 uint64_t g_capture_start_us = 0;
 bool g_in_poll = false;
 size_t g_arena_limit = 0;  // host tests only
+uint32_t g_pcm_valid_samples = 0;
+bool g_features_valid = false;
 
 const CaptureConfig kCaptureConfig = {
     kTargetSamples, kFramesPerBlock, kSettleBlocks,
@@ -35,12 +37,17 @@ const CaptureConfig kCaptureConfig = {
 
 uint32_t ClampU32(uint64_t v) { return v > 0xFFFFFFFFull ? 0xFFFFFFFFu : static_cast<uint32_t>(v); }
 unsigned long UL(uint64_t v) { return static_cast<unsigned long>(ClampU32(v)); }
+// The BSP can return one tick early; unsigned subtraction would look like a
+// multi-billion-year delay and immediately expire a newly started capture.
+uint64_t Elapsed(uint64_t now, uint64_t start) { return now >= start ? now - start : 0; }
 
 void BeginResult(RunSource source) {
   g_last = RunResult();
   g_last.seq = ++g_seq;
   g_last.source = source;
   g_last.state = kRunIdle;
+  g_pcm_valid_samples = 0;
+  g_features_valid = false;
 }
 
 void FailRun(RunStage stage, int detail) {
@@ -60,12 +67,13 @@ bool ProcessPcm() {
   const bool ok = birdhouse::PreprocessInt16PcmToInt8ModelInput(
       g_pcm, kTargetSamples, g_features, sizeof(g_features));
   const uint64_t t1 = bh_port_now_us();
-  g_last.preprocess_us = ClampU32(t1 - t0);
+  g_last.preprocess_us = ClampU32(Elapsed(t1, t0));
   if (!ok) {
     FailRun(kStagePreprocess, 0);
     return false;
   }
   g_last.feature_crc32 = Crc32(g_features, sizeof(g_features));
+  g_features_valid = true;
 
   // The interpreter reuses the input tensor's memory during Invoke, so the
   // features are kept in their own buffer and copied in before every run.
@@ -78,7 +86,7 @@ bool ProcessPcm() {
   const uint64_t t2 = bh_port_now_us();
   const ModelStatus st = ModelInvoke();
   const uint64_t t3 = bh_port_now_us();
-  g_last.invoke_us = ClampU32(t3 - t2);
+  g_last.invoke_us = ClampU32(Elapsed(t3, t2));
   if (st != kModelOk) {
     FailRun(kStageInvoke, st);
     return false;
@@ -87,7 +95,9 @@ bool ProcessPcm() {
   g_last.is_bird = ModelIsBird();
   g_last.p_bird_x10000 = static_cast<uint32_t>(
       (g_last.output_q - birdhouse::kModelOutputZeroPoint) * 10000 / 256);
-  g_last.has_decision = true;
+  // Keep raw inference for diagnosis, but never label questionable audio as
+  // a valid bird/non-bird observation.
+  g_last.has_decision = g_last.source != kSourceMicrophone || g_last.quality == kQualityClean;
   return true;
 }
 
@@ -95,6 +105,7 @@ void StopAudio() {
   const int rc = bh_port_pdm_stop();
   g_capture.Finish();
   g_last.capture = g_capture.stats();
+  g_pcm_valid_samples = g_last.capture.samples;
   if (rc != 0 && g_last.failed_stage == kStageNone) {
     // Reported, but the samples already in the buffer are not affected.
     g_last.failed_stage = kStagePdmStop;
@@ -126,9 +137,10 @@ void StartOneCapture() {
   g_state = kRunCapturing;
 }
 
-void FinishCapture() {
-  g_last.capture_us = ClampU32(bh_port_now_us() - g_capture_start_us);
+void FinishCapture(CaptureError reason = kCapNone) {
+  g_last.capture_us = ClampU32(Elapsed(bh_port_now_us(), g_capture_start_us));
   StopAudio();
+  if (reason != kCapNone) g_capture.Fail(reason);  // ISR detached, no first-error race
   const CaptureError err = g_capture.error();
   if (err != kCapNone) {
     FailRun(kStageCapture, err);
@@ -212,11 +224,14 @@ int RuntimeRequestRuns(uint32_t count) {
 void RuntimeCancel() {
   g_pending = 0;
   if (g_state == kRunCapturing) {
-    g_capture.Fail(kCapCancelled);
-    g_last.capture_us = ClampU32(bh_port_now_us() - g_capture_start_us);
+    g_last.capture_us = ClampU32(Elapsed(bh_port_now_us(), g_capture_start_us));
     StopAudio();
+    g_capture.Fail(kCapCancelled);
     FailRun(kStageCapture, g_capture.error());
     RuntimePrintResult(g_last);
+  } else if (bh_port_pdm_faulted()) {
+    const int rc = bh_port_pdm_stop();
+    bh_port_printf("BIRDHOUSE STOP retry_rc=%d faulted=%d\n", rc, bh_port_pdm_faulted() ? 1 : 0);
   }
 }
 
@@ -226,16 +241,17 @@ void RuntimePoll() {
 
   if (g_state == kRunCapturing) {
     bool finished = false;
+    CaptureError reason = kCapNone;
     if (g_capture.error() != kCapNone || g_capture.complete()) {
       finished = true;
-    } else if (bh_port_now_us() - g_capture_start_us > kCaptureDeadlineUs) {
-      g_capture.Fail(kCapTimeout);
+    } else if (Elapsed(bh_port_now_us(), g_capture_start_us) > kCaptureDeadlineUs) {
+      reason = kCapTimeout;
       finished = true;
     }
     if (finished) {
-      FinishCapture();
+      FinishCapture(reason);
       RuntimePrintResult(g_last);
-      if (g_state == kRunFailed) g_pending = 0;  // do not repeat a failing run
+      if (g_state == kRunFailed || !g_last.has_decision) g_pending = 0;
     }
   } else if (g_pending != 0) {
     --g_pending;
@@ -271,10 +287,11 @@ int RuntimeSelfTestModel(int step) {
     g_features[i] = static_cast<int8_t>(zp + delta / 8);  // truncates toward zero
   }
   g_last.feature_crc32 = Crc32(g_features, sizeof(g_features));
+  g_features_valid = true;
   std::memcpy(ModelInput(), g_features, sizeof(g_features));
   const uint64_t t0 = bh_port_now_us();
   const ModelStatus st = ModelInvoke();
-  g_last.invoke_us = ClampU32(bh_port_now_us() - t0);
+  g_last.invoke_us = ClampU32(Elapsed(bh_port_now_us(), t0));
   if (st != kModelOk) {
     FailRun(kStageInvoke, st);
     RuntimePrintResult(g_last);
@@ -326,6 +343,7 @@ int RuntimeRunSynthetic(int kind) {
     RuntimePrintResult(g_last);
     return -1;
   }
+  g_pcm_valid_samples = kTargetSamples;
   bh_port_printf("BIRDHOUSE SYNTH kind=%d name=%s\n", kind, SynthKindName(kind));
   if (ProcessPcm()) {
     g_last.state = kRunDone;
@@ -348,6 +366,9 @@ void RuntimePrintInfo() {
                  UL(kTargetSamples), UL(kSampleRateHz), UL(kDmaBlockBytes), UL(kDmaBlockCount),
                  UL(kDmaCallbackBlocks), UL(kSettleBlocks), ModelBirdThresholdQ());
   bh_port_print_platform_info();
+  bh_port_printf("BIRDHOUSE INFO pdm_faulted=%d detached_callbacks=%lu pcm_valid_samples=%lu features_valid=%d\n",
+                 bh_port_pdm_faulted() ? 1 : 0, UL(bh_port_pdm_late_callbacks()),
+                 UL(g_pcm_valid_samples), g_features_valid ? 1 : 0);
 }
 
 void RuntimePrintResult(const RunResult& r) {
@@ -388,7 +409,7 @@ void RuntimePrintResult(const RunResult& r) {
     bh_port_printf("BIRDHOUSE CHANNELS seq=%lu mean_abs_left=%lu mean_abs_right=%lu\n", UL(r.seq),
                    UL(c.sum_abs_left / n), UL(c.sum_abs_right / n));
   }
-  if (r.source == kSourceMicrophone || r.source == kSourceSynthetic) {
+  if ((r.source == kSourceMicrophone || r.source == kSourceSynthetic) && r.state == kRunDone) {
     bh_port_printf("BIRDHOUSE PCM seq=%lu crc=%08lx min=%ld max=%ld mean=%ld rms=%lu clipped=%lu zeros=%lu zero_run=%lu\n",
                    UL(r.seq), static_cast<unsigned long>(r.pcm_crc32), static_cast<long>(r.pcm.min),
                    static_cast<long>(r.pcm.max), static_cast<long>(r.pcm.mean), UL(r.pcm.rms),
@@ -400,11 +421,11 @@ void RuntimePrintResult(const RunResult& r) {
 }
 
 bool RuntimeDumpPcm(uint32_t offset, uint32_t count) {
-  return DumpBytes("pcm_s16le", g_pcm, sizeof(int16_t), kTargetSamples, offset, count);
+  return DumpBytes("pcm_s16le", g_pcm, sizeof(int16_t), g_pcm_valid_samples, offset, count);
 }
 
 bool RuntimeDumpFeatures(uint32_t offset, uint32_t count) {
-  return DumpBytes("features_s8", g_features, 1, birdhouse::kFeatureElements, offset, count);
+  return g_features_valid && DumpBytes("features_s8", g_features, 1, birdhouse::kFeatureElements, offset, count);
 }
 
 #if defined(BIRDHOUSE_HOST_BUILD)
@@ -423,6 +444,8 @@ void RuntimeTestReset() {
   g_capture_start_us = 0;
   g_in_poll = false;
   g_arena_limit = 0;
+  g_pcm_valid_samples = 0;
+  g_features_valid = false;
   std::memset(g_pcm, 0, sizeof(g_pcm));
   std::memset(g_features, 0, sizeof(g_features));
 }

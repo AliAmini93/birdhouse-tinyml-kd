@@ -48,10 +48,17 @@ audio_config_t g_config;
 
 bh::Capture* volatile g_capture = nullptr;
 volatile uint32_t g_started = 0;
+volatile uint32_t g_late_callbacks = 0;
 
 // Interrupt context.
 void OnAudio(uint32_t /*status*/) {
   bh::Capture* capture = g_capture;
+  // Detachment precedes stop(), including a failing stop. Do not even access
+  // the library ring after detachment: it may belong to a different client.
+  if (capture == nullptr) {
+    if (g_late_callbacks != 0xFFFFFFFFu) ++g_late_callbacks;
+    return;
+  }
   uint32_t address = 0;
   uint32_t blocks = 0;
   if (hx_lib_audio_request_read(&address, &blocks) != AUDIO_NO_ERROR) {
@@ -88,7 +95,6 @@ int bh_port_pdm_start(bh::Capture* capture) {
   if (capture == nullptr) return -4;
   if (g_started != 0) return -1;
 
-  g_capture = capture;
   g_config.sample_rate = AUDIO_SR_16KHZ;
   g_config.buffer_addr = g_dma_buffer;
   g_config.block_sz = bh::kDmaBlockBytes;
@@ -96,26 +102,38 @@ int bh_port_pdm_start(bh::Capture* capture) {
   g_config.cb_evt_blk = bh::kDmaCallbackBlocks;
 
   if (hx_lib_audio_register_evt_cb(OnAudio) != AUDIO_NO_ERROR) {
-    g_capture = nullptr;
     return -2;
   }
-  if (hx_lib_audio_start(&g_config) != AUDIO_NO_ERROR) {
-    g_capture = nullptr;
+  const uint32_t irq = bh_port_irq_save();
+  g_started = 1;
+  // Reset the library indices/configuration before publishing the new owner.
+  // Otherwise an old pending IRQ could copy the preceding run's ring into it.
+  const bool ok = hx_lib_audio_start(&g_config) == AUDIO_NO_ERROR;
+  if (ok) g_capture = capture;
+  bh_port_irq_restore(irq);
+  if (!ok) {
+    // A failed start can have enabled part of the driver. Stop explicitly;
+    // keep the fault latched if quiescence cannot be confirmed.
+    bh_port_pdm_stop();
     return -3;
   }
-  g_started = 1;
   return 0;
 }
 
 int bh_port_pdm_stop() {
   if (g_started == 0) return -1;
+  const uint32_t irq = bh_port_irq_save();
+  g_capture = nullptr;
+  bh_port_irq_restore(irq);
   const bool ok = hx_lib_audio_stop() == AUDIO_NO_ERROR;
-  // Cleared even if the library reports an error, so that a later start is
-  // not refused forever. g_capture stays set: a callback that was already
-  // pending is then delivered to a capture object that ignores it.
-  g_started = 0;
+  // A failed stop is not evidence that DMA stopped. Block future starts until
+  // an explicit stop retry succeeds. The detached capture is safe either way.
+  g_started = ok ? 0 : 2;
   return ok ? 0 : -2;
 }
+
+uint32_t bh_port_pdm_late_callbacks() { return g_late_callbacks; }
+bool bh_port_pdm_faulted() { return g_started == 2; }
 
 void bh_port_on_pdm_reinit() {
   bh::Capture* capture = g_capture;

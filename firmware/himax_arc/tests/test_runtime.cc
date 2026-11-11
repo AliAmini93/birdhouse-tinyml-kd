@@ -291,7 +291,7 @@ int main() {
     BH_CHECK(bh::RuntimeLastResult().state == bh::kRunDone);
   }
 
-  BH_CASE("PDM stop failure fails the run; the next start is still possible");
+  BH_CASE("PDM stop failure requires explicit successful stop retry");
   {
     Fresh();
     fake_aud::faults().fail_stop = true;
@@ -299,7 +299,10 @@ int main() {
     Drive();
     BH_CHECK(bh::RuntimeLastResult().state == bh::kRunFailed);
     BH_CHECK(bh::RuntimeLastResult().failed_stage == bh::kStagePdmStop);
+    BH_CHECK(fake_aud::running());
     fake_aud::faults().fail_stop = false;
+    bh::RuntimeCancel();  // explicit stop retry
+    BH_CHECK(!fake_aud::running());
     BH_CHECK(bh::RuntimeRequestRuns(1) == 0);
     Drive();
     BH_CHECK(bh::RuntimeLastResult().state == bh::kRunDone);
@@ -341,7 +344,7 @@ int main() {
     BH_CHECK(bh::RuntimeLastResult().failure_detail == bh::kCapBadBlock);
   }
 
-  BH_CASE("overrun inside the audio library: decision is produced but flagged SUSPECT");
+  BH_CASE("overrun inside the audio library: raw output is diagnostic only and queued runs stop");
   {
     Fresh();
     g_mic_kind = 2;
@@ -352,7 +355,8 @@ int main() {
     Drive();
     const bh::RunResult r = bh::RuntimeLastResult();
     BH_CHECK(fake_aud::counters().ring_overflows >= 1);
-    BH_CHECK(r.state == bh::kRunDone && r.has_decision);
+    BH_CHECK(r.state == bh::kRunDone && !r.has_decision);
+    BH_CHECK(Contains(host_port::Output(), "decision=NONE"));
     BH_CHECK(r.quality == bh::kQualitySuspect);
     BH_CHECK(r.pcm_crc32 != g_expected[2].pcm_crc);
     BH_CHECK(Contains(host_port::Output(), "quality=SUSPECT"));
@@ -366,7 +370,7 @@ int main() {
     BH_CHECK(bh::RuntimeRequestRuns(1) == 0);
     Drive();
     const bh::RunResult r = bh::RuntimeLastResult();
-    BH_CHECK(r.state == bh::kRunDone && r.quality == bh::kQualityClock);
+    BH_CHECK(r.state == bh::kRunDone && !r.has_decision && r.quality == bh::kQualityClock);
     BH_CHECK(r.pcm_crc32 == g_expected[3].pcm_crc);
     BH_CHECK(r.output_q == g_expected[3].output_q);
   }
@@ -446,6 +450,36 @@ int main() {
     BH_CHECK(!bh::RuntimeDumpPcm(79999, 2));
     BH_CHECK(!bh::RuntimeDumpFeatures(9960, 1));
     BH_CHECK(!bh::RuntimeDumpFeatures(0, 9961));
+  }
+
+  BH_CASE("dump provenance: no stale PCM after self-test or failed capture");
+  {
+    Fresh();
+    BH_CHECK(!bh::RuntimeDumpPcm(0, 1));
+    BH_CHECK(!bh::RuntimeDumpFeatures(0, 1));
+    BH_CHECK(bh::RuntimeRunSynthetic(1) == 0);
+    BH_CHECK(bh::RuntimeSelfTestModel() == 0);
+    BH_CHECK(!bh::RuntimeDumpPcm(0, 1));
+    BH_CHECK(bh::RuntimeDumpFeatures(0, 9960));
+    BH_CHECK(bh::RuntimeRequestRuns(1) == 0);
+    bh::RuntimePoll();
+    fake_aud::CompleteBlocks(4);  // 2048 valid samples, old tail must be inaccessible
+    bh::RuntimeCancel();
+    BH_CHECK(bh::RuntimeDumpPcm(0, 2048));
+    BH_CHECK(!bh::RuntimeDumpPcm(2048, 1));
+    BH_CHECK(!bh::RuntimeDumpFeatures(0, 1));
+  }
+
+  BH_CASE("backward BSP reading at start cannot cause unsigned timeout");
+  {
+    Fresh();
+    BH_CHECK(bh::RuntimeRequestRuns(1) == 0);
+    bh::RuntimePoll();
+    fake_aud::GlitchNextClockRead(-1000000);
+    bh::RuntimePoll();
+    BH_CHECK(bh::RuntimeState() == bh::kRunCapturing);
+    Drive();
+    BH_CHECK(bh::RuntimeLastResult().state == bh::kRunDone);
   }
 
   BH_CASE("idle polling does nothing and prints nothing");

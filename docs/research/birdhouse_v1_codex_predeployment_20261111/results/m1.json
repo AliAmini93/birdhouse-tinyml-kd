@@ -1,0 +1,39 @@
+{
+  "status": "PASS",
+  "suites": [
+    {
+      "suite": "diag",
+      "checks_passed": 71,
+      "checks_failed": 0,
+      "status": "PASS"
+    },
+    {
+      "suite": "capture",
+      "checks_passed": 280,
+      "checks_failed": 0,
+      "status": "PASS"
+    },
+    {
+      "suite": "pdm_port",
+      "checks_passed": 92,
+      "checks_failed": 0,
+      "status": "PASS"
+    },
+    {
+      "suite": "runtime",
+      "checks_passed": 302,
+      "checks_failed": 0,
+      "status": "PASS"
+    },
+    {
+      "suite": "tflm_inference",
+      "checks_passed": 586,
+      "checks_failed": 0,
+      "status": "PASS"
+    }
+  ],
+  "sanitizers": "address,undefined on first-party objects; vendor instrumentation corrected in M3",
+  "leak_detection": "disabled: LeakSanitizer cannot run under sandbox ptrace",
+  "arc_build": "PASS; no first-party warnings",
+  "hardware_access": false
+}

@@ -10,10 +10,11 @@
 //   * Between Begin() and Finish() the interrupt side owns the PCM buffer and
 //     all statistics. The main loop may only call running(), complete(),
 //     error() and samples(): each reads one machine word.
-//   * Begin() must be called while audio is stopped. Finish() must be called
-//     after audio has been stopped; from then on the main loop owns the buffer
+//   * Begin() must be called while detached from audio. Finish() must be called
+//     after port detachment; from then on the main loop owns the buffer
 //     and may read stats().
-//   * No locks, no interrupt masking, no queue.
+//   * The port detaches the ISR pointer under brief IRQ exclusion before stop.
+//     Late callbacks cannot touch this object. No masking during PCM copies.
 #ifndef BIRDHOUSE_HIMAX_BH_CAPTURE_H_
 #define BIRDHOUSE_HIMAX_BH_CAPTURE_H_
 
@@ -51,7 +52,7 @@ struct CaptureStats {
   uint32_t blocks_settle_dropped;
   uint32_t blocks_used;
   uint32_t blocks_after_complete;  // delivered after the last sample was taken
-  uint32_t callbacks_inactive;     // arrived outside Begin()..Finish()
+  uint32_t callbacks_inactive;     // reserved, always zero; port counts detached callbacks
   uint32_t min_blocks_per_callback;
   uint32_t max_blocks_per_callback;
   uint32_t samples;
@@ -80,10 +81,10 @@ class Capture {
   void OnBlocks(const int16_t* stereo, uint32_t blocks, uint64_t now_us);
   // Interrupt context. The PDM driver was torn down and restarted.
   void OnFifoEvent();
-  // Either context. The first error is kept.
+  // ISR while attached, or main context AFTER port detachment. First error kept.
   void Fail(CaptureError e);
 
-  // Main context, after audio has been stopped.
+  // Main context, after the port has detached this object under IRQ exclusion.
   void Finish();
 
   // Safe from the main loop at any time.
@@ -110,8 +111,7 @@ class Capture {
 // Continuity verdict derived from the statistics.
 enum CaptureQuality {
   kQualityClean = 0,    // regular callbacks and the span matches the nominal duration
-  kQualityClock = 1,    // regular callbacks, but the span disagrees with the nominal
-                        // duration by more than 1 %: the time base is off, not the audio
+  kQualityClock = 1,    // timing is unverified: scale/sample rate or tick-sized gaps
   kQualitySuspect = 2,  // irregular callbacks: a stall or a lost block is likely
 };
 const char* CaptureQualityName(CaptureQuality q);

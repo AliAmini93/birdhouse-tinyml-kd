@@ -60,6 +60,7 @@ struct Faults {
   bool fail_register;
   bool fail_start;
   bool fail_stop;
+  bool callback_during_stop;
   int fail_request_read;    // number of upcoming request_read calls that fail
   int fail_update_idx;
   int bad_address;          // number of upcoming request_read calls with a wrong address
@@ -69,6 +70,7 @@ struct Faults {
 
 struct Counters {
   uint32_t starts;
+  uint32_t requests;
   uint32_t stops;
   uint32_t blocks_completed;
   uint32_t callbacks;

@@ -75,7 +75,6 @@ void Capture::OnFifoEvent() {
 
 void Capture::OnBlocks(const int16_t* stereo, uint32_t blocks, uint64_t now_us) {
   if (active_ == 0) {
-    ++stats_.callbacks_inactive;
     return;
   }
   if (stereo == nullptr || blocks == 0) {
@@ -159,15 +158,19 @@ uint64_t NominalSpanUs(const CaptureStats& stats, const CaptureConfig& config) {
 
 CaptureQuality JudgeCapture(const CaptureStats& stats, const CaptureConfig& config) {
   if (stats.fifo_events != 0) return kQualitySuspect;
+  if (stats.samples != config.target_samples) return kQualitySuspect;
   if (stats.intervals == 0) return kQualitySuspect;
   const uint32_t measured = stats.intervals - stats.clock_steps;
   if (measured == 0) return kQualitySuspect;
+  // A tick-sized gap could also hide lost audio. Counting it is useful, but
+  // the host cannot prove that it was just the clock. Withhold valid decisions.
   // Irregular spacing means audio was lost or delayed, whatever the time base.
   if (stats.interval_max_us - stats.interval_min_us > config.interval_tolerance_us) {
     return kQualitySuspect;
   }
-  // Regular spacing that disagrees with the nominal value is a clock-scale
-  // problem (for example a CPU frequency the BSP did not expect).
+  if (stats.clock_steps != 0) return kQualityClock;
+  // Regular spacing that disagrees with nominal needs an external timebase:
+  // it could be a clock-scale problem OR a wrong sample rate / systematic loss.
   if (stats.interval_anomalies != 0) return kQualityClock;
   const uint64_t nominal = config.nominal_interval_us;
   const uint64_t mid = (static_cast<uint64_t>(stats.interval_min_us) + stats.interval_max_us) / 2;

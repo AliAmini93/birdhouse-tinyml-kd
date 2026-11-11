@@ -55,7 +55,6 @@ extern "C" AUDIO_ERROR_E hx_lib_audio_register_evt_cb(AUD_ISR_CB cb) {
 }
 
 extern "C" AUDIO_ERROR_E hx_lib_audio_start(audio_config_t* cfg) {
-  if (g.faults.fail_start) return AUDIO_ERROR_DRIVER;
   if (cfg->block_num > kMaxBlocks) {
     ++g.counters.fatal_block_count;  // the real library halts the CPU here
     return AUDIO_ERROR_INVALID_PARAMETERS;
@@ -66,16 +65,18 @@ extern "C" AUDIO_ERROR_E hx_lib_audio_start(audio_config_t* cfg) {
   g.frame = 0;
   g.running = true;
   ++g.counters.starts;
-  return AUDIO_NO_ERROR;
+  return g.faults.fail_start ? AUDIO_ERROR_DRIVER : AUDIO_NO_ERROR;
 }
 
 extern "C" AUDIO_ERROR_E hx_lib_audio_stop(void) {
-  g.running = false;
   ++g.counters.stops;
+  if (g.faults.callback_during_stop && g.callback != nullptr) g.callback(0);
+  if (!g.faults.fail_stop) g.running = false;
   return g.faults.fail_stop ? AUDIO_ERROR_NOT_INIT : AUDIO_NO_ERROR;
 }
 
 extern "C" AUDIO_ERROR_E hx_lib_audio_request_read(uint32_t* address, uint32_t* block_num) {
+  ++g.counters.requests;
   if (g.faults.fail_request_read > 0) {
     --g.faults.fail_request_read;
     return AUDIO_ERROR_DRIVER;

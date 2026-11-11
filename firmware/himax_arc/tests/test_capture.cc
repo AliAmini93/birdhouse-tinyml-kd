@@ -116,7 +116,7 @@ int main() {
     BH_CHECK(c.stats().callbacks == 41);  // statistics frozen at completion
     c.Finish();
     for (int i = 0; i < 3; ++i) f.Callback(&c, 2, 128000);  // late callbacks after stop
-    BH_CHECK(c.stats().callbacks_inactive == 3);
+    BH_CHECK(c.stats().callbacks_inactive == 0);
     BH_CHECK(std::memcmp(snapshot.data(), pcm.data(), bh::kTargetSamples * sizeof(int16_t)) == 0);
     BH_CHECK(pcm.GuardsIntact(bh::kTargetSamples));
   }
@@ -171,7 +171,7 @@ int main() {
     BH_CHECK(!c.Begin(pcm.data(), 100, kConfig));  // too small for 80,000
     BH_CHECK(c.error() == bh::kCapBadArgument && !c.running());
     f.Callback(&c, 2, 128000);
-    BH_CHECK(c.stats().callbacks_inactive == 1);
+    BH_CHECK(c.stats().callbacks_inactive == 0);
     BH_CHECK(pcm.GuardsIntact(100));
     bh::CaptureConfig zero = kConfig;
     zero.frames_per_block = 0;
@@ -307,7 +307,7 @@ int main() {
     BH_CHECK(d.stats().clock_steps == 4);
     BH_CHECK(d.stats().interval_anomalies == 0);
     BH_CHECK(d.stats().interval_min_us == 128000 && d.stats().interval_max_us == 128000);
-    BH_CHECK(bh::JudgeCapture(d.stats(), kConfig) == bh::kQualityClean);
+    BH_CHECK(bh::JudgeCapture(d.stats(), kConfig) == bh::kQualityClock);
   }
 
   BH_CASE("repeated use: a second Begin starts from a clean state");
