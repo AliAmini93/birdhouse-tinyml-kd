@@ -1,0 +1,55 @@
+$ make -C <repo>/firmware/himax_arc/tests -j8 tflm CONFIG=overlay
+make: Entering directory '<repo>/firmware/himax_arc/tests'
+g++ -std=c++11 -O2 -g -DTF_LITE_STATIC_MEMORY -DBIRDHOUSE_HOST_BUILD=1 -I<repo>/firmware/himax_arc/birdhouse/tflm_overlay -isystem <repo>/.local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3/app/scenario_app/edge_impulse_visionai/ei-model -I<repo> -Wall -Wextra -Werror  -MMD -MP -c <repo>/firmware/himax_arc/tests/test_tflm_inference.cc -o <repo>/.local-tools/port-hi …[line truncated]
+g++  -o <repo>/.local-tools/port-himax/host-tests/overlay/test_tflm_inference <repo>/.local-tools/port-himax/host-tests/overlay/repo/firmware/himax_arc/tests/test_tflm_inference.o <repo>/.local-tools/port-himax/host-tests/overlay/repo/firmware/model/student_final_int8_model_data.o <repo>/.local-tools/port-himax/host-tests/overlay/repo/firmware/himax_arc/birdhouse/bh_model.o <repo>/.local-tools/por …[line truncated]
+make: Leaving directory '<repo>/firmware/himax_arc/tests'
+[exit 0]
+$ <repo>/.local-tools/port-himax/host-tests/overlay/test_tflm_inference
+[case] argument and flatbuffer validation
+[case] initialisation and tensor contract
+  ModelInit -> OK
+  input: 9960 bytes, scale=0.02001843788 zero_point=-67
+  output: scale=0.00390625 zero_point=-128, bird threshold q>=45
+[case] arena requirement (host, 64-bit, reference kernels)
+  arena_used_bytes=148800 of 262144
+  minimum_arena_bytes=148800 (largest failing size 148784)
+  failing sizes probed: clean_error=374 assertion=8 (assertion window 148592..148752 bytes)
+  margin_at_160KiB=15040 margin_at_256KiB=113344
+[case] clean failure for a much too small arena, then recovery
+[case] re-initialisation after a failed attempt
+[case] reference vectors (expected values from TensorFlow Lite reference kernels)
+  python_reference_clip    q= 116 expected= 116 p_bird=0.9531 BIRD
+  all_zero_point           q=-128 expected=-128 p_bird=0.0000 NON-BIRD
+  all_min                  q=-100 expected=-100 p_bird=0.1094 NON-BIRD
+  all_max                  q=-128 expected=-128 p_bird=0.0000 NON-BIRD
+  ramp_mel                 q=-127 expected=-127 p_bird=0.0039 NON-BIRD
+  ramp_frame               q=-128 expected=-128 p_bird=0.0000 NON-BIRD
+  checker                  q=-111 expected=-111 p_bird=0.0664 NON-BIRD
+  lcg_full_1               q=-128 expected=-128 p_bird=0.0000 NON-BIRD
+  lcg_full_2               q=-128 expected=-128 p_bird=0.0000 NON-BIRD
+  lcg_full_3               q=-128 expected=-128 p_bird=0.0000 NON-BIRD
+  lcg_narrow_1             q=-125 expected=-125 p_bird=0.0117 NON-BIRD
+  lcg_narrow_2             q=-127 expected=-127 p_bird=0.0039 NON-BIRD
+  lcg_narrow_3             q=-125 expected=-125 p_bird=0.0117 NON-BIRD
+  ref_scaled_2_8           q=-125 expected=-125 p_bird=0.0117 NON-BIRD
+  ref_scaled_3_8           q= -89 expected= -89 p_bird=0.1523 NON-BIRD
+  ref_scaled_4_8           q=  12 expected=  12 p_bird=0.5469 NON-BIRD
+  ref_scaled_5_8           q= 100 expected= 100 p_bird=0.8906 BIRD
+  ref_scaled_6_8           q= 116 expected= 116 p_bird=0.9531 BIRD
+  ref_scaled_7_8           q= 116 expected= 116 p_bird=0.9531 BIRD
+  ref_noise_1              q= 108 expected= 108 p_bird=0.9219 BIRD
+  ref_noise_2              q= 111 expected= 111 p_bird=0.9336 BIRD
+  ref_noise_3              q= 111 expected= 111 p_bird=0.9336 BIRD
+  ref_shift_25             q= 116 expected= 116 p_bird=0.9531 BIRD
+  ref_shift_100            q= 114 expected= 114 p_bird=0.9453 BIRD
+  ref_shift_200            q= 108 expected= 108 p_bird=0.9219 BIRD
+  ref_reversed             q= 116 expected= 116 p_bird=0.9531 BIRD
+  vectors=26 mismatches=0 max_abs_diff=0
+[case] tracked reference output (firmware/inference/testdata)
+[case] repeated inference is deterministic (reverse order, with a re-init in the middle)
+[case] input tensor after Invoke (informational: is the buffer reused?)
+  input_preserved_after_invoke=false (the firmware refills the input before every Invoke)
+[case] arena guard zones
+RESULT {"arena_used_bytes":148800,"minimum_arena_bytes":148800,"vectors":26,"mismatches":0,"max_abs_diff":0,"invoke_count":15,"pointer_bits":64,"arena_assertion_window":[148592,148752],"arena_assertion_sizes":8}
+SUMMARY {"suite":"tflm_inference","checks_passed":574,"checks_failed":0,"status":"PASS"}
+[exit 0]

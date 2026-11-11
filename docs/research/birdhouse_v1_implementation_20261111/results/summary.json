@@ -1,0 +1,139 @@
+{
+  "generated_utc": "2026-11-11T10:19:28Z",
+  "git_head_when_run": "8a4d8dfbe69c628817c43388c38ef3ed2bef6bf5",
+  "overall": "PASS",
+  "steps": [
+    {
+      "id": "m1_01",
+      "milestone": "m1",
+      "name": "model manifest is reproducible from the tracked model array",
+      "negative_control": false,
+      "status": "PASS",
+      "details": {
+        "model_sha256": "9e04d17723b87f9acbba3030c23e1e50b551493125e9bf7dc0aeb27f0b12db55",
+        "operators": {
+          "CONV_2D": 6,
+          "DEPTHWISE_CONV_2D": 5,
+          "FULLY_CONNECTED": 2,
+          "LOGISTIC": 1,
+          "MEAN": 1
+        },
+        "peak_live_activation_bytes": 140000,
+        "identical_to_tracked": true
+      },
+      "log": "m1_01.log.txt"
+    },
+    {
+      "id": "m1_02",
+      "milestone": "m1",
+      "name": "ARC compiler sees the operator overlay: configuration audit passes",
+      "negative_control": false,
+      "status": "PASS",
+      "details": {
+        "verifier_exit": 0,
+        "summary": "[arc_config_overlay] 70 checks, 0 failed -> PASS"
+      },
+      "log": "m1_02.log.txt"
+    },
+    {
+      "id": "m1_03",
+      "milestone": "m1",
+      "name": "vendor operator configuration is rejected by the audit",
+      "negative_control": true,
+      "status": "PASS",
+      "details": {
+        "verifier_exit": 1,
+        "failed_checks": [
+          "FULLY_CONNECTED: EI_TFLITE_DISABLE_FULLY_CONNECTED_IN_I8 is not set",
+          "FULLY_CONNECTED: EI_TFLITE_DISABLE_FULLY_CONNECTED_OUT_I8 is not set"
+        ]
+      },
+      "log": "m1_03.log.txt"
+    },
+    {
+      "id": "m1_04",
+      "milestone": "m1",
+      "name": "stage50 build is rejected: disabled gate and stub kernel detected",
+      "negative_control": true,
+      "status": "PASS",
+      "details": {
+        "verifier_exit": 1,
+        "failed_checks": [
+          "FULLY_CONNECTED: EI_TFLITE_DISABLE_FULLY_CONNECTED_IN_I8 is not set | value='1'",
+          "FULLY_CONNECTED: EI_TFLITE_DISABLE_FULLY_CONNECTED_OUT_I8 is not set | value='1'",
+          "FULLY_CONNECTED: Eval is not a stub | tflite::Eval size=46 reachable_code=46B workers=[]"
+        ]
+      },
+      "log": "m1_04.log.txt"
+    },
+    {
+      "id": "m2_01",
+      "milestone": "m2",
+      "name": "reference vectors are reproducible with the TensorFlow Lite interpreter",
+      "negative_control": false,
+      "status": "PASS",
+      "details": {
+        "vectors": 26,
+        "tensorflow_version": "2.15.1",
+        "identical_to_tracked": true,
+        "tflite_reference_vs_default_kernel_differences": [
+          "lcg_narrow_3",
+          "ref_scaled_2_8"
+        ]
+      },
+      "log": "m2_01.log.txt"
+    },
+    {
+      "id": "m2_02",
+      "milestone": "m2",
+      "name": "host kernels are built with the same operator gates as the firmware",
+      "negative_control": false,
+      "status": "PASS",
+      "details": {
+        "verifier_exit": 0
+      },
+      "log": "m2_02.log.txt"
+    },
+    {
+      "id": "m2_03",
+      "milestone": "m2",
+      "name": "host inference on vendor TFLite Micro sources: init, arena, 26 vectors, repeat, errors",
+      "negative_control": false,
+      "status": "PASS",
+      "details": {
+        "summary": {
+          "suite": "tflm_inference",
+          "checks_passed": 574,
+          "checks_failed": 0,
+          "status": "PASS"
+        },
+        "result": {
+          "arena_used_bytes": 148800,
+          "minimum_arena_bytes": 148800,
+          "vectors": 26,
+          "mismatches": 0,
+          "max_abs_diff": 0,
+          "invoke_count": 15,
+          "pointer_bits": 64,
+          "arena_assertion_window": [
+            148592,
+            148752
+          ],
+          "arena_assertion_sizes": 8
+        }
+      },
+      "log": "m2_03.log.txt"
+    },
+    {
+      "id": "m2_04",
+      "milestone": "m2",
+      "name": "host inference with the vendor operator configuration is blocked",
+      "negative_control": true,
+      "status": "PASS",
+      "details": {
+        "blocked_at": "Invoke"
+      },
+      "log": "m2_04.log.txt"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+$ make -C <repo>/firmware/himax_arc/tests config-macros CONFIG=overlay
+make: Entering directory '<repo>/firmware/himax_arc/tests'
+make: Nothing to be done for 'config-macros'.
+make: Leaving directory '<repo>/firmware/himax_arc/tests'
+[exit 0]
+$ <python-env>/bin/python3 -I <repo>/tools/himax/verify_tflm_ops.py --label host_config_overlay --manifest <repo>/firmware/himax_arc/birdhouse/model_manifest.json --kernel-src <repo>/.local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3/app/scenario_app/edge_impulse_visionai/ei-model/edge-impulse-sdk/tensorflow/lite/micro/kernels --macros <repo>/.local-tools/port-himax/host-tests/overlay/tflm_config.macros --json-out <repo>/docs/research/birdhouse_v1_implementation_20261111/results/ops_host_config_overlay.json --host
+[host_config_overlay] 67 checks, 0 failed -> PASS
+[exit 0]

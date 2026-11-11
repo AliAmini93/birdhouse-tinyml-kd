@@ -1,0 +1,13 @@
+$ make -C <repo>/firmware/himax_arc/tests -j8 tflm CONFIG=vendor
+make: Entering directory '<repo>/firmware/himax_arc/tests'
+g++ -std=c++11 -O2 -g -DTF_LITE_STATIC_MEMORY -DBIRDHOUSE_HOST_BUILD=1  -isystem <repo>/.local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3/app/scenario_app/edge_impulse_visionai/ei-model -I<repo> -Wall -Wextra -Werror  -MMD -MP -c <repo>/firmware/himax_arc/tests/test_tflm_inference.cc -o <repo>/.local-tools/port-himax/host-tests/vendor/repo/firmware/himax_arc/test …[line truncated]
+g++  -o <repo>/.local-tools/port-himax/host-tests/vendor/test_tflm_inference <repo>/.local-tools/port-himax/host-tests/vendor/repo/firmware/himax_arc/tests/test_tflm_inference.o <repo>/.local-tools/port-himax/host-tests/vendor/repo/firmware/model/student_final_int8_model_data.o <repo>/.local-tools/port-himax/host-tests/vendor/repo/firmware/himax_arc/birdhouse/bh_model.o <repo>/.local-tools/port-hi …[line truncated]
+make: Leaving directory '<repo>/firmware/himax_arc/tests'
+[exit 0]
+$ <repo>/.local-tools/port-himax/host-tests/vendor/test_tflm_inference expect-blocked
+[case] negative control: vendor operator configuration must block the model
+  ModelInit -> OK
+  ModelInvoke -> INVOKE_FAILED
+  blocked_at=Invoke
+SUMMARY {"suite":"tflm_inference_expect_blocked","checks_passed":1,"checks_failed":0,"status":"PASS"}
+[exit 0]
