@@ -1,0 +1,7 @@
+$ <python-env>/bin/python3 -I <repo>/tools/himax/postlink_audit.py --elf <repo>/.local-tools/port-himax/bh-candidate/obj_socket_24/gnu_arcem9d_wei_r16/WEI_FW_gnu_arcem9d_wei_r16.elf --baseline-elf <repo>/.local-tools/port-himax/bh-vendor-baseline/obj_socket_24/gnu_arcem9d_wei_r16/WEI_FW_gnu_arcem9d_wei_r16.elf --ldscript <repo>/.local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3/app/scenario_app/edge_impulse_visionai/edge_impulse_visionai.ld --toolchain-bin <repo>/.local-tools/toolchains/arc_gnu_ei_prebuilt_minimal_elf32_le_linux_install/bin --manifest <repo>/firmware/himax_arc/birdhouse/model_manifest.json --stack-usage-root <repo>/.local-tools/port-himax/bh-candidate --json-out <repo>/docs/research/birdhouse_v1_implementation_20261111/results/postlink_candidate.json
+[postlink] 24 checks, 0 failed -> PASS
+  ICCM1: used 300230 / 327680 (91.62%), free 27450
+  SYSTEM0: used 848916 / 1439744 (58.96%), free 590828
+  DCCM: used 76960 / 253952 (30.3%), free 176992
+  heap 176992 bytes, stack 8188 bytes, known inference chain 1668 bytes
+[exit 0]

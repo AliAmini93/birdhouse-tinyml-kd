@@ -21,10 +21,10 @@ Evidence lives in `results/` next to this file: `summary.md`, `summary.json`, on
 | # | Milestone | Status | Commit |
 |---|---|---|---|
 | M0 | Project state recovered; research assessment saved | PASS | `8a4d8df` |
-| M1 | Model-execution blocker reproduced, fixed by overlay, guarded by an automated audit | PASS | see git log |
-| M2 | Offline TFLite Micro execution validated on host (reference kernels) | PASS | see git log |
-| M3 | Audio capture architecture implemented and host-tested | pending | |
-| M4 | Firmware candidate built; post-link audit | pending | |
+| M1 | Model-execution blocker reproduced, fixed by overlay, guarded by an automated audit | PASS | `b822c5b` |
+| M2 | Offline TFLite Micro execution validated on host (reference kernels) | PASS | `9fd8368` |
+| M3 | Audio capture architecture implemented and host-tested | PASS | see git log |
+| M4 | Firmware candidate built; post-link audit | PASS | see git log |
 | M5 | Offline packaging and image validation | pending | |
 
 ## M0 — project state
@@ -81,7 +81,7 @@ ARC simulator is installed. See M2.
 **What ran.** The vendor TFLite Micro sources (157 files, unmodified, compiled in place) built for
 x86-64 with the reference kernels, driven through the firmware's own wrapper
 `firmware/himax_arc/birdhouse/bh_model.cc`. Reference outputs come from the TensorFlow Lite
-interpreter (TF 2.15.1, reference kernels) on 26 deterministic inputs that both sides generate from
+interpreter (TF 2.15.1, reference kernels) on 28 deterministic inputs that both sides generate from
 the same integer rules; a hash of every input is checked before it is used.
 
 | Check | Result |
@@ -89,8 +89,8 @@ the same integer rules; a hash of every input is checked before it is used.
 | Model load, operator registration, `AllocateTensors` | PASS |
 | Input tensor INT8 `[1,40,249,1]`, 9,960 bytes, scale 0.0200184, zero point −67 | PASS |
 | Output tensor INT8, scale 1/256, zero point −128; bird threshold is raw output ≥ 45 | PASS |
-| `Invoke` on 26 inputs, raw output equal to TensorFlow Lite | PASS — 26/26, maximum difference 0 |
-| Bird / non-bird decision on all inputs (9 bird, 17 non-bird) | PASS |
+| `Invoke` on 28 inputs, raw output equal to TensorFlow Lite | PASS — 28/28, maximum difference 0 |
+| Bird / non-bird decision on all inputs (10 bird, 18 non-bird) | PASS |
 | Tracked reference clip gives 116 (p = 0.953, bird) | PASS |
 | Repeated inference, reverse order, re-initialisation in between | PASS — identical outputs |
 | Error handling: null arguments, corrupt identifier, use before init, arena too small | PASS |
@@ -107,7 +107,7 @@ MLI bookkeeping) and can only be read on the device.
 
 **Other observations**
 
-- TensorFlow Lite's own optimised and reference kernels differ by one output step on 2 of the 26
+- TensorFlow Lite's own optimised and reference kernels differ by one output step on 2 of the 28
   inputs. One-step differences between kernel implementations are therefore normal for this model;
   the ARC MLI kernels may show the same.
 - The input tensor is overwritten during `Invoke` (its memory is reused). The firmware must refill
@@ -117,3 +117,106 @@ MLI bookkeeping) and can only be read on the device.
 arena sizing and the numeric results of the *reference* kernels. It does not execute the ARC MLI
 kernels. ARC numeric behaviour stays unverified until the firmware's built-in self-test runs on the
 board or an ARC simulator becomes available.
+
+## M3 — audio capture architecture
+
+**Decision: capture-then-process, vendor application kept intact.** The stage50 design (per-sample
+queue with interrupt masking, streaming log-mel in the main loop, a modified copy of the vendor
+entry point) is replaced. Reasons, each backed by the research evidence:
+
+- The audio library calls the application inside the DMA-complete interrupt and re-arms the next
+  block from there. The binding constraint is interrupt latency at block boundaries, not the 20 ms
+  feature hop. Doing only a copy in the interrupt and nothing time-critical in the main loop is the
+  simplest design that respects it — and it is what the vendor's own ingestion code does.
+- About 590 KB of SYSTEM0 RAM is free even after a 256 KiB arena, so a linear 160 KB PCM buffer costs nothing that matters.
+- The batch preprocessing (`firmware/preprocess/audio_preprocess.cc`) already matched Python
+  exactly on the host. It is reused unchanged; the duplicated streaming FFT is not linked.
+- No derived vendor file: the module is attached with two link-time interpositions and registers
+  its own AT commands on the vendor console.
+
+**What was implemented** (`firmware/himax_arc/birdhouse/`)
+
+| File | Role |
+|---|---|
+| `bh_capture` | Interrupt-side core: drops the settle blocks, copies the left channel into the linear buffer, stops at exactly 80,000 samples, keeps timing and channel statistics. Lock-free by ownership rules written in the header. |
+| `bh_pdm_port.cc` | Adapter to the prebuilt audio library; validates block address and count; always returns blocks to the library; `stop` never blocks a later `start`. |
+| `bh_runtime` | State machine IDLE → CAPTURING → DONE/FAILED, failure stage and detail, repeat runs, timeout, cancel, diagnostics and dumps. |
+| `bh_diag` | CRC-32, PCM statistics, base64, deterministic integer test signals. |
+| `bh_model` | TFLite Micro wrapper (M2). |
+| `bh_arc_glue.cc` | Himax-only: AT commands, the two wrappers, stack high-water mark. |
+
+**Integrity of a recording.** The library hides overruns and FIFO overflows. They are detected here:
+
+- PDM FIFO overflow: the library's recovery path calls `hx_drv_pdm_deinit`; that call is
+  interposed and fails the run (`FIFO_OVERFLOW`).
+- Stalled callbacks / ring overrun inside the library: callback spacing is measured; irregular
+  spacing marks the result `SUSPECT` (a decision is still printed for diagnosis).
+- Wrong time base (for example a CPU clock the BSP did not expect): regular spacing that
+  disagrees with the nominal 128 ms marks the result `CLOCK`, so it cannot be mistaken for lost audio.
+- The vendor clock's one-tick (1 s) reading error is recognised and counted, not treated as loss.
+- Block address or count outside the ring, library errors, start/stop failures and a main-loop
+  deadline (8 s) each fail the run with their own code.
+
+**Path to continuous monitoring without redesign.** The interrupt side writes into a buffer it is
+handed; processing is decoupled from capture. Gapless operation needs a second 160 KB buffer and a
+swap at completion instead of a stop (RAM is available: 590 KB free). Not implemented now, to keep
+the first image small in risk; nothing in the current structure has to change for it.
+
+**Host tests** (`firmware/himax_arc/tests/`, built with `-Wall -Wextra -Werror`, C++11, address and
+undefined-behaviour sanitizers). The audio library is emulated from the disassembly findings
+(index rules, contiguous reads, silent overrun reset, callback threshold).
+
+| Suite | Checks | Covers |
+|---|---|---|
+| `test_diag` | 71 | CRC check value, base64 RFC vectors, statistics, signal determinism |
+| `test_capture` | 280 | exact 80,000 samples, settle drop, 1/2/3/mixed blocks per callback, targets on and off block boundaries, guard zones, invalid arguments, incomplete recording, FIFO event before/after completion, stall → SUSPECT, scaled clock → CLOCK, one-tick clock steps, reuse |
+| `test_pdm_port` | 75 | ring wraps, start/stop errors, stop failure no longer sticks, library errors, bad address, held-off interrupts (library overrun detected), late callback after stop |
+| `test_runtime` | 283 | microphone path equals the direct pipeline bit for bit, nothing printed during capture, 5 queued runs, 40-run soak, timeout, incomplete recording, every failure stage, cancel, model-init failure before audio starts, dumps decode back to the buffers, report format |
+
+**Not provable on the host:** behaviour of the real PDM front end (gain, DC settling, which channel
+carries the microphone), real interrupt latency, whether a callback can arrive after `stop`, real
+timing. The first image reports each of these (`BIRDHOUSE CAPTURE/TIMING/CHANNELS/PCM` lines).
+
+## M4 — firmware candidate
+
+Built out of tree with `tools/himax/sdk_make.sh` (vendor makefile + `build/birdhouse_overlay.mk`).
+The vendor SDK tree is unmodified after every build (checked by `m4_05`).
+
+| Region | Vendor only | Candidate | Size | Free |
+|---|---|---|---|---|
+| ICCM1 (code) | 269,834 | 300,230 (91.62 %) | 327,680 | 27,450 |
+| SYSTEM0 (data, big buffers) | 292,484 | 848,916 (58.96 %) | 1,439,744 | 590,828 |
+| DCCM (bss + heap) | 54,672 | 76,960 (30.30 %) | 253,952 | heap 176,992 |
+| Stack | 8,188 | 8,188 | — | known inference chain 1,668 bytes (20 %) |
+
+Buffers: tensor arena 262,144 bytes and PCM 160,000 bytes in SYSTEM0; features 9,960 bytes in
+SYSTEM0; DMA ring 16,384 bytes in DCCM, 32-byte aligned (same region the vendor firmware uses for
+its own DMA buffer).
+
+Post-link audit (`tools/himax/postlink_audit.py`, 24 checks, all PASS):
+
+- every section inside its linker region; margins above policy (16 KiB code, 256 KiB data, 128 KiB heap);
+- model bytes inside the ELF are identical to the tracked model array (sha256 `9e04d177…`);
+- both wrappers are linked, the vendor main loop calls the wrapper twice and the original zero
+  times, the audio library's de-init path calls the wrapper, each wrapper reaches the original;
+- no symbol of the stage50 design is linked;
+- stack: frame sizes from `-fstack-usage` summed along main loop → wrapper → runtime → interpreter →
+  largest kernel worker. Not included: prebuilt MLI assembly, interrupt frames, C start-up. The
+  firmware paints the stack and reports the real high-water mark in `AT+BIRDINFO?`.
+
+Operator audit of the candidate (`m4_03`): configuration, kernel objects and registrations in the ELF all PASS.
+
+**Console commands of the candidate** (vendor AT console, 921600 baud in normal mode):
+`AT+BIRDINFO?`, `AT+BIRDRUN`, `AT+BIRDRUN=n`, `AT+BIRDSTOP`, `AT+BIRDLAST?`, `AT+BIRDSELFTEST`,
+`AT+BIRDSELFTEST=k`, `AT+BIRDSYNTH=k`, `AT+BIRDPCM=offset,count`, `AT+BIRDFEAT=offset,count`.
+
+`AT+BIRDSELFTEST` needs no microphone: eight graded inputs give outputs from −128 to 116 and are
+compared with the TensorFlow Lite reference values. That is the first on-device evidence of ARC MLI
+numeric behaviour. Expected host values: `results/expected_device_values.json`.
+
+**Open risks after M4**
+
+- ARC MLI execution, real audio, timing and stack depth remain unmeasured (hardware only).
+- 27 KB of code space is left; further features must be weighed against it.
+- The vendor application's other functions (camera, Edge Impulse ingestion) are untouched but were
+  not exercised; starting vendor microphone sampling during a Birdhouse capture would conflict.

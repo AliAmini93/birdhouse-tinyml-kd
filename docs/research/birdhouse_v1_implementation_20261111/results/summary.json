@@ -1,6 +1,6 @@
 {
-  "generated_utc": "2026-11-11T10:19:28Z",
-  "git_head_when_run": "8a4d8dfbe69c628817c43388c38ef3ed2bef6bf5",
+  "generated_utc": "2026-11-11T10:40:33Z",
+  "git_head_when_run": "9fd8368604a828b3650a2f85adade7dde981e220",
   "overall": "PASS",
   "steps": [
     {
@@ -73,7 +73,7 @@
       "negative_control": false,
       "status": "PASS",
       "details": {
-        "vectors": 26,
+        "vectors": 28,
         "tensorflow_version": "2.15.1",
         "identical_to_tracked": true,
         "tflite_reference_vs_default_kernel_differences": [
@@ -103,17 +103,17 @@
       "details": {
         "summary": {
           "suite": "tflm_inference",
-          "checks_passed": 574,
+          "checks_passed": 586,
           "checks_failed": 0,
           "status": "PASS"
         },
         "result": {
           "arena_used_bytes": 148800,
           "minimum_arena_bytes": 148800,
-          "vectors": 26,
+          "vectors": 28,
           "mismatches": 0,
           "max_abs_diff": 0,
-          "invoke_count": 15,
+          "invoke_count": 16,
           "pointer_bits": 64,
           "arena_assertion_window": [
             148592,
@@ -134,6 +134,225 @@
         "blocked_at": "Invoke"
       },
       "log": "m2_04.log.txt"
+    },
+    {
+      "id": "m3_01",
+      "milestone": "m3",
+      "name": "diagnostics helpers (CRC-32, statistics, base64, synthetic signals)",
+      "negative_control": false,
+      "status": "PASS",
+      "details": {
+        "summary": {
+          "suite": "diag",
+          "checks_passed": 71,
+          "checks_failed": 0,
+          "status": "PASS"
+        },
+        "sanitizers": "address,undefined"
+      },
+      "log": "m3_01.log.txt"
+    },
+    {
+      "id": "m3_02",
+      "milestone": "m3",
+      "name": "capture core: 80,000 samples, settling, boundaries, errors, timing verdicts, reuse",
+      "negative_control": false,
+      "status": "PASS",
+      "details": {
+        "summary": {
+          "suite": "capture",
+          "checks_passed": 280,
+          "checks_failed": 0,
+          "status": "PASS"
+        },
+        "sanitizers": "address,undefined"
+      },
+      "log": "m3_02.log.txt"
+    },
+    {
+      "id": "m3_03",
+      "milestone": "m3",
+      "name": "PDM adapter against the emulated audio library (ring wrap, faults, overrun, late callback)",
+      "negative_control": false,
+      "status": "PASS",
+      "details": {
+        "summary": {
+          "suite": "pdm_port",
+          "checks_passed": 75,
+          "checks_failed": 0,
+          "status": "PASS"
+        },
+        "sanitizers": "address,undefined"
+      },
+      "log": "m3_03.log.txt"
+    },
+    {
+      "id": "m3_04",
+      "milestone": "m3",
+      "name": "end to end on host: audio emulation -> capture -> log-mel -> model -> report",
+      "negative_control": false,
+      "status": "PASS",
+      "details": {
+        "summary": {
+          "suite": "runtime",
+          "checks_passed": 283,
+          "checks_failed": 0,
+          "status": "PASS"
+        },
+        "sanitizers": "address,undefined",
+        "expected_values": 5
+      },
+      "log": "m3_04.log.txt"
+    },
+    {
+      "id": "m4_01",
+      "milestone": "m4",
+      "name": "vendor-only firmware builds from the pristine SDK (comparison baseline)",
+      "negative_control": false,
+      "status": "PASS",
+      "details": {
+        "linker_memory": {
+          "ICCM1": {
+            "used": 269834,
+            "percent": 82.35
+          },
+          "SYSTEM0": {
+            "used": 292484,
+            "percent": 20.32
+          },
+          "DCCM": {
+            "used": 54672,
+            "percent": 21.53
+          }
+        }
+      },
+      "log": "m4_01.log.txt"
+    },
+    {
+      "id": "m4_02",
+      "milestone": "m4",
+      "name": "candidate firmware builds and links; no compiler warnings in Birdhouse sources",
+      "negative_control": false,
+      "status": "PASS",
+      "details": {
+        "linker_memory": {
+          "ICCM1": {
+            "used": 300230,
+            "percent": 91.62
+          },
+          "SYSTEM0": {
+            "used": 848916,
+            "percent": 58.96
+          },
+          "DCCM": {
+            "used": 76960,
+            "percent": 30.3
+          }
+        },
+        "birdhouse_warnings": 0
+      },
+      "log": "m4_02.log.txt"
+    },
+    {
+      "id": "m4_03",
+      "milestone": "m4",
+      "name": "operator audit of the candidate: configuration, kernel objects, registrations in the ELF",
+      "negative_control": false,
+      "status": "PASS",
+      "details": {
+        "verifier_exit": 0,
+        "summary": "[candidate] 80 checks, 0 failed -> PASS"
+      },
+      "log": "m4_03.log.txt"
+    },
+    {
+      "id": "m4_04",
+      "milestone": "m4",
+      "name": "post-link audit: memory, buffers, model bytes, hooks at call sites, stack chain, heap",
+      "negative_control": false,
+      "status": "PASS",
+      "details": {
+        "memory": {
+          "ICCM0": {
+            "origin": "0x0",
+            "length": 65536,
+            "used": 0,
+            "free": 65536,
+            "used_percent": 0.0
+          },
+          "ICCM1": {
+            "origin": "0x10000000",
+            "length": 327680,
+            "used": 300230,
+            "free": 27450,
+            "used_percent": 91.62
+          },
+          "BOOT": {
+            "origin": "0x20000000",
+            "length": 133120,
+            "used": 133120,
+            "free": 0,
+            "used_percent": 100.0
+          },
+          "SYSTEM0": {
+            "origin": "0x20020800",
+            "length": 1439744,
+            "used": 848916,
+            "free": 590828,
+            "used_percent": 58.96
+          },
+          "DCCM": {
+            "origin": "0x80000000",
+            "length": 253952,
+            "used": 76960,
+            "free": 176992,
+            "used_percent": 30.3
+          },
+          ".stack": {
+            "origin": "0x8003e000",
+            "length": 8192,
+            "used": 0,
+            "free": 8192,
+            "used_percent": 0.0
+          },
+          "XCCM": {
+            "origin": "0x90000000",
+            "length": 32768,
+            "used": 32768,
+            "free": 0,
+            "used_percent": 100.0
+          },
+          "YCCM": {
+            "origin": "0xa0000000",
+            "length": 32768,
+            "used": 32768,
+            "free": 0,
+            "used_percent": 100.0
+          }
+        },
+        "heap_bytes": 176992,
+        "stack_bytes": 8188,
+        "known_inference_stack_chain_bytes": 1668,
+        "delta_vs_vendor_only": {
+          "ICCM1": 30396,
+          "SYSTEM0": 556432,
+          "DCCM": 22288
+        },
+        "elf_sha256": "896bee5ba5353b7744d85c9b36ec2f149dc45db8cdef3c60cf6560ced4ea4f6b"
+      },
+      "log": "m4_04.log.txt"
+    },
+    {
+      "id": "m4_05",
+      "milestone": "m4",
+      "name": "vendor SDK working tree is unmodified after all builds",
+      "negative_control": false,
+      "status": "PASS",
+      "details": {
+        "sdk_commit": "9dc2370d4dc269dc4bcafcf0354b8f745d08801f",
+        "modified_or_untracked_files": 0
+      },
+      "log": "m4_05.log.txt"
     }
   ]
 }

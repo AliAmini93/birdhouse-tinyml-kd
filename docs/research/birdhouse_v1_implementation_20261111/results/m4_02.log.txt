@@ -1,0 +1,98 @@
+$ <repo>/tools/himax/sdk_make.sh <repo>/.local-tools/port-himax/bh-candidate -j8
+make: Entering directory '<repo>/.local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3'
+board/board.mk:112: "------------------------------------------"
+board/board.mk:113: 
+board/board.mk:114: 162765
+board/board.mk:115: "------------------------------------------"
+Creating Directory    :  <repo>/.local-tools/port-himax/bh-candidate/obj_socket_24/gnu_arcem9d_wei_r16//app
+Creating Directory    :  <repo>/.local-tools/port-himax/bh-candidate/obj_socket_24/gnu_arcem9d_wei_r16/app/scenario_app/edge_impulse_visionai
+Creating Directory    :  <repo>/.local-tools/port-himax/bh-candidate/obj_socket_24/gnu_arcem9d_wei_r16/app/scenario_app/edge_impulse_visionai/datapath
+Creating Directory    :  <repo>/.local-tools/port-himax/bh-candidate/obj_socket_24/gnu_arcem9d_wei_r16/app/scenario_app/edge_impulse_visionai/drivers/sensor
+Creating Directory    :  <repo>/.local-tools/port-himax/bh-candidate/obj_socket_24/gnu_arcem9d_wei_r16/app/scenario_app/edge_impulse_visionai/drivers/sensor/camera
+Creating Directory    :  <repo>/.local-tools/port-himax/bh-candidate/obj_socket_24/gnu_arcem9d_wei_r16/app/scenario_app/edge_impulse_visionai/drivers/flash
+Creating Directory    :  <repo>/.local-tools/port-himax/bh-candidate/obj_socket_24/gnu_arcem9d_wei_r16/app/scenario_app/edge_impulse_visionai/debugger
+Creating Directory    :  <repo>/.local-tools/port-himax/bh-candidate/obj_socket_24/gnu_arcem9d_wei_r16/app/scenario_app/edge_impulse_visionai/drivers/sensor/imu
+Creating Directory    :  <repo>/.local-tools/port-himax/bh-candidate/obj_socket_24/gnu_arcem9d_wei_r16/app/scenario_app/edge_impulse_visionai/drivers/webusb
+Creating Directory    :  <repo>/.local-tools/port-himax/bh-candidate/obj_socket_24/gnu_arcem9d_wei_r16/app/scenario_app/edge_impulse_visionai/ei-model/edge-impulse-sdk/dsp/dct
+… [865 lines omitted] …
+Compiling (birdhouse)  :  firmware/himax_arc/birdhouse/bh_diag.cc
+arc-elf32-g++ -c -include ./board/socket/configs/24/core_config.h -DBOARD_HIMAXEM9D -DBOARD_SOCKET -DCHANG_PLL_BEFORE_PMU -DCIS_COMMON -DCIS_OV2640_BAYER -DCIS_OV_SENSOR -DCIS_XSHUT_SGPIO1 -DCPU_ARC -DCURRENT_CORE=arcem9d_wei_r16 -DDBG_LESS -DDEBUG -DEDGE_IMPULSE_VISIONAI -DEIDSP_QUANTIZE_FILTERBANK=0 -DEI_CLASSIFIER_ALLOCATION_STATIC_HIMAX_GNU -DEI_DSP_IMAGE_BUFFER_STATIC_SIZE=1024 -DEI_PORTING_S …[line truncated]
+Compiling (birdhouse)  :  firmware/himax_arc/birdhouse/bh_model.cc
+arc-elf32-g++ -c -include ./board/socket/configs/24/core_config.h -DBOARD_HIMAXEM9D -DBOARD_SOCKET -DCHANG_PLL_BEFORE_PMU -DCIS_COMMON -DCIS_OV2640_BAYER -DCIS_OV_SENSOR -DCIS_XSHUT_SGPIO1 -DCPU_ARC -DCURRENT_CORE=arcem9d_wei_r16 -DDBG_LESS -DDEBUG -DEDGE_IMPULSE_VISIONAI -DEIDSP_QUANTIZE_FILTERBANK=0 -DEI_CLASSIFIER_ALLOCATION_STATIC_HIMAX_GNU -DEI_DSP_IMAGE_BUFFER_STATIC_SIZE=1024 -DEI_PORTING_S …[line truncated]
+Compiling (birdhouse)  :  firmware/himax_arc/birdhouse/bh_runtime.cc
+arc-elf32-g++ -c -include ./board/socket/configs/24/core_config.h -DBOARD_HIMAXEM9D -DBOARD_SOCKET -DCHANG_PLL_BEFORE_PMU -DCIS_COMMON -DCIS_OV2640_BAYER -DCIS_OV_SENSOR -DCIS_XSHUT_SGPIO1 -DCPU_ARC -DCURRENT_CORE=arcem9d_wei_r16 -DDBG_LESS -DDEBUG -DEDGE_IMPULSE_VISIONAI -DEIDSP_QUANTIZE_FILTERBANK=0 -DEI_CLASSIFIER_ALLOCATION_STATIC_HIMAX_GNU -DEI_DSP_IMAGE_BUFFER_STATIC_SIZE=1024 -DEI_PORTING_S …[line truncated]
+Compiling (birdhouse)  :  firmware/himax_arc/birdhouse/bh_pdm_port.cc
+arc-elf32-g++ -c -include ./board/socket/configs/24/core_config.h -DBOARD_HIMAXEM9D -DBOARD_SOCKET -DCHANG_PLL_BEFORE_PMU -DCIS_COMMON -DCIS_OV2640_BAYER -DCIS_OV_SENSOR -DCIS_XSHUT_SGPIO1 -DCPU_ARC -DCURRENT_CORE=arcem9d_wei_r16 -DDBG_LESS -DDEBUG -DEDGE_IMPULSE_VISIONAI -DEIDSP_QUANTIZE_FILTERBANK=0 -DEI_CLASSIFIER_ALLOCATION_STATIC_HIMAX_GNU -DEI_DSP_IMAGE_BUFFER_STATIC_SIZE=1024 -DEI_PORTING_S …[line truncated]
+Compiling (birdhouse)  :  firmware/himax_arc/birdhouse/bh_arc_glue.cc
+arc-elf32-g++ -c -include ./board/socket/configs/24/core_config.h -DBOARD_HIMAXEM9D -DBOARD_SOCKET -DCHANG_PLL_BEFORE_PMU -DCIS_COMMON -DCIS_OV2640_BAYER -DCIS_OV_SENSOR -DCIS_XSHUT_SGPIO1 -DCPU_ARC -DCURRENT_CORE=arcem9d_wei_r16 -DDBG_LESS -DDEBUG -DEDGE_IMPULSE_VISIONAI -DEIDSP_QUANTIZE_FILTERBANK=0 -DEI_CLASSIFIER_ALLOCATION_STATIC_HIMAX_GNU -DEI_DSP_IMAGE_BUFFER_STATIC_SIZE=1024 -DEI_PORTING_S …[line truncated]
+Compiling (birdhouse)  :  firmware/preprocess/audio_preprocess.cc
+arc-elf32-g++ -c -include ./board/socket/configs/24/core_config.h -DBOARD_HIMAXEM9D -DBOARD_SOCKET -DCHANG_PLL_BEFORE_PMU -DCIS_COMMON -DCIS_OV2640_BAYER -DCIS_OV_SENSOR -DCIS_XSHUT_SGPIO1 -DCPU_ARC -DCURRENT_CORE=arcem9d_wei_r16 -DDBG_LESS -DDEBUG -DEDGE_IMPULSE_VISIONAI -DEIDSP_QUANTIZE_FILTERBANK=0 -DEI_CLASSIFIER_ALLOCATION_STATIC_HIMAX_GNU -DEI_DSP_IMAGE_BUFFER_STATIC_SIZE=1024 -DEI_PORTING_S …[line truncated]
+Compiling (birdhouse)  :  firmware/preprocess/mel_filterbank.cc
+arc-elf32-g++ -c -include ./board/socket/configs/24/core_config.h -DBOARD_HIMAXEM9D -DBOARD_SOCKET -DCHANG_PLL_BEFORE_PMU -DCIS_COMMON -DCIS_OV2640_BAYER -DCIS_OV_SENSOR -DCIS_XSHUT_SGPIO1 -DCPU_ARC -DCURRENT_CORE=arcem9d_wei_r16 -DDBG_LESS -DDEBUG -DEDGE_IMPULSE_VISIONAI -DEIDSP_QUANTIZE_FILTERBANK=0 -DEI_CLASSIFIER_ALLOCATION_STATIC_HIMAX_GNU -DEI_DSP_IMAGE_BUFFER_STATIC_SIZE=1024 -DEI_PORTING_S …[line truncated]
+Compiling (birdhouse)  :  firmware/model/student_final_int8_model_data.cc
+arc-elf32-g++ -c -include ./board/socket/configs/24/core_config.h -DBOARD_HIMAXEM9D -DBOARD_SOCKET -DCHANG_PLL_BEFORE_PMU -DCIS_COMMON -DCIS_OV2640_BAYER -DCIS_OV_SENSOR -DCIS_XSHUT_SGPIO1 -DCPU_ARC -DCURRENT_CORE=arcem9d_wei_r16 -DDBG_LESS -DDEBUG -DEDGE_IMPULSE_VISIONAI -DEIDSP_QUANTIZE_FILTERBANK=0 -DEI_CLASSIFIER_ALLOCATION_STATIC_HIMAX_GNU -DEI_DSP_IMAGE_BUFFER_STATIC_SIZE=1024 -DEI_PORTING_S …[line truncated]
+Archiving             :  <repo>/.local-tools/port-himax/bh-candidate/obj_socket_24/gnu_arcem9d_wei_r16/libboard_open_socket.a
+arc-elf32-ar -rcs <repo>/.local-tools/port-himax/bh-candidate/obj_socket_24/gnu_arcem9d_wei_r16/libboard_open_socket.a <repo>/.local-tools/port-himax/bh-candidate/obj_socket_24/gnu_arcem9d_wei_r16/platform/peripheral/spi_m/spi_master_protocol.o <repo>/.local-tools/port-himax/bh-candidate/obj_socket_24/gnu_arcem9d_wei_r16/platform/peripheral/spi_s/spi_slave_protocol.o <repo>/.local-tools/port-himax …[line truncated]
+Archiving             :  <repo>/.local-tools/port-himax/bh-candidate/obj_socket_24/gnu_arcem9d_wei_r16/libbss.a
+arc-elf32-ar -rcs <repo>/.local-tools/port-himax/bh-candidate/obj_socket_24/gnu_arcem9d_wei_r16/libbss.a <repo>/.local-tools/port-himax/bh-candidate/obj_socket_24/gnu_arcem9d_wei_r16/def_linker_script/bss/hx_bss_handle.o  
+In file included from ./app/scenario_app/edge_impulse_visionai/ei-model/edge-impulse-sdk/tensorflow/lite/micro/micro_allocator.h:25,
+                 from ./app/scenario_app/edge_impulse_visionai/ei-model/edge-impulse-sdk/tensorflow/lite/micro/micro_interpreter.h:26,
+                 from <repo>/firmware/himax_arc/birdhouse/bh_model.cc:10:
+./app/scenario_app/edge_impulse_visionai/ei-model/edge-impulse-sdk/tensorflow/lite/micro/memory_planner/micro_memory_planner.h: In member function ‘virtual TfLiteStatus tflite::MicroMemoryPlanner::AddBuffer(int, int, int, int)’:
+./app/scenario_app/edge_impulse_visionai/ei-model/edge-impulse-sdk/tensorflow/lite/micro/memory_planner/micro_memory_planner.h:62:38: warning: unused parameter ‘size’ [-Wunused-parameter]
+   62 |   virtual TfLiteStatus AddBuffer(int size, int first_time_used,
+      |                                  ~~~~^~~~
+./app/scenario_app/edge_impulse_visionai/ei-model/edge-impulse-sdk/tensorflow/lite/micro/memory_planner/micro_memory_planner.h:62:48: warning: unused parameter ‘first_time_used’ [-Wunused-parameter]
+   62 |   virtual TfLiteStatus AddBuffer(int size, int first_time_used,
+      |                                            ~~~~^~~~~~~~~~~~~~~
+./app/scenario_app/edge_impulse_visionai/ei-model/edge-impulse-sdk/tensorflow/lite/micro/memory_planner/micro_memory_planner.h:63:38: warning: unused parameter ‘last_time_used’ [-Wunused-parameter]
+   63 |                                  int last_time_used, int offline_offset) {
+      |                                  ~~~~^~~~~~~~~~~~~~
+./app/scenario_app/edge_impulse_visionai/ei-model/edge-impulse-sdk/tensorflow/lite/micro/memory_planner/micro_memory_planner.h:63:58: warning: unused parameter ‘offline_offset’ [-Wunused-parameter]
+   63 |                                  int last_time_used, int offline_offset) {
+      |                                                      ~~~~^~~~~~~~~~~~~~
+./app/scenario_app/edge_impulse_visionai/ei-model/edge-impulse-sdk/tensorflow/lite/micro/memory_planner/micro_memory_planner.h: In member function ‘virtual TfLiteStatus tflite::MicroMemoryPlanner::Init(unsigned char*, int)’:
+./app/scenario_app/edge_impulse_visionai/ei-model/edge-impulse-sdk/tensorflow/lite/micro/memory_planner/micro_memory_planner.h:79:44: warning: unused parameter ‘scratch_buffer’ [-Wunused-parameter]
+   79 |   virtual TfLiteStatus Init(unsigned char* scratch_buffer,
+      |                             ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
+./app/scenario_app/edge_impulse_visionai/ei-model/edge-impulse-sdk/tensorflow/lite/micro/memory_planner/micro_memory_planner.h:80:33: warning: unused parameter ‘scratch_buffer_size’ [-Wunused-parameter]
+   80 |                             int scratch_buffer_size) {
+      |                             ~~~~^~~~~~~~~~~~~~~~~~~
+In file included from ./app/scenario_app/edge_impulse_visionai/ei-model/edge-impulse-sdk/tensorflow/lite/micro/micro_interpreter.h:27,
+                 from <repo>/firmware/himax_arc/birdhouse/bh_model.cc:10:
+./app/scenario_app/edge_impulse_visionai/ei-model/edge-impulse-sdk/tensorflow/lite/micro/micro_context.h: In function ‘TfLiteExternalContext* tflite::MicroContextGetExternalContext(TfLiteContext*, TfLiteExternalContextType)’:
+./app/scenario_app/edge_impulse_visionai/ei-model/edge-impulse-sdk/tensorflow/lite/micro/micro_context.h:150:55: warning: unused parameter ‘unused’ [-Wunused-parameter]
+  150 |     TfLiteContext* context, TfLiteExternalContextType unused) {
+      |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+In file included from ./app/scenario_app/edge_impulse_visionai/ei-model/edge-impulse-sdk/tensorflow/lite/micro/op_resolver_bridge.h:20,
+                 from ./app/scenario_app/edge_impulse_visionai/ei-model/edge-impulse-sdk/tensorflow/lite/micro/micro_op_resolver.h:20,
+                 from ./app/scenario_app/edge_impulse_visionai/ei-model/edge-impulse-sdk/tensorflow/lite/micro/micro_interpreter.h:29,
+                 from <repo>/firmware/himax_arc/birdhouse/bh_model.cc:10:
+./app/scenario_app/edge_impulse_visionai/ei-model/edge-impulse-sdk/tensorflow/lite/core/api/op_resolver.h: In member function ‘virtual tflite::OpResolver::TfLiteDelegatePtrVector tflite::OpResolver::GetDelegates(int) const’:
+./app/scenario_app/edge_impulse_visionai/ei-model/edge-impulse-sdk/tensorflow/lite/core/api/op_resolver.h:48:52: warning: unused parameter ‘num_threads’ [-Wunused-parameter]
+   48 |   virtual TfLiteDelegatePtrVector GetDelegates(int num_threads) const {
+      |                                                ~~~~^~~~~~~~~~~
+In file included from ./app/scenario_app/edge_impulse_visionai/ei-model/edge-impulse-sdk/tensorflow/lite/micro/micro_interpreter.h:29,
+                 from <repo>/firmware/himax_arc/birdhouse/bh_model.cc:10:
+./app/scenario_app/edge_impulse_visionai/ei-model/edge-impulse-sdk/tensorflow/lite/micro/micro_op_resolver.h: In member function ‘virtual const TfLiteRegistration* tflite::MicroOpResolver::FindOp(tflite::BuiltinOperator, int) const’:
+./app/scenario_app/edge_impulse_visionai/ei-model/edge-impulse-sdk/tensorflow/lite/micro/micro_op_resolver.h:48:40: warning: unused parameter ‘version’ [-Wunused-parameter]
+   48 |                                    int version) const final {
+      |                                    ~~~~^~~~~~~
+./app/scenario_app/edge_impulse_visionai/ei-model/edge-impulse-sdk/tensorflow/lite/micro/micro_op_resolver.h: In member function ‘virtual const TfLiteRegistration* tflite::MicroOpResolver::FindOp(const char*, int) const’:
+./app/scenario_app/edge_impulse_visionai/ei-model/edge-impulse-sdk/tensorflow/lite/micro/micro_op_resolver.h:54:56: warning: unused parameter ‘version’ [-Wunused-parameter]
+   54 |   const TfLiteRegistration* FindOp(const char* op, int version) const final {
+      |                                                    ~~~~^~~~~~~
+Linking               :  <repo>/.local-tools/port-himax/bh-candidate/obj_socket_24/gnu_arcem9d_wei_r16/WEI_FW_gnu_arcem9d_wei_r16.elf
+arc-elf32-gcc @<repo>/.local-tools/port-himax/bh-candidate/obj_socket_24/gnu_arcem9d_wei_r16/embARC_generated/gcc.arg    -mno-sdata -nostartfiles -Wl,-M,-Map=<repo>/.local-tools/port-himax/bh-candidate/obj_socket_24/gnu_arcem9d_wei_r16/WEI_FW_gnu_arcem9d_wei_r16.map -lm -Wl,--script=<repo>/.local-tools/port-himax/bh-candidate/obj_socket_24/gnu_arcem9d_wei_r16/linker_gnu.ldf -Wl,--print-memory-usag …[line truncated]
+Memory region         Used Size  Region Size  %age Used
+           ICCM0:          0 GB        64 KB      0.00%
+           ICCM1:      300230 B       320 KB     91.62%
+            BOOT:        130 KB       130 KB    100.00%
+         SYSTEM0:      848916 B      1406 KB     58.96%
+            DCCM:       76960 B       248 KB     30.30%
+          .stack:          0 GB         8 KB      0.00%
+            XCCM:         32 KB        32 KB    100.00%
+            YCCM:         32 KB        32 KB    100.00%
+<repo>/.local-tools/toolchains/arc_gnu_ei_prebuilt_minimal_elf32_le_linux_install/bin/../lib/gcc/arc-elf32/10.2.0/../../../../arc-elf32/bin/ld: total time in link: 0.126283
+make: Leaving directory '<repo>/.local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3'
+[exit 0]

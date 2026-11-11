@@ -1,0 +1,6 @@
+$ git -C <repo>/.local-tools/source/firmware-seeed-grove-vision-ai status --porcelain
+
+[exit 0]
+$ git -C <repo>/.local-tools/source/firmware-seeed-grove-vision-ai rev-parse HEAD
+9dc2370d4dc269dc4bcafcf0354b8f745d08801f
+[exit 0]

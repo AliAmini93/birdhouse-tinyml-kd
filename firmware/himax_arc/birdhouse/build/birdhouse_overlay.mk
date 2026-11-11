@@ -27,6 +27,13 @@ BH_LINK ?= 1
 
 BH_SRC_DIR := $(BH_REPO)/firmware/himax_arc/birdhouse
 
+# 1 = also emit per-function stack usage files (*.su) next to every object the
+# SDK compiles. Does not change generated code; read by tools/himax/postlink_audit.py.
+BH_STACK_USAGE ?= 1
+ifeq ($(BH_STACK_USAGE),1)
+override ALL_DEFINES += -fstack-usage
+endif
+
 ifeq ($(BH_TFLM_OVERLAY),1)
 # ALL_DEFINES precedes the SDK include list on every compile line, so this
 # directory is searched first for "tflite-model/trained_model_ops_define.h".
@@ -47,3 +54,38 @@ bh_tflm_config: $(CORE_ARG_FILES)
 	$(CXX) -E -dM $(TCF_FLAGS) $(ALL_DEFINES) $(CXX_COMPILE_OPT) \
 	    $(BH_SRC_DIR)/build/tflm_config_probe.cc -o $(BH_OBJ)/tflm_config.macros
 	@echo "Wrote $(BH_OBJ)/tflm_config.macros"
+
+# ---------------------------------------------------------------------------
+# Birdhouse module: compiled with the firmware flags, linked into the vendor
+# application. The vendor entry point is untouched; two functions are
+# interposed with --wrap (see bh_arc_glue.cc).
+# ---------------------------------------------------------------------------
+ifeq ($(BH_LINK),1)
+
+BH_SOURCES := \
+    firmware/himax_arc/birdhouse/bh_capture.cc \
+    firmware/himax_arc/birdhouse/bh_diag.cc \
+    firmware/himax_arc/birdhouse/bh_model.cc \
+    firmware/himax_arc/birdhouse/bh_runtime.cc \
+    firmware/himax_arc/birdhouse/bh_pdm_port.cc \
+    firmware/himax_arc/birdhouse/bh_arc_glue.cc \
+    firmware/preprocess/audio_preprocess.cc \
+    firmware/preprocess/mel_filterbank.cc \
+    firmware/model/student_final_int8_model_data.cc
+
+BH_OBJS := $(patsubst %.cc,$(BH_OBJ)/%.o,$(BH_SOURCES))
+
+$(BH_OBJS): $(BH_OBJ)/%.o: $(BH_REPO)/%.cc $(CORE_ARG_FILES)
+	@mkdir -p $(dir $@)
+	@echo "Compiling (birdhouse)  :  $*.cc"
+	$(Q)$(CXX) -c $(TCF_FLAGS) $(ALL_DEFINES) $(CXX_COMPILE_OPT) -I$(BH_REPO) -Wall -Wextra $< -o $@
+
+EXTRA_OBJS += $(BH_OBJS)
+LINK_OPT += -Wl,--wrap=is_inference_running
+LINK_OPT += -Wl,--wrap=hx_drv_pdm_deinit
+
+$(APPL_FULL_NAME).elf: $(BH_OBJS)
+
+-include $(BH_OBJS:.o=.o.d)
+
+endif
