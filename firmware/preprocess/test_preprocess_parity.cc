@@ -168,10 +168,9 @@ int main(int argc, char** argv) {
       << "acceptance_rule: mean_abs_diff_int8 <= 2 and "
          "within_2_pct >= 95\n";
   std::cout << "status: "
-            << (pass_initial ? "PASS" : "WARN") << "\n";
+            << (pass_initial ? "PASS" : "FAIL") << "\n";
   std::cout
       << "======================================================================\n";
 
-  // Keep report generation possible even for WARN.
-  return 0;
+  return pass_initial ? 0 : 1;
 }

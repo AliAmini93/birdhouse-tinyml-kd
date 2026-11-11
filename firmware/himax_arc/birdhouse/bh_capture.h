@@ -44,6 +44,7 @@ struct CaptureConfig {
   uint32_t nominal_interval_us;
   uint32_t interval_tolerance_us;
   uint32_t clock_tick_us;
+  uint32_t callback_blocks;  // expected delivered batch size; deviations invalidate timing
 };
 
 struct CaptureStats {

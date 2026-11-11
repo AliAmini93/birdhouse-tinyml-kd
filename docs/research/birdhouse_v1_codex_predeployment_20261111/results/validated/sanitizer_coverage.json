@@ -1,0 +1,48 @@
+{
+  "status": "PASS",
+  "vendor_compile_flags": "-fsanitize=address,undefined -fno-omit-frame-pointer",
+  "inspected_vendor_objects": [
+    {
+      "object": "conv.cc.o",
+      "address_sanitizer_calls": true,
+      "undefined_behavior_sanitizer_calls": true
+    },
+    {
+      "object": "depthwise_conv.cc.o",
+      "address_sanitizer_calls": true,
+      "undefined_behavior_sanitizer_calls": true
+    },
+    {
+      "object": "fully_connected.cc.o",
+      "address_sanitizer_calls": true,
+      "undefined_behavior_sanitizer_calls": true
+    },
+    {
+      "object": "reduce.cc.o",
+      "address_sanitizer_calls": true,
+      "undefined_behavior_sanitizer_calls": true
+    },
+    {
+      "object": "logistic.cc.o",
+      "address_sanitizer_calls": true,
+      "undefined_behavior_sanitizer_calls": true
+    },
+    {
+      "object": "ei_at_server.o",
+      "address_sanitizer_calls": true,
+      "undefined_behavior_sanitizer_calls": true
+    },
+    {
+      "object": "ei_at_parser.o",
+      "address_sanitizer_calls": true,
+      "undefined_behavior_sanitizer_calls": true
+    },
+    {
+      "object": "ei_at_server_singleton.o",
+      "address_sanitizer_calls": true,
+      "undefined_behavior_sanitizer_calls": false
+    }
+  ],
+  "note": "The trivial singleton emits no UBSan calls; both flags are on its compile command.",
+  "leak_detection": "disabled under traced sandbox; no leak-check claim"
+}

@@ -63,3 +63,46 @@ M3 strengthens warning attribution rather than treating a successful link as pro
 
 M1 synchronization: local and remote were both
 `30e713139ea6a8d3eff18c222839020f3543f774` immediately after its successful push.
+
+## M3 — independent validation, packaging and recovery review: PASS / BLOCKED
+
+**Offline validation PASS: 22/22**, recorded in `results/validated/summary.json`.
+Six fully instrumented capture/runtime/console/preprocessing suites pass 796
+assertions; host model inference passes 586 assertions with 28/28 raw outputs
+bit-exact. Real vendor kernel and AT object instrumentation is checked separately.
+The stored Python preprocessing oracle matches all 9,960 output elements.
+
+Further repaired issues: the legacy preprocessing parity program returned zero
+on WARN; it now fails its process status. The SDK AT parser threw on whitespace;
+a small link interposition uses its own empty-input path, with real-dispatcher
+regression coverage and an ARC post-link call-site check. Unexpected callback
+batch size now invalidates capture timing even when timestamps appear regular.
+
+Tooling now instruments vendor TFLM as well as first-party objects, tracks vendor
+header dependencies, regenerates all three reference files outside tracked
+sources, rejects unsafe make arguments/inherited make options, preserves old
+build/results trees and marks skipped checks NOT_RUN/PARTIAL. Backend value 2 is
+rejected (the SDK selects ARC only with ==1); the final ELF must contain the real
+INT8 MLI workers. First-party ARC warnings are fatal; system-header warnings are
+attributed to their actual diagnostic filename, including parallel make output.
+
+Packaging supplies the ARC tools explicitly (the old implementation relied on
+ambient PATH), runs in a namespace hiding devices, USB metadata, host sockets,
+mounted media and network, and checks every ELF payload byte and destination in
+binary loader descriptors. Deliberate payload/descriptor corruptions are rejected.
+The packager/converter preserve prior outputs and never enumerate USB or deploy.
+SOURCE_DATE_EPOCH pins the SDK build stamp. Two clean builds yield the same ELF;
+two packaging runs yield the same image. All generated binaries remain local.
+
+Initial failed runs are preserved locally. The first exposed vendor-header
+warnings after enabling Werror; the second exposed misattribution of an
+interleaved vendor warning. Both are fixed with focused regressions. The final
+22-step report is a fresh run and inherits no earlier PASS records.
+
+Stack safety is explicitly UNPROVEN: the frame sum omits nested/prebuilt/library
+and interrupt paths. Heap capacity is a linker figure, not current free heap.
+Recovery readiness remains BLOCKED on missing local assets and all physical
+checks remain untested. `RECOVERY_REVIEW.md` defines the review gates.
+
+M2 synchronization: local and remote were both
+`bf19a7ad12e82976575ad557995faba9eed696c8` immediately after its successful push.

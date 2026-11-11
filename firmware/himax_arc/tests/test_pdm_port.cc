@@ -13,7 +13,7 @@
 namespace {
 
 const bh::CaptureConfig kConfig = {bh::kTargetSamples, bh::kFramesPerBlock, bh::kSettleBlocks,
-                                   bh::kCallbackIntervalUs, bh::kIntervalToleranceUs, bh::kClockTickUs};
+                                   bh::kCallbackIntervalUs, bh::kIntervalToleranceUs, bh::kClockTickUs, bh::kDmaCallbackBlocks};
 
 int16_t Source(uint64_t frame, int channel, void*) {
   if (channel == 1) return static_cast<int16_t>(-11);

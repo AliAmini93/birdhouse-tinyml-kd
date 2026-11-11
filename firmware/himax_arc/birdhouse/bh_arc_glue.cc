@@ -32,7 +32,11 @@
 #include "firmware/himax_arc/birdhouse/bh_runtime.h"
 
 #include "firmware/himax_arc/birdhouse/bh_console.h"
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#pragma GCC diagnostic ignored "-Wcpp"
 #include "sensors/ei_camera_ov2640.h"
+#pragma GCC diagnostic pop
 
 extern "C" {
 #include "hx_drv_pdm_rx.h"

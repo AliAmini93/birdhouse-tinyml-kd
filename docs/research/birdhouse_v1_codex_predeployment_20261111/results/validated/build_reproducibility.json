@@ -1,0 +1,47 @@
+{
+  "status": "PASS",
+  "source_date_epoch": "1794355200",
+  "comparison": "two independent ARC output trees; every stored ELF section byte-identical at identical addresses",
+  "stored_sections": {
+    ".ivt": {
+      "addr": "0x10000004",
+      "bytes": 328,
+      "sha256": "368f90d7c6311fd7a5c30e63c98d2527a802c7dcd370b45cf2e99ea3219b2093"
+    },
+    ".vector": {
+      "addr": "0x10000400",
+      "bytes": 1024,
+      "sha256": "bb3a10c008417073f26ff9c51fce0a5ced60945221d6d7a1931b316f1016f4f3"
+    },
+    ".text": {
+      "addr": "0x10000800",
+      "bytes": 298698,
+      "sha256": "c343e81d3074ead09e85cf91cbc199e20408f631e87b9c05039f7fda4bc8bd6c"
+    },
+    ".read_only_data": {
+      "addr": "0x20020800",
+      "bytes": 171716,
+      "sha256": "bcf11634c9cce6dca58f6470a75531c95531f70a3481793b81172b54e2832168"
+    },
+    ".data": {
+      "addr": "0x200ee2c0",
+      "bytes": 6700,
+      "sha256": "2b759befec1abcc49b722e2a5a99ab04862f7ca1ca816c7c790a508646b5a2b4"
+    },
+    ".rodata_in_data": {
+      "addr": "0x200efcec",
+      "bytes": 16,
+      "sha256": "55470ca8514b9e2e7904923fe0d80bdf58e143d3822af711b8ff73a050cd993b"
+    },
+    ".sdata": {
+      "addr": "0x200efcfc",
+      "bytes": 24,
+      "sha256": "6f0dac05becde05092414d3ed71522b8e315f557c39f603870a9562a209df6ff"
+    }
+  },
+  "elf_sha256": [
+    "8a280fa470c5e6a40b10a941a4e1fe99625233e8d28253b6bcfe4104aff7142f",
+    "8a280fa470c5e6a40b10a941a4e1fe99625233e8d28253b6bcfe4104aff7142f"
+  ],
+  "packaging_same_elf_two_runs_identical": true
+}

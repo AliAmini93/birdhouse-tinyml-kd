@@ -33,7 +33,7 @@ bool g_features_valid = false;
 
 const CaptureConfig kCaptureConfig = {
     kTargetSamples, kFramesPerBlock, kSettleBlocks,
-    kCallbackIntervalUs, kIntervalToleranceUs, kClockTickUs};
+    kCallbackIntervalUs, kIntervalToleranceUs, kClockTickUs, kDmaCallbackBlocks};
 
 uint32_t ClampU32(uint64_t v) { return v > 0xFFFFFFFFull ? 0xFFFFFFFFu : static_cast<uint32_t>(v); }
 unsigned long UL(uint64_t v) { return static_cast<unsigned long>(ClampU32(v)); }

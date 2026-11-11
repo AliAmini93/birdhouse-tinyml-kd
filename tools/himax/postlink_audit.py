@@ -270,6 +270,19 @@ def main():
             "hx_lib_audio_deinit" in err_calls, f"calls: {sorted(set(err_calls))}")
     rep.add("hooks", "runtime entry points are linked",
             all(n in syms for n in ("bh::RuntimePoll()", "bh::ModelInvoke()")), "")
+    for function, original in (("bh_port_irq_save()", "cpu_lock_save"),
+                               ("bh_port_irq_restore(unsigned long)", "cpu_unlock_restore")):
+        # uint32_t is unsigned long in the ARC ABI (unsigned int on the host).
+        calls = function_calls(tool, args.elf, function)
+        rep.add("hooks", function + " uses the real ARC interrupt primitive", original in calls, calls)
+    calls = function_calls(tool, args.elf, "bh_port_pdm_stop()")
+    rep.add("hooks", "capture detach IRQ exclusion precedes vendor audio stop",
+            "bh_port_irq_save()" in calls and "hx_lib_audio_stop" in calls and
+            calls.index("bh_port_irq_save()") < calls.index("hx_lib_audio_stop"), calls)
+    caller, _ = find_symbol(syms, r"^ATServer::execute\(")
+    calls = function_calls(tool, args.elf, caller) if caller else []
+    rep.add("hooks", "actual vendor AT server calls the whitespace parser guard",
+            any(c.startswith("__wrap__ZN8ATParser5parse") for c in calls), "pinned SDK C++11 ABI")
 
     # ---- leftovers ----------------------------------------------------------
     stale = sorted(n for n in syms if any(tag in n for tag in LEFTOVER_SYMBOLS))
@@ -286,11 +299,16 @@ def main():
         chain.append({"function": label, "frame_bytes": max(frames)})
         total += max(frames)
     rep.facts["stack_chain"] = {"frames": chain, "known_total_bytes": total, "stack_bytes": stack,
-                                "not_included": ["prebuilt MLI kernel code", "interrupt frames", "C start-up frames"]}
+                                "safety_verdict": "UNPROVEN",
+                                "interpretation": "partial frame inventory, neither a bound nor a measured peak",
+                                "not_included": ["prebuilt MLI kernel code and its nested helper calls",
+                                                 "interrupt frames and nesting", "C start-up frames",
+                                                 "preprocessing/libm call chains", "serial/allocator call chains",
+                                                 "compiler-outlined and indirect helper calls"]}
     rep.add("stack", "frame sizes available for every function on the inference chain", not missing,
             f"missing: {missing}" if missing else f"{len(su)} functions with stack data")
     if stack:
-        rep.add("stack", f"known inference chain <= {int(POLICY['stack_known_chain_max_fraction'] * 100)}% of the stack",
+        rep.add("stack", f"partial frame sum <= {int(POLICY['stack_known_chain_max_fraction'] * 100)}% (not stack safety)",
                 total <= stack * POLICY["stack_known_chain_max_fraction"],
                 f"{total} of {stack} bytes ({round(100.0 * total / stack, 1)}%)")
 

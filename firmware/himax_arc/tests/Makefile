@@ -54,8 +54,8 @@ else
 SANFLAGS :=
 endif
 
-VENDOR_CXXFLAGS := $(STD_CXX) $(OPT) $(DEFS) $(INC) -w
-VENDOR_CFLAGS   := -std=gnu99 $(OPT) $(DEFS) $(INC) -w
+VENDOR_CXXFLAGS := $(STD_CXX) $(OPT) $(DEFS) $(INC) -w $(SANFLAGS)
+VENDOR_CFLAGS   := -std=gnu99 $(OPT) $(DEFS) $(INC) -w $(SANFLAGS)
 # Vendor headers are reached through -isystem so that strict warnings apply to
 # Birdhouse code only.
 OUR_INC         := $(CFG_INC) -isystem $(EI_MODEL) -isystem $(EI_MODEL)/.. -I$(REPO)
@@ -70,13 +70,13 @@ TFLM_LIB := $(OBJ)/libtflm.a
 
 $(OBJ)/tflm/%.cc.o: $(EI_SDK)/%.cc
 	@mkdir -p $(dir $@)
-	@$(CXX) $(VENDOR_CXXFLAGS) -c $< -o $@
+	@$(CXX) $(VENDOR_CXXFLAGS) -MMD -MP -c $< -o $@
 $(OBJ)/tflm/%.cpp.o: $(EI_SDK)/%.cpp
 	@mkdir -p $(dir $@)
-	@$(CXX) $(VENDOR_CXXFLAGS) -c $< -o $@
+	@$(CXX) $(VENDOR_CXXFLAGS) -MMD -MP -c $< -o $@
 $(OBJ)/tflm/%.c.o: $(EI_SDK)/%.c
 	@mkdir -p $(dir $@)
-	@$(CC) $(VENDOR_CFLAGS) -c $< -o $@
+	@$(CC) $(VENDOR_CFLAGS) -MMD -MP -c $< -o $@
 
 $(TFLM_LIB): $(TFLM_OBJS)
 	@rm -f $@
@@ -140,8 +140,11 @@ $(OBJ)/at/%.o: $(AT_DIR)/%.cpp
 	$(CXX) $(VENDOR_CXXFLAGS) $(SANFLAGS) -I$(EI_MODEL)/.. -MMD -MP -c $< -o $@
 $(OBJ)/test_console: $(R)/himax_arc/tests/test_console.o $(R)/himax_arc/birdhouse/bh_console.o \
                      $(CORE_OBJS) $(PORT_OBJS) $(FAKE_OBJS) $(PIPE_OBJS) $(MODEL_OBJS) $(AT_OBJS) $(TFLM_LIB)
-	$(CXX) $(SANFLAGS) -o $@ $^ -lm
+	$(CXX) $(SANFLAGS) -Wl,--wrap=_ZN8ATParser5parseENSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE -o $@ $^ -lm
 UNIT_TESTS += $(OBJ)/test_console
+$(OBJ)/test_preprocess_reference: $(R)/himax_arc/tests/test_preprocess_reference.o $(PIPE_OBJS:$(R)/himax_arc/birdhouse/bh_runtime.o=)
+	$(CXX) $(SANFLAGS) -o $@ $^ -lm
+UNIT_TESTS += $(OBJ)/test_preprocess_reference
 
 .PHONY: unit run-unit run-all
 unit: $(UNIT_TESTS)
@@ -149,7 +152,7 @@ run-unit: $(UNIT_TESTS)
 	@for t in $(UNIT_TESTS); do echo "=== $$t"; $$t || exit 1; done
 run-all: run-tflm run-unit
 
--include $(shell find $(OBJ)/repo -name '*.d' 2>/dev/null)
+-include $(shell find $(OBJ)/repo $(OBJ)/tflm $(OBJ)/at -name '*.d' 2>/dev/null)
 
 .PHONY: clean
 clean:

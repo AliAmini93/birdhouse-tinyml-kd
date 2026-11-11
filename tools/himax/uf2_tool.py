@@ -21,6 +21,7 @@ import argparse
 import hashlib
 import struct
 import sys
+import os
 
 MAGIC0 = 0x0A324655
 MAGIC1 = 0x9E5D5157
@@ -76,6 +77,8 @@ def describe(data):
 
 
 def pack(image, base=FIRMWARE_BASE, family=FAMILY_GROVE_AI):
+    if not image or base != FIRMWARE_BASE or family != FAMILY_GROVE_AI or len(image) > FIRMWARE_LIMIT - base:
+        raise ValueError("nonempty V1 firmware image within the 2 MB range required")
     total = (len(image) + PAYLOAD - 1) // PAYLOAD
     out = bytearray()
     for no in range(total):
@@ -112,13 +115,22 @@ def main():
     p = sub.add_parser("verify"); p.add_argument("uf2"); p.add_argument("image")
     args = ap.parse_args()
 
+    if args.cmd in ("pack", "unpack"):
+        # File-only also means no arbitrary output paths into a device node or
+        # mounted bootloader. Resolve symlinks, and preserve previous artefacts.
+        out = os.path.realpath(args.out)
+        repo = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        roots = (os.path.join(repo, ".local-tools/port-himax"), "/tmp")
+        if not any(out.startswith(root + os.sep) for root in roots) or os.path.lexists(args.out):
+            ap.error("output must be a NEW local file under .local-tools/port-himax or /tmp")
+
     if args.cmd == "pack":
         image = open(args.image, "rb").read()
-        if len(image) > FIRMWARE_LIMIT - FIRMWARE_BASE:
-            print("image larger than the 2 MB firmware range", file=sys.stderr)
+        if not image or len(image) > FIRMWARE_LIMIT - FIRMWARE_BASE:
+            print("empty image or image larger than the 2 MB firmware range", file=sys.stderr)
             return 1
         data = pack(image)
-        with open(args.out, "wb") as f:
+        with open(args.out, "xb") as f:
             f.write(data)
         print(f"wrote {args.out}: {len(data)} bytes, {len(data) // 512} blocks")
         return 0
@@ -134,7 +146,10 @@ def main():
             ok = ok and passed
         return 0 if ok else 1
     if args.cmd == "unpack":
-        with open(args.out, "wb") as f:
+        if not all(ok for _, ok, _ in firmware_checks(info)):
+            print("refusing to unpack invalid firmware UF2", file=sys.stderr)
+            return 1
+        with open(args.out, "xb") as f:
             f.write(payload)
         print(f"wrote {args.out}: {len(payload)} bytes")
         return 0

@@ -43,6 +43,13 @@ int main() {
   ATServer::get_instance()->register_command("RUNIMPULSE", "", at_run_impulse, nullptr, nullptr, nullptr);
   bh::ConsoleRegisterCommands();
   bh::ConsoleRegisterCommands();
+  BH_CASE("blank whitespace input cannot throw from the vendor parser");
+  try {
+    Send(" \t \r");
+    BH_CHECK(Has("Not a valid AT command"));
+  } catch (...) {
+    BH_CHECK(false);
+  }
   BH_CASE("numeric inputs are strict decimal uint32 across host and MCU");
   const char* bad[] = {"AT+BIRDRUN=4294967297\r", "AT+BIRDRUN=-4294967295\r",
                        "AT+BIRDRUN=18446744073709551617\r", "AT+BIRDRUN=+1\r",

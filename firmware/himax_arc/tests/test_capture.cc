@@ -11,7 +11,7 @@
 namespace {
 
 const bh::CaptureConfig kConfig = {bh::kTargetSamples, bh::kFramesPerBlock, bh::kSettleBlocks,
-                                   bh::kCallbackIntervalUs, bh::kIntervalToleranceUs, bh::kClockTickUs};
+                                   bh::kCallbackIntervalUs, bh::kIntervalToleranceUs, bh::kClockTickUs, bh::kDmaCallbackBlocks};
 
 int16_t Left(uint64_t frame) { return static_cast<int16_t>((frame * 13 + 5) % 30011 - 15005); }
 int16_t Right(uint64_t frame) { return static_cast<int16_t>(-(static_cast<int>(frame % 1000)) - 7); }
@@ -92,6 +92,9 @@ int main() {
     BH_CHECK(s.complete_us - s.first_callback_us == 5120000);
     BH_CHECK(bh::NominalSpanUs(s, kConfig) == 5120000);
     BH_CHECK(bh::JudgeCapture(s, kConfig) == bh::kQualityClean);
+    bh::CaptureStats wrong_batch = s;
+    wrong_batch.min_blocks_per_callback = wrong_batch.max_blocks_per_callback = 3;
+    BH_CHECK(bh::JudgeCapture(wrong_batch, kConfig) == bh::kQualitySuspect);
     BH_CHECK(PatternMatches(pcm.data(), 80000, 2 * bh::kFramesPerBlock));
     BH_CHECK(pcm.GuardsIntact(bh::kTargetSamples));
     uint64_t abs_l = 0, abs_r = 0;

@@ -176,7 +176,7 @@ def check_configuration(manifest, gates, macros, rep, expect_arc):
             "needed for nodes the optimised library does not accept")
     if expect_arc:
         rep.add("configuration", "ARC MLI backend selected (EI_CLASSIFIER_TFLITE_ENABLE_ARC == 1)",
-                macro_truthy(macros, "EI_CLASSIFIER_TFLITE_ENABLE_ARC"),
+                macros.get("EI_CLASSIFIER_TFLITE_ENABLE_ARC") == "1",
                 f"value={macros.get('EI_CLASSIFIER_TFLITE_ENABLE_ARC')!r}")
     seen = set()
     for op in manifest["operators"]:
@@ -250,6 +250,9 @@ def check_objects(manifest, obj_root, elf, toolchain_bin, rep):
                 if obj == spec["objects"][0]:
                     missing.append(obj)
                 continue
+            if len(hits) != 1:
+                rep.add("objects", f"{name}: unambiguous kernel object", False, f"{len(hits)} candidates for {obj}")
+                continue
             funcs.update(object_functions(objdump, nm, hits[0]))
         if missing:
             rep.add("objects", f"{name}: kernel object present", False, f"missing {missing} under {obj_root}")
@@ -282,6 +285,13 @@ def check_objects(manifest, obj_root, elf, toolchain_bin, rep):
             reg = spec["register"]
             rep.add("objects", f"{name}: registration linked into firmware", reg in elf_syms,
                     f"{reg} {'size=%d' % elf_syms[reg] if reg in elf_syms else 'absent'}")
+            # Object evidence alone does not show that worker code survived the
+            # final link. Check the linked backend workers independently.
+            worker = {"CONV_2D": "mli_krn_conv2d_nhwc_sa8_sa8_sa32",
+                      "DEPTHWISE_CONV_2D": "mli_krn_depthwise_conv2d_hwcn_sa8_sa8_sa32",
+                      "FULLY_CONNECTED": "mli_krn_fully_connected_sa8_sa8_sa32"}.get(name)
+            if worker:
+                rep.add("objects", f"{name}: ARC INT8 MLI worker linked", elf_syms.get(worker, 0) > 0, worker)
 
 
 def main():

@@ -159,6 +159,8 @@ uint64_t NominalSpanUs(const CaptureStats& stats, const CaptureConfig& config) {
 CaptureQuality JudgeCapture(const CaptureStats& stats, const CaptureConfig& config) {
   if (stats.fifo_events != 0) return kQualitySuspect;
   if (stats.samples != config.target_samples) return kQualitySuspect;
+  if (stats.min_blocks_per_callback != config.callback_blocks ||
+      stats.max_blocks_per_callback != config.callback_blocks) return kQualitySuspect;
   if (stats.intervals == 0) return kQualitySuspect;
   const uint32_t measured = stats.intervals - stats.clock_steps;
   if (measured == 0) return kQualitySuspect;

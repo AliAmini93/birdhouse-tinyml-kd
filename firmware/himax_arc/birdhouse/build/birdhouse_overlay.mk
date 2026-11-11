@@ -75,15 +75,18 @@ BH_SOURCES := \
     firmware/model/student_final_int8_model_data.cc
 
 BH_OBJS := $(patsubst %.cc,$(BH_OBJ)/%.o,$(BH_SOURCES))
+BH_VENDOR_APP := app/scenario_app/edge_impulse_visionai
+BH_VENDOR_SYSTEM := -isystem $(BH_VENDOR_APP) -isystem $(BH_VENDOR_APP)/ei-model
 
-$(BH_OBJS): $(BH_OBJ)/%.o: $(BH_REPO)/%.cc $(CORE_ARG_FILES)
+$(BH_OBJS): $(BH_OBJ)/%.o: $(BH_REPO)/%.cc $(CORE_ARG_FILES) $(BH_SRC_DIR)/build/birdhouse_overlay.mk
 	@mkdir -p $(dir $@)
 	@echo "Compiling (birdhouse)  :  $*.cc"
-	$(Q)$(CXX) -c $(TCF_FLAGS) $(ALL_DEFINES) $(CXX_COMPILE_OPT) -I$(BH_REPO) -Wall -Wextra $< -o $@
+	$(Q)$(CXX) -c $(TCF_FLAGS) $(ALL_DEFINES) $(CXX_COMPILE_OPT) $(BH_VENDOR_SYSTEM) -I$(BH_REPO) -Wall -Wextra -Werror -Wno-error=cpp $< -o $@
 
 EXTRA_OBJS += $(BH_OBJS)
 LINK_OPT += -Wl,--wrap=is_inference_running
 LINK_OPT += -Wl,--wrap=hx_drv_pdm_deinit
+LINK_OPT += -Wl,--wrap=_ZN8ATParser5parseENSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
 
 $(APPL_FULL_NAME).elf: $(BH_OBJS)
 

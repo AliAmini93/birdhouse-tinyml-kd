@@ -2,18 +2,18 @@
 """Offline packaging of the firmware candidate, with validation. Never deploys.
 
 What it does
-  1. Refuses to run if a Grove Vision AI is attached over USB or a bootloader
-     drive is mounted.
+  1. Checks only the local mount table for a mounted bootloader drive. It never
+     enumerates USB devices. The sandbox, not device absence, enforces isolation.
   2. Copies the vendor image generator (Linux parts only) into a work directory
      and runs it there inside a bubblewrap sandbox: the rest of the filesystem
-     is read-only, /dev holds no serial or block devices, /media is empty and
-     there is no network. The vendor `make flash` target and the vendor
+     is read-only, /dev holds no serial or block devices, /media, /sys and /run
+     are empty and there is no network. The vendor `make flash` target and the vendor
      uf2conv.py are not used.
   3. Validates the produced image against the factory image, the SDK inputs and
      the ELF, converts it to UF2 with tools/himax/uf2_tool.py and validates
      that too.
 
-Outputs stay under .local-tools/ (never tracked). A JSON report is written to
+Outputs stay in a new directory under .local-tools/port-himax (never tracked). A JSON report is written to
 the path given with --json-out.
 
 Packaging success is not permission to deploy.
@@ -27,6 +27,7 @@ import re
 import shutil
 import subprocess
 import sys
+import struct
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import uf2_tool  # noqa: E402
@@ -67,13 +68,8 @@ class Report:
 
 
 def board_present():
+    # Inspect only the local mount table, never enumerate/contact USB devices.
     hits = []
-    for path in glob.glob("/sys/bus/usb/devices/*/idVendor"):
-        try:
-            if open(path).read().strip().lower() == "2886":
-                hits.append(os.path.dirname(path))
-        except OSError:
-            pass
     try:
         for line in open("/proc/mounts"):
             parts = line.split()
@@ -97,12 +93,14 @@ def copy_tool(dst):
         os.chmod(os.path.join(dst, exe), 0o755)
 
 
-def run_generator(work, img_dir):
+def run_generator(work, img_dir, toolchain_bin):
     tmp = os.path.join(work, "tmp")
     os.makedirs(tmp, exist_ok=True)
     cmd = ["bwrap", "--unshare-net", "--unshare-pid", "--die-with-parent", "--new-session",
-           "--ro-bind", "/", "/", "--tmpfs", "/tmp", "--tmpfs", "/media", "--dev", "/dev", "--proc", "/proc",
-           "--bind", work, work, "--setenv", "TMPDIR", tmp, "--chdir", img_dir,
+           "--ro-bind", "/", "/", "--tmpfs", "/tmp", "--tmpfs", "/media", "--tmpfs", "/sys",
+           "--tmpfs", "/run", "--dev", "/dev", "--proc", "/proc",
+           "--bind", work, work, "--setenv", "TMPDIR", tmp,
+           "--setenv", "PATH", os.path.abspath(toolchain_bin) + ":/usr/bin:/bin", "--chdir", img_dir,
            "./image_gen_cstm_gnu", "ic", "config"]  # same arguments as the vendor makefile
     p = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, errors="replace", timeout=600)
     return p.returncode, p.stdout
@@ -127,18 +125,81 @@ def uf2_payload(path_or_bytes):
 
 
 def package(elf, work, toolchain_bin, rep, label):
-    if os.path.isdir(work):
-        shutil.rmtree(work)
+    os.makedirs(work, exist_ok=False)  # never delete an earlier candidate
     img_dir = os.path.join(work, "image_gen")
     copy_tool(img_dir)
     shutil.copy2(elf, os.path.join(img_dir, "input", ELF_BASENAME))
-    rc, log = run_generator(work, img_dir)
+    rc, log = run_generator(work, img_dir, toolchain_bin)
     open(os.path.join(work, "image_gen.log"), "w").write(log)
     out_img = os.path.join(img_dir, "output", "output.img")
     if not rep.add("generate", f"{label}: vendor image generator succeeded in the sandbox",
                    rc == 0 and os.path.isfile(out_img), f"exit {rc}"):
         return None, log
     return open(out_img, "rb").read(), log
+
+
+def verify_application_payload(image, app_parts, secs, elf_bytes):
+    """Verify payload AND destinations from the binary SBS descriptors.
+
+    SDK 2.5.3 BLp has a 0x494-byte signing prefix per chunk. The descriptor
+    control word encodes its length in the upper half and item count in byte 1;
+    each item is (offset, type, destination, size). Type 0xf contains a
+    four-byte SDK marker followed by the IVT. The descriptor prelude is four bytes. This verifies packaging, not boot-ROM or
+    cryptographic-signature acceptance on hardware.
+    """
+    expected = {s["name"]: s for s in secs if s["name"] in STORED_SECTIONS}
+    if set(expected) != STORED_SECTIONS or not app_parts:
+        raise ValueError("missing expected sections or application chunks")
+    covered = {name: [] for name in expected}
+    for i, part in enumerate(app_parts):
+        start, end = part["addr"], part["addr"] + part["size"]
+        base = start + 0x494
+        if end > len(image) or part["size"] > 0x10000 or base + 16 > end:
+            raise ValueError("truncated or oversized application chunk")
+        if image[start:start + 8] != bytes.fromhex("424c700220000003"):
+            raise ValueError("unexpected BLp header")
+        prelude, control, reserved, nxt = struct.unpack_from("<4I", image, base)
+        count, header = (control >> 8) & 255, control >> 16
+        if not count or header != 16 + 16 * count or reserved != 0 or prelude & 0xFFFF != 0x0101:
+            raise ValueError("invalid SBS header")
+        want_next = app_parts[i + 1]["addr"] - APP_START if i + 1 < len(app_parts) else 0xFFFFFFFF
+        if nxt != want_next or base + header > end:
+            raise ValueError("bad application next-header chain")
+        source_end = header
+        for j in range(count):
+            off, kind, addr, size = struct.unpack_from("<4I", image, base + 16 + 16 * j)
+            if not size or off < source_end or base + off + size > end:
+                raise ValueError("overlapping or truncated SBS payload")
+            source_end = off + size
+            blob = image[base + off:base + off + size]
+            if kind == 0xF:
+                sec = expected[".ivt"]
+                raw = elf_bytes[sec["offset"]:sec["offset"] + sec["size"]]
+                if addr != sec["addr"] - 4 or blob != b"x0x0" + raw:
+                    raise ValueError("IVT bytes/destination or SDK marker differ")
+                name, relative, length = ".ivt", 0, sec["size"]
+            else:
+                matches = [(name, sec) for name, sec in expected.items() if name != ".ivt" and
+                           sec["addr"] <= addr and addr + size <= sec["addr"] + ((sec["size"] + 3) & ~3)]
+                if len(matches) != 1 or kind not in (1, 3):
+                    raise ValueError("SBS destination outside expected ELF sections")
+                name, sec = matches[0]
+                if kind != (1 if name in (".vector", ".text") else 3):
+                    raise ValueError("SBS destination type differs from ELF section")
+                relative, length = addr - sec["addr"], size
+                raw = elf_bytes[sec["offset"]:sec["offset"] + sec["size"]]
+                raw += b"\xff" * (-len(raw) % 4)
+                if blob != raw[relative:relative + size]:
+                    raise ValueError("ELF payload mismatch in " + name)
+            covered[name].append((relative, relative + length))
+    for name, intervals in covered.items():
+        cursor = 0
+        for lo, hi in sorted(intervals):
+            if lo != cursor: raise ValueError("overlap or gap in " + name)
+            cursor = hi
+        if cursor != ((expected[name]["size"] + 3) & ~3):
+            raise ValueError("incomplete ELF payload in " + name)
+    return sum(s["size"] for s in expected.values()) + 4
 
 
 def main():
@@ -155,9 +216,9 @@ def main():
         print(f"refusing to package: Grove device or bootloader drive present ({attached}). Unplug it first.",
               file=sys.stderr)
         return 2
-    work = os.path.abspath(args.work)
-    if not work.startswith(os.path.join(REPO, ".local-tools") + os.sep):
-        print("--work must be inside .local-tools", file=sys.stderr)
+    work = os.path.realpath(args.work)
+    if not work.startswith(os.path.join(REPO, ".local-tools", "port-himax") + os.sep) or os.path.lexists(args.work):
+        print("--work must be a NEW directory inside .local-tools/port-himax", file=sys.stderr)
         return 2
     if shutil.which("bwrap") is None:
         print("bubblewrap (bwrap) is required for the sandbox", file=sys.stderr)
@@ -239,6 +300,12 @@ def main():
 
     # ---- the application inside the image is this ELF ---------------------------
     app = image[APP_START:]
+    try:
+        coverage = verify_application_payload(image, app_parts, secs, elf_bytes)
+        rep.add("content", "every stored ELF byte and destination verified in actual image descriptors", True,
+                f"{coverage} bytes (including special IVT marker)")
+    except ValueError as e:
+        rep.add("content", "every stored ELF byte and destination verified in actual image descriptors", False, str(e))
     manifest = json.load(open(args.manifest, encoding="utf-8"))
     probes_ok, probes = 0, 0
     for s in secs:
@@ -304,7 +371,7 @@ def main():
         "factory_grove_ai_v02_00": len(fac), "candidate": len(image),
         "edge_impulse_prebuilt": rep.facts.get("edge_impulse_prebuilt_image_bytes")}
     rep.facts["generator_version"] = (re.search(r"Image Gen Tool Ver: ([\d .]+)", log) or [None, ""])[1].replace(" ", "")
-    rep.facts["sandbox"] = "bubblewrap: read-only root, private work dir, no devices, no /media, no network"
+    rep.facts["sandbox"] = "bubblewrap: read-only root, new private work dir, no devices, no /sys, /run or /media, no network"
     rep.facts["outputs_local_only"] = [os.path.relpath(img_path, REPO), os.path.relpath(uf2_path, REPO)]
 
     result = {"status": "PASS" if rep.ok else "FAIL", "checks": rep.checks, "facts": rep.facts,

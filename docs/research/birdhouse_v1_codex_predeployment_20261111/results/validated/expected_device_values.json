@@ -1,0 +1,52 @@
+{
+  "note": "Host results (x86-64, reference kernels, glibc maths). On the device the model outputs should match; feature checksums may differ slightly because the ARC build uses newlib maths, in which case dump the features with AT+BIRDFEAT and compare.",
+  "self_test_lines": [
+    "BIRDHOUSE SELFTEST model step=1 out_q=-128 expected_q=-128 abs_diff=0 feature_crc=1699e7d0 invoke_us=0 verdict=EXACT",
+    "BIRDHOUSE SELFTEST model step=2 out_q=-125 expected_q=-125 abs_diff=0 feature_crc=a076cc9c invoke_us=0 verdict=EXACT",
+    "BIRDHOUSE SELFTEST model step=3 out_q=-89 expected_q=-89 abs_diff=0 feature_crc=465e5d91 invoke_us=0 verdict=EXACT",
+    "BIRDHOUSE SELFTEST model step=4 out_q=12 expected_q=12 abs_diff=0 feature_crc=40a36a19 invoke_us=0 verdict=EXACT",
+    "BIRDHOUSE SELFTEST model step=5 out_q=100 expected_q=100 abs_diff=0 feature_crc=e467f562 invoke_us=0 verdict=EXACT",
+    "BIRDHOUSE SELFTEST model step=6 out_q=116 expected_q=116 abs_diff=0 feature_crc=e0553cc1 invoke_us=0 verdict=EXACT",
+    "BIRDHOUSE SELFTEST model step=7 out_q=116 expected_q=116 abs_diff=0 feature_crc=7225c21b invoke_us=0 verdict=EXACT",
+    "BIRDHOUSE SELFTEST model step=8 out_q=116 expected_q=116 abs_diff=0 feature_crc=0605df04 invoke_us=0 verdict=EXACT"
+  ],
+  "synthetic_runs": [
+    {
+      "test": "AT+BIRDSYNTH=0",
+      "name": "SILENCE",
+      "pcm_crc": "27f1082d",
+      "feature_crc": "82645b85",
+      "out_q": -100,
+      "decision": "NON-BIRD"
+    },
+    {
+      "test": "AT+BIRDSYNTH=1",
+      "name": "NOISE",
+      "pcm_crc": "38964861",
+      "feature_crc": "a19915ff",
+      "out_q": -127,
+      "decision": "NON-BIRD"
+    },
+    {
+      "test": "AT+BIRDSYNTH=2",
+      "name": "TONES",
+      "pcm_crc": "48ff799b",
+      "feature_crc": "7d44c492",
+      "out_q": -128,
+      "decision": "NON-BIRD"
+    },
+    {
+      "test": "AT+BIRDSYNTH=3",
+      "name": "CHIRP_STEPS",
+      "pcm_crc": "53b719d3",
+      "feature_crc": "c8108345",
+      "out_q": -128,
+      "decision": "NON-BIRD"
+    },
+    {
+      "test": "AT+BIRDSELFTEST",
+      "out_q": 116,
+      "decision": "BIRD"
+    }
+  ]
+}

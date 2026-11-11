@@ -1,0 +1,337 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "group": "memory",
+      "check": "all allocated sections lie inside linker regions",
+      "status": "PASS",
+      "detail": "15 sections"
+    },
+    {
+      "group": "memory",
+      "check": "ICCM1 free >= 16384 bytes",
+      "status": "PASS",
+      "detail": "used 301310 of 327680 (91.95%), free 26370"
+    },
+    {
+      "group": "memory",
+      "check": "SYSTEM0 free >= 262144 bytes",
+      "status": "PASS",
+      "detail": "used 849188 of 1439744 (58.98%), free 590556"
+    },
+    {
+      "group": "heap",
+      "check": "heap left in DCCM >= 131072 bytes",
+      "status": "PASS",
+      "detail": "176992 bytes between __start_heap and __end_heap"
+    },
+    {
+      "group": "buffers",
+      "check": "tensor arena: 262144 bytes in SYSTEM0",
+      "status": "PASS",
+      "detail": "size 262144 at 0x2004cdc0 in SYSTEM0"
+    },
+    {
+      "group": "buffers",
+      "check": "tensor arena aligned to 16 bytes",
+      "status": "PASS",
+      "detail": "0x2004cdc0"
+    },
+    {
+      "group": "buffers",
+      "check": "PCM buffer: 160000 bytes in SYSTEM0",
+      "status": "PASS",
+      "detail": "size 160000 at 0x2008cdc0 in SYSTEM0"
+    },
+    {
+      "group": "buffers",
+      "check": "feature buffer: 9960 bytes in SYSTEM0",
+      "status": "PASS",
+      "detail": "size 9960 at 0x2004a6d0 in SYSTEM0"
+    },
+    {
+      "group": "buffers",
+      "check": "DMA buffer: 16384 bytes in DCCM",
+      "status": "PASS",
+      "detail": "size 16384 at 0x80000340 in DCCM"
+    },
+    {
+      "group": "buffers",
+      "check": "DMA buffer aligned to 32 bytes",
+      "status": "PASS",
+      "detail": "0x80000340"
+    },
+    {
+      "group": "model",
+      "check": "model bytes in the ELF equal the tracked model array",
+      "status": "PASS",
+      "detail": "size 59760, sha256 9e04d17723b87f9acbba3030c23e1e50b551493125e9bf7dc0aeb27f0b12db55"
+    },
+    {
+      "group": "hooks",
+      "check": "__wrap_is_inference_running is linked",
+      "status": "PASS",
+      "detail": "size 92"
+    },
+    {
+      "group": "hooks",
+      "check": "original is_inference_running is still linked",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "group": "hooks",
+      "check": "__wrap_is_inference_running reaches the original is_inference_running",
+      "status": "PASS",
+      "detail": "calls: ['bh::ConsoleRegisterCommands()', 'bh::RuntimePoll()', 'is_inference_running']"
+    },
+    {
+      "group": "hooks",
+      "check": "__wrap_hx_drv_pdm_deinit is linked",
+      "status": "PASS",
+      "detail": "size 16"
+    },
+    {
+      "group": "hooks",
+      "check": "original hx_drv_pdm_deinit is still linked",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "group": "hooks",
+      "check": "__wrap_hx_drv_pdm_deinit reaches the original hx_drv_pdm_deinit",
+      "status": "PASS",
+      "detail": "calls: ['bh_port_on_pdm_reinit()', 'hx_drv_pdm_deinit']"
+    },
+    {
+      "group": "hooks",
+      "check": "vendor main loop calls the wrapper, not the original",
+      "status": "PASS",
+      "detail": "wrapper calls: 2, direct calls: 0"
+    },
+    {
+      "group": "hooks",
+      "check": "audio library's de-init path calls the wrapper",
+      "status": "PASS",
+      "detail": "calls: ['__wrap_hx_drv_pdm_deinit', 'hx_drv_i2s_deinit']"
+    },
+    {
+      "group": "hooks",
+      "check": "audio library's error handler reaches that de-init path",
+      "status": "PASS",
+      "detail": "calls: ['hx_drv_i2s_int_rx_read', 'hx_drv_pdm_init_transfer', 'hx_lib_audio_deinit', 'hx_lib_audio_init', 'xprintf']"
+    },
+    {
+      "group": "hooks",
+      "check": "runtime entry points are linked",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "group": "hooks",
+      "check": "bh_port_irq_save() uses the real ARC interrupt primitive",
+      "status": "PASS",
+      "detail": "['cpu_lock_save']"
+    },
+    {
+      "group": "hooks",
+      "check": "bh_port_irq_restore(unsigned long) uses the real ARC interrupt primitive",
+      "status": "PASS",
+      "detail": "['cpu_unlock_restore']"
+    },
+    {
+      "group": "hooks",
+      "check": "capture detach IRQ exclusion precedes vendor audio stop",
+      "status": "PASS",
+      "detail": "['bh_port_irq_save()', 'bh_port_irq_restore(unsigned long)', 'hx_lib_audio_stop']"
+    },
+    {
+      "group": "hooks",
+      "check": "actual vendor AT server calls the whitespace parser guard",
+      "status": "PASS",
+      "detail": "pinned SDK C++11 ABI"
+    },
+    {
+      "group": "leftovers",
+      "check": "no symbols from the abandoned stage50 design",
+      "status": "PASS",
+      "detail": "[]"
+    },
+    {
+      "group": "stack",
+      "check": "frame sizes available for every function on the inference chain",
+      "status": "PASS",
+      "detail": "3454 functions with stack data"
+    },
+    {
+      "group": "stack",
+      "check": "partial frame sum <= 50% (not stack safety)",
+      "status": "PASS",
+      "detail": "1664 of 8188 bytes (20.3%)"
+    }
+  ],
+  "facts": {
+    "memory": {
+      "ICCM0": {
+        "origin": "0x0",
+        "length": 65536,
+        "used": 0,
+        "free": 65536,
+        "used_percent": 0.0
+      },
+      "ICCM1": {
+        "origin": "0x10000000",
+        "length": 327680,
+        "used": 301310,
+        "free": 26370,
+        "used_percent": 91.95
+      },
+      "BOOT": {
+        "origin": "0x20000000",
+        "length": 133120,
+        "used": 133120,
+        "free": 0,
+        "used_percent": 100.0
+      },
+      "SYSTEM0": {
+        "origin": "0x20020800",
+        "length": 1439744,
+        "used": 849188,
+        "free": 590556,
+        "used_percent": 58.98
+      },
+      "DCCM": {
+        "origin": "0x80000000",
+        "length": 253952,
+        "used": 76960,
+        "free": 176992,
+        "used_percent": 30.3
+      },
+      ".stack": {
+        "origin": "0x8003e000",
+        "length": 8192,
+        "used": 0,
+        "free": 8192,
+        "used_percent": 0.0
+      },
+      "XCCM": {
+        "origin": "0x90000000",
+        "length": 32768,
+        "used": 32768,
+        "free": 0,
+        "used_percent": 100.0
+      },
+      "YCCM": {
+        "origin": "0xa0000000",
+        "length": 32768,
+        "used": 32768,
+        "free": 0,
+        "used_percent": 100.0
+      }
+    },
+    "heap_bytes": 176992,
+    "stack_bytes": 8188,
+    "buffers": {
+      "tensor arena": {
+        "addr": "0x2004cdc0",
+        "size": 262144,
+        "region": "SYSTEM0"
+      },
+      "PCM buffer": {
+        "addr": "0x2008cdc0",
+        "size": 160000,
+        "region": "SYSTEM0"
+      },
+      "feature buffer": {
+        "addr": "0x2004a6d0",
+        "size": 9960,
+        "region": "SYSTEM0"
+      },
+      "DMA buffer": {
+        "addr": "0x80000340",
+        "size": 16384,
+        "region": "DCCM"
+      }
+    },
+    "model": {
+      "addr": "0x2002e610",
+      "size": 59760,
+      "sha256_in_elf": "9e04d17723b87f9acbba3030c23e1e50b551493125e9bf7dc0aeb27f0b12db55"
+    },
+    "stack_chain": {
+      "frames": [
+        {
+          "function": "vendor main loop",
+          "frame_bytes": 24
+        },
+        {
+          "function": "wrapper",
+          "frame_bytes": 8
+        },
+        {
+          "function": "RuntimePoll",
+          "frame_bytes": 20
+        },
+        {
+          "function": "ProcessPcm",
+          "frame_bytes": 24
+        },
+        {
+          "function": "ModelInvoke",
+          "frame_bytes": 12
+        },
+        {
+          "function": "MicroInterpreter::Invoke",
+          "frame_bytes": 8
+        },
+        {
+          "function": "MicroGraph::InvokeSubgraph",
+          "frame_bytes": 28
+        },
+        {
+          "function": "kernel Eval (largest)",
+          "frame_bytes": 264
+        },
+        {
+          "function": "kernel MLI worker (largest)",
+          "frame_bytes": 1276
+        }
+      ],
+      "known_total_bytes": 1664,
+      "stack_bytes": 8188,
+      "safety_verdict": "UNPROVEN",
+      "interpretation": "partial frame inventory, neither a bound nor a measured peak",
+      "not_included": [
+        "prebuilt MLI kernel code and its nested helper calls",
+        "interrupt frames and nesting",
+        "C start-up frames",
+        "preprocessing/libm call chains",
+        "serial/allocator call chains",
+        "compiler-outlined and indirect helper calls"
+      ]
+    },
+    "delta_vs_vendor_only": {
+      "ICCM1": 31476,
+      "SYSTEM0": 556704,
+      "DCCM": 22288
+    },
+    "compiler": [
+      "GCC: (ARCompact/ARCv2 ISA elf32 toolchain 2020.09) 10.2.0",
+      "GCC: (ARCompact/ARCv2 ISA elf32 toolchain arc-2020.09-1-release) 10.2.0"
+    ],
+    "elf": {
+      "size_bytes": 1650872,
+      "sha256": "8a280fa470c5e6a40b10a941a4e1fe99625233e8d28253b6bcfe4104aff7142f"
+    },
+    "policy": {
+      "iccm1_min_free_bytes": 16384,
+      "system0_min_free_bytes": 262144,
+      "heap_min_bytes": 131072,
+      "stack_known_chain_max_fraction": 0.5,
+      "arena_bytes": 262144,
+      "pcm_bytes": 160000,
+      "feature_bytes": 9960,
+      "dma_bytes": 16384
+    }
+  }
+}

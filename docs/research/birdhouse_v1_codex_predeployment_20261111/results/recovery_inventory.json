@@ -1,0 +1,26 @@
+{
+  "factory_fallback_files": [
+    {
+      "path": ".local-tools/firmware/grove-ai-v1/factory/grove_ai_v02-00.uf2",
+      "bytes": 1541632,
+      "sha256": "8854e09348cec166c127e3bafda89b0b35e3a7a62916e27661410ff03f4b5b3c",
+      "hash_matches": true,
+      "uf2_checks": true,
+      "end_address": "0x100bc300"
+    },
+    {
+      "path": ".local-tools/recovery/grove-vision-ai-v1/grove_ai_v02-00.uf2",
+      "bytes": 1541632,
+      "sha256": "8854e09348cec166c127e3bafda89b0b35e3a7a62916e27661410ff03f4b5b3c",
+      "hash_matches": true,
+      "uf2_checks": true,
+      "end_address": "0x100bc300"
+    }
+  ],
+  "fallback_is_installed_application_backup": false,
+  "BL702_recovery_binary_found_in_local_tools": false,
+  "Seeed_Arduino_GroveAI_source_found_in_local_tools": false,
+  "arduino_cli_available": false,
+  "repair_host_build": "BLOCKED: locally audited repair source and Arduino toolchain not available",
+  "hardware_recovery": "UNTESTED; no hardware access permitted or performed"
+}

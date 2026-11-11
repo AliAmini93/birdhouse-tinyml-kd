@@ -1,0 +1,505 @@
+{
+  "generated_utc": "2026-11-11T14:07:46Z",
+  "git_head_when_run": "bf19a7ad12e82976575ad557995faba9eed696c8",
+  "overall": "PASS",
+  "source_sha256": {
+    "firmware/himax_arc/birdhouse/bh_arc_glue.cc": "f8bf3ae273f6f24473cf54515531a31683e9575f6aa86631071a5e992006987d",
+    "firmware/himax_arc/birdhouse/bh_capture.cc": "a61a1af02a84b5d0fcdb3d8d590455fe842293954c5708617d20ba357583d6e3",
+    "firmware/himax_arc/birdhouse/bh_capture.h": "cba9f40d822567f0a9dcf0a71b21f90a35a0c53535001488c9c6708a29dbebff",
+    "firmware/himax_arc/birdhouse/bh_config.h": "529a30b24286bac2e2f3483f5ff4a9849145da511a51e37f8aa53d87ea2c196c",
+    "firmware/himax_arc/birdhouse/bh_console.cc": "7eb980a316f1cc2b114bda00b8cd542ec9b6d1c0361dd7e37e562541c13f0565",
+    "firmware/himax_arc/birdhouse/bh_console.h": "0e3c639b0b77f5d6b4ef498b725a38185c2fa2af9f971e153384a3af49a10395",
+    "firmware/himax_arc/birdhouse/bh_diag.cc": "92d7a4d7a3c6449904b918524c1c0426c6c170a4974adc86af18279be67a8806",
+    "firmware/himax_arc/birdhouse/bh_diag.h": "0383ee7cd4b1c0a45bf59eb22606c5d51d51027e48c5d931dc79c8ae562a58ca",
+    "firmware/himax_arc/birdhouse/bh_model.cc": "e8e07a99d2ed52cb86c0d8c9f636dc3f24999b0f45f08d7fc3efed2ce3e1fd09",
+    "firmware/himax_arc/birdhouse/bh_model.h": "11d1ba1ed115d1077780998a958ca11786d4d5ea15617b82009a387cda64e567",
+    "firmware/himax_arc/birdhouse/bh_pdm_port.cc": "400a48acdfcf713993faaccae1ca195c2e193331fc6398228b4470109c9ee376",
+    "firmware/himax_arc/birdhouse/bh_port.h": "e47c6d2f6dfdfd4670d9ec11efc7553d5723e56984fa13cd8784f7d01c330d1f",
+    "firmware/himax_arc/birdhouse/bh_runtime.cc": "992101c6f5fe72076613d9968fd6a2636965426fd7f7578a5c5cd5df6fd370bd",
+    "firmware/himax_arc/birdhouse/bh_runtime.h": "37f8fc3df265136bdee8d8ba30302477c7154f254e97723536d9a5010adddc7b",
+    "firmware/himax_arc/birdhouse/bh_selftest_expected.h": "a0d7c682bede6d17565e111f5461ac128378bb2c3424762b092451b089be075c",
+    "firmware/himax_arc/birdhouse/build/birdhouse_overlay.mk": "cb64d5f1c8976ed97e96fe171cee5e9549c9f951aa8b9dc3f0318eaf0044d2f1",
+    "firmware/himax_arc/birdhouse/build/tflm_config_probe.cc": "e65534a157d97cc178ab3ee8c960e9944ff0621317487555b86e85fe291bb18d",
+    "firmware/himax_arc/birdhouse/model_manifest.json": "f1834aecc97437de3dbc84dcc93b0e8b9a6b911482de949bdac4739cbb44de99",
+    "firmware/himax_arc/birdhouse/tflm_overlay/tflite-model/trained_model_ops_define.h": "477acd33ceba2546e2e667cd715b2c0a207c301cf24bc79529d86d4d7c852f7c",
+    "firmware/himax_arc/tests/Makefile": "f5e1f1ff8b8efdf8c49ae88a2ae499f183bd102698198264fd20fd333a39c5a4",
+    "firmware/himax_arc/tests/bh_test.h": "cd76d88f9d09988fb5fc42ddf825fb2d02748a4e4983daa0bef24c5e274eb1fb",
+    "firmware/himax_arc/tests/fake_aud_lib.cc": "a5fbff21c52f708d62ee4c61c9217929c0b6b2bdc546d7f997746c35bb4433ee",
+    "firmware/himax_arc/tests/fake_aud_lib.h": "c625eacbb3e68cdb158f53bf61f2aaddbade72cdaddb98c199d5244ae7661ce5",
+    "firmware/himax_arc/tests/host_port.cc": "c8b949927891a28c912e50a1722aaf5cdf02ea80d4da5745dcfe2fab348f08d2",
+    "firmware/himax_arc/tests/host_port.h": "bb1c014656127199d81051ae403fcebdadb9f56795b5fd0d6a68eaf6b7209ce7",
+    "firmware/himax_arc/tests/test_capture.cc": "07491270d50fb3a1a1e739ac1b1b92156b40cdbf88e169cc200a41e0bf05b01f",
+    "firmware/himax_arc/tests/test_console.cc": "d94f2a87ff3be23a9324a9ccde02b630ecf58aaaab364d82529b9a11ea0879a5",
+    "firmware/himax_arc/tests/test_diag.cc": "8c09d86302685d37c39e186f65b1c3096740667c977ba11a3927de64f9ecebc2",
+    "firmware/himax_arc/tests/test_pdm_port.cc": "8a347a73ddcbed16d7ab261c3240430b2656b282c550cf40449ee44ba80d9fb8",
+    "firmware/himax_arc/tests/test_preprocess_reference.cc": "8b4316fdfdb5d206f18699c0755349e8e2fd3c10c5356fe9309590847ab6b94b",
+    "firmware/himax_arc/tests/test_runtime.cc": "75535163054b3f24c3f5851b5636af6805efbed888d539a71e2325d335507fa4",
+    "firmware/himax_arc/tests/test_tflm_inference.cc": "b7aaddc7002bdad3f10976458a92fa41eadeaef8d2e94546a8a7cfb69009db3b",
+    "firmware/himax_arc/tests/testdata/tflm_reference_vectors.h": "12e7cf1576f9cd0e7cdf08193ed1a4ad5190bcf43f1c37454ec3e3ddbc04e0b0",
+    "firmware/himax_arc/tests/testdata/tflm_reference_vectors.json": "eced8266204e4793888960b54cbd39591970aab583e769526d3aaf5cdb1914d1",
+    "firmware/himax_arc/tests/tflm_vectors.h": "3971ae9f4d127e6287973acba3b7deec35dbc98262cddbb4f4f419f6bbddfcab",
+    "firmware/model/model_asset_summary.json": "c43705cc3f45850407ff694f868b65c28472476cd463657e4de926313d54a9aa",
+    "firmware/model/model_constants.h": "b3f6fcadde94dd113b86154323f6e938252fb32a6c884efe8b6f4513568c8c99",
+    "firmware/model/student_final_int8_model_data.cc": "fea5d5e41a982687a80c7d83deb6463e2427abbf0a0383921c3b5836259be311",
+    "firmware/model/student_final_int8_model_data.h": "ad0494eeaa292384e0cbf497ec81db33aba45df493e40cec1507dcbdde4f6a9e",
+    "firmware/preprocess/audio_preprocess.cc": "b644a15438c3d3eb3854f92a96825b0ed76a05633ec5830bea655a2897991650",
+    "firmware/preprocess/audio_preprocess.h": "33215f77561b2871c2a4971874f11b142a64e5f5fcfef60d6f075f046a22c566",
+    "firmware/preprocess/mel_filterbank.cc": "3dcad8d090380147b8cb8d902c59a3240b6f9fb3e7cc29d146640b60aee96a44",
+    "firmware/preprocess/mel_filterbank.h": "3e94c4cd3bd6694044a2f4143abf5e4163b65278dcef117686c5007680100b8c",
+    "firmware/preprocess/mel_filterbank_summary.json": "293c9c8855c0f4959585d84dd257c7d8d036d867a263306e3c73a35267dd32d8",
+    "firmware/preprocess/preprocess_constants.h": "6abf55a5bc5aea4edcd075902d8ea871c07e398a081e995f662da27d77e66bc3",
+    "firmware/preprocess/test_preprocess_parity.cc": "4415e7738ab104dac16b54aca251652287c7bd91da46c5553e6b2802c690fb48",
+    "firmware/preprocess/testdata/reference_input_int8.h": "c1cef3290f42f48e42a93be8708f6052af16ad01566007427881fd1df1fb13a3",
+    "firmware/preprocess/testdata/reference_pcm_float32.h": "dc2d6ac56f25390512c9fe321593e7dab512f0e2679ecd0cabb1691efe0e8f8e",
+    "firmware/preprocess/testdata/reference_preprocess_summary.json": "4bd6eaba5ca191f96cdf4aa4c7ffc45ded11cbcaeabedc7c4f785ea274fc1497",
+    "tools/himax/gen_tflm_reference.py": "f399eec9805d1389a0cdd28b899da118cf81c6d1454d42217648b43544024e77",
+    "tools/himax/model_manifest.py": "284a3a1ab9d43440e4f00cf3cdf647e52ad9fe7c6fcf179c1cf77c2c9b1ebd5b",
+    "tools/himax/package_offline.py": "d4c60ccf89f7a63873ff579c9d53a394f54cd1f52d439c70a56103c6d7d4611d",
+    "tools/himax/postlink_audit.py": "79b3d357f6139546a289b79faf53838ee2a660b4a81e142c72af55cdb72c8adb",
+    "tools/himax/run_offline_checks.py": "7bb277acfda0c6bc4e9120ebf57c0df5d9be4cb6965ebc806462ebd820ab75a7",
+    "tools/himax/sdk_make.sh": "973786adce68117ddd4aea0db98fd9b4460e1d78a84dcd9158bd1601d258e8e0",
+    "tools/himax/tests/test_offline_tools.py": "4706dca00f79a271fe1170c93040e57c382868d29ba965f362a0c20e2fb15255",
+    "tools/himax/uf2_tool.py": "5b2656e457b31c4de451988ff486cf3620c6040f345c51852d7db2f7fbbd0b96",
+    "tools/himax/verify_tflm_ops.py": "786e9f9aabb969e56fa0791d65d1d0eb9270f421b8b2fd0fb2ba8778b2580b72"
+  },
+  "work_root": ".local-tools/port-himax/bh-codex-validated",
+  "source_date_epoch": "1794355200",
+  "steps": [
+    {
+      "id": "m0_01",
+      "milestone": "m0",
+      "name": "offline tool regressions: full real-image payload checks, mutations, gates and safe make arguments",
+      "negative_control": false,
+      "status": "PASS",
+      "details": {
+        "exit": 0,
+        "real_candidate_tests_skipped": false
+      },
+      "log": "local-only: m0_01.log.txt"
+    },
+    {
+      "id": "m1_01",
+      "milestone": "m1",
+      "name": "model manifest is reproducible from the tracked model array",
+      "negative_control": false,
+      "status": "PASS",
+      "details": {
+        "model_sha256": "9e04d17723b87f9acbba3030c23e1e50b551493125e9bf7dc0aeb27f0b12db55",
+        "operators": {
+          "CONV_2D": 6,
+          "DEPTHWISE_CONV_2D": 5,
+          "FULLY_CONNECTED": 2,
+          "LOGISTIC": 1,
+          "MEAN": 1
+        },
+        "peak_live_activation_bytes": 140000,
+        "identical_to_tracked": true
+      },
+      "log": "local-only: m1_01.log.txt"
+    },
+    {
+      "id": "m1_02",
+      "milestone": "m1",
+      "name": "ARC compiler sees the operator overlay: configuration audit passes",
+      "negative_control": false,
+      "status": "PASS",
+      "details": {
+        "verifier_exit": 0,
+        "summary": "[arc_config_overlay] 70 checks, 0 failed -> PASS"
+      },
+      "log": "local-only: m1_02.log.txt"
+    },
+    {
+      "id": "m1_03",
+      "milestone": "m1",
+      "name": "vendor operator configuration is rejected by the audit",
+      "negative_control": true,
+      "status": "PASS",
+      "details": {
+        "verifier_exit": 1,
+        "failed_checks": [
+          "FULLY_CONNECTED: EI_TFLITE_DISABLE_FULLY_CONNECTED_IN_I8 is not set",
+          "FULLY_CONNECTED: EI_TFLITE_DISABLE_FULLY_CONNECTED_OUT_I8 is not set"
+        ]
+      },
+      "log": "local-only: m1_03.log.txt"
+    },
+    {
+      "id": "m1_04",
+      "milestone": "m1",
+      "name": "stage50 build is rejected: disabled gate and stub kernel detected",
+      "negative_control": true,
+      "status": "PASS",
+      "details": {
+        "verifier_exit": 1,
+        "failed_checks": [
+          "FULLY_CONNECTED: EI_TFLITE_DISABLE_FULLY_CONNECTED_IN_I8 is not set | value='1'",
+          "FULLY_CONNECTED: EI_TFLITE_DISABLE_FULLY_CONNECTED_OUT_I8 is not set | value='1'",
+          "FULLY_CONNECTED: Eval is not a stub | tflite::Eval size=46 reachable_code=46B workers=[]",
+          "FULLY_CONNECTED: ARC INT8 MLI worker linked | mli_krn_fully_connected_sa8_sa8_sa32"
+        ]
+      },
+      "log": "local-only: m1_04.log.txt"
+    },
+    {
+      "id": "m2_01",
+      "milestone": "m2",
+      "name": "reference vectors are reproducible with the TensorFlow Lite interpreter",
+      "negative_control": false,
+      "status": "PASS",
+      "details": {
+        "vectors": 28,
+        "tensorflow_version": "2.15.1",
+        "all_three_generated_files_identical": true
+      },
+      "log": "local-only: m2_01.log.txt"
+    },
+    {
+      "id": "m2_02",
+      "milestone": "m2",
+      "name": "host kernels are built with the same operator gates as the firmware",
+      "negative_control": false,
+      "status": "PASS",
+      "details": {
+        "verifier_exit": 0
+      },
+      "log": "local-only: m2_02.log.txt"
+    },
+    {
+      "id": "m2_03",
+      "milestone": "m2",
+      "name": "host inference on vendor TFLite Micro sources: init, arena, 28 vectors, repeat, errors",
+      "negative_control": false,
+      "status": "PASS",
+      "details": {
+        "summary": {
+          "suite": "tflm_inference",
+          "checks_passed": 586,
+          "checks_failed": 0,
+          "status": "PASS"
+        },
+        "result": {
+          "arena_used_bytes": 148800,
+          "minimum_arena_bytes": 148800,
+          "vectors": 28,
+          "mismatches": 0,
+          "max_abs_diff": 0,
+          "invoke_count": 16,
+          "pointer_bits": 64,
+          "arena_assertion_window": [
+            148592,
+            148752
+          ],
+          "arena_assertion_sizes": 8
+        }
+      },
+      "log": "local-only: m2_03.log.txt"
+    },
+    {
+      "id": "m2_04",
+      "milestone": "m2",
+      "name": "host inference with the vendor operator configuration is blocked",
+      "negative_control": true,
+      "status": "PASS",
+      "details": {
+        "blocked_at": "Invoke"
+      },
+      "log": "local-only: m2_04.log.txt"
+    },
+    {
+      "id": "m3_01",
+      "milestone": "m3",
+      "name": "diagnostics helpers (CRC-32, statistics, base64, synthetic signals)",
+      "negative_control": false,
+      "status": "PASS",
+      "details": {
+        "summary": {
+          "suite": "diag",
+          "checks_passed": 71,
+          "checks_failed": 0,
+          "status": "PASS"
+        },
+        "sanitizers": "address,undefined"
+      },
+      "log": "local-only: m3_01.log.txt"
+    },
+    {
+      "id": "m3_02",
+      "milestone": "m3",
+      "name": "capture core: 80,000 samples, settling, boundaries, errors, timing verdicts, reuse",
+      "negative_control": false,
+      "status": "PASS",
+      "details": {
+        "summary": {
+          "suite": "capture",
+          "checks_passed": 281,
+          "checks_failed": 0,
+          "status": "PASS"
+        },
+        "sanitizers": "address,undefined"
+      },
+      "log": "local-only: m3_02.log.txt"
+    },
+    {
+      "id": "m3_03",
+      "milestone": "m3",
+      "name": "PDM adapter against the emulated audio library (ring wrap, faults, overrun, late callback)",
+      "negative_control": false,
+      "status": "PASS",
+      "details": {
+        "summary": {
+          "suite": "pdm_port",
+          "checks_passed": 92,
+          "checks_failed": 0,
+          "status": "PASS"
+        },
+        "sanitizers": "address,undefined"
+      },
+      "log": "local-only: m3_03.log.txt"
+    },
+    {
+      "id": "m3_04",
+      "milestone": "m3",
+      "name": "end to end on host: audio emulation -> capture -> log-mel -> model -> report",
+      "negative_control": false,
+      "status": "PASS",
+      "details": {
+        "summary": {
+          "suite": "runtime",
+          "checks_passed": 302,
+          "checks_failed": 0,
+          "status": "PASS"
+        },
+        "sanitizers": "address,undefined",
+        "expected_values": 5
+      },
+      "log": "local-only: m3_04.log.txt"
+    },
+    {
+      "id": "m3_05",
+      "milestone": "m3",
+      "name": "actual vendor AT server dispatches Birdhouse commands and rejects invalid/busy requests",
+      "negative_control": false,
+      "status": "PASS",
+      "details": {
+        "summary": {
+          "suite": "console",
+          "checks_passed": 29,
+          "checks_failed": 0,
+          "status": "PASS"
+        },
+        "sanitizers": "address,undefined"
+      },
+      "log": "local-only: m3_05.log.txt"
+    },
+    {
+      "id": "m3_06",
+      "milestone": "m3",
+      "name": "preprocessing equals the independent stored Python feature oracle, not a duplicate pipeline",
+      "negative_control": false,
+      "status": "PASS",
+      "details": {
+        "summary": {
+          "suite": "preprocess_reference",
+          "checks_passed": 21,
+          "checks_failed": 0,
+          "status": "PASS"
+        },
+        "sanitizers": "address,undefined",
+        "feature_elements": 9960
+      },
+      "log": "local-only: m3_06.log.txt"
+    },
+    {
+      "id": "m4_01",
+      "milestone": "m4",
+      "name": "vendor-only firmware builds from the pristine SDK (comparison baseline)",
+      "negative_control": false,
+      "status": "PASS",
+      "details": {
+        "linker_memory": {
+          "ICCM1": {
+            "used": 269834,
+            "percent": 82.35
+          },
+          "SYSTEM0": {
+            "used": 292484,
+            "percent": 20.32
+          },
+          "DCCM": {
+            "used": 54672,
+            "percent": 21.53
+          }
+        }
+      },
+      "log": "local-only: m4_01.log.txt"
+    },
+    {
+      "id": "m4_02",
+      "milestone": "m4",
+      "name": "candidate firmware builds and links; no compiler warnings in Birdhouse sources",
+      "negative_control": false,
+      "status": "PASS",
+      "details": {
+        "linker_memory": {
+          "ICCM1": {
+            "used": 301310,
+            "percent": 91.95
+          },
+          "SYSTEM0": {
+            "used": 849188,
+            "percent": 58.98
+          },
+          "DCCM": {
+            "used": 76960,
+            "percent": 30.3
+          }
+        },
+        "birdhouse_warnings": 0
+      },
+      "log": "local-only: m4_02.log.txt"
+    },
+    {
+      "id": "m4_03",
+      "milestone": "m4",
+      "name": "operator audit of the candidate: configuration, kernel objects, registrations in the ELF",
+      "negative_control": false,
+      "status": "PASS",
+      "details": {
+        "verifier_exit": 0,
+        "summary": "[candidate] 83 checks, 0 failed -> PASS"
+      },
+      "log": "local-only: m4_03.log.txt"
+    },
+    {
+      "id": "m4_04",
+      "milestone": "m4",
+      "name": "post-link audit: memory, buffers, model bytes, hooks at call sites, stack chain, heap",
+      "negative_control": false,
+      "status": "PASS",
+      "details": {
+        "memory": {
+          "ICCM0": {
+            "origin": "0x0",
+            "length": 65536,
+            "used": 0,
+            "free": 65536,
+            "used_percent": 0.0
+          },
+          "ICCM1": {
+            "origin": "0x10000000",
+            "length": 327680,
+            "used": 301310,
+            "free": 26370,
+            "used_percent": 91.95
+          },
+          "BOOT": {
+            "origin": "0x20000000",
+            "length": 133120,
+            "used": 133120,
+            "free": 0,
+            "used_percent": 100.0
+          },
+          "SYSTEM0": {
+            "origin": "0x20020800",
+            "length": 1439744,
+            "used": 849188,
+            "free": 590556,
+            "used_percent": 58.98
+          },
+          "DCCM": {
+            "origin": "0x80000000",
+            "length": 253952,
+            "used": 76960,
+            "free": 176992,
+            "used_percent": 30.3
+          },
+          ".stack": {
+            "origin": "0x8003e000",
+            "length": 8192,
+            "used": 0,
+            "free": 8192,
+            "used_percent": 0.0
+          },
+          "XCCM": {
+            "origin": "0x90000000",
+            "length": 32768,
+            "used": 32768,
+            "free": 0,
+            "used_percent": 100.0
+          },
+          "YCCM": {
+            "origin": "0xa0000000",
+            "length": 32768,
+            "used": 32768,
+            "free": 0,
+            "used_percent": 100.0
+          }
+        },
+        "heap_bytes": 176992,
+        "stack_bytes": 8188,
+        "known_inference_stack_chain_bytes": 1664,
+        "delta_vs_vendor_only": {
+          "ICCM1": 31476,
+          "SYSTEM0": 556704,
+          "DCCM": 22288
+        },
+        "elf_sha256": "8a280fa470c5e6a40b10a941a4e1fe99625233e8d28253b6bcfe4104aff7142f"
+      },
+      "log": "local-only: m4_04.log.txt"
+    },
+    {
+      "id": "m4_05",
+      "milestone": "m4",
+      "name": "vendor SDK working tree is unmodified after all builds",
+      "negative_control": false,
+      "status": "PASS",
+      "details": {
+        "sdk_commit": "9dc2370d4dc269dc4bcafcf0354b8f745d08801f",
+        "modified_or_untracked_files": 0
+      },
+      "log": "local-only: m4_05.log.txt"
+    },
+    {
+      "id": "m5_01",
+      "milestone": "m5",
+      "name": "offline packaging in a sandbox; image, bootloader regions and UF2 validated (no deployment)",
+      "negative_control": false,
+      "status": "PASS",
+      "details": {
+        "image": {
+          "bytes": 628016,
+          "sha256": "c2d7e176436433f714633bc817cec3bc232c8fabd62389567be518358b6de388",
+          "application_bytes": 488752,
+          "application_chunks": 8
+        },
+        "uf2": {
+          "bytes": 1256448,
+          "blocks": 2454,
+          "sha256": "009799e1ca3b39fa9f3fcee9ce97dd6f5d93a3bedf383b2172bfa873c21600ae",
+          "first_address": "0x10000000",
+          "end_address": "0x10099600"
+        },
+        "deterministic": true,
+        "size_comparison_image_bytes": {
+          "factory_grove_ai_v02_00": 770816,
+          "candidate": 628016,
+          "edge_impulse_prebuilt": 486144
+        },
+        "candidate_elf_sha256": "8a280fa470c5e6a40b10a941a4e1fe99625233e8d28253b6bcfe4104aff7142f"
+      },
+      "log": "local-only: m5_01.log.txt"
+    },
+    {
+      "id": "m5_02",
+      "milestone": "m5",
+      "name": "vendor SDK working tree is unmodified after packaging",
+      "negative_control": false,
+      "status": "PASS",
+      "details": {
+        "modified_or_untracked_files": 0
+      },
+      "log": "local-only: m5_02.log.txt"
+    }
+  ]
+}

@@ -11,8 +11,8 @@ Usage:
   python3 tools/himax/run_offline_checks.py --only m1,m2   # selected milestones
   python3 tools/himax/run_offline_checks.py --list
 
-Results (logs with local paths removed, summary.json, summary.md) are written to
-docs/research/birdhouse_v1_implementation_20261111/results/.
+Public-safe summaries go to --results-dir. Raw logs stay in the new local work
+tree. Previous results/builds are never deleted or inherited as current passes.
 
 Step status:
   PASS     the step did what a correct build must do
@@ -28,6 +28,8 @@ import os
 import re
 import subprocess
 import sys
+import tempfile
+import hashlib
 
 REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 PY = sys.executable
@@ -35,7 +37,7 @@ SDK = os.path.join(REPO, ".local-tools/source/firmware-seeed-grove-vision-ai/Syn
 KERNEL_SRC = os.path.join(SDK, "app/scenario_app/edge_impulse_visionai/ei-model/edge-impulse-sdk/tensorflow/lite/micro/kernels")
 TOOLCHAIN_BIN = os.path.join(REPO, ".local-tools/toolchains/arc_gnu_ei_prebuilt_minimal_elf32_le_linux_install/bin")
 WORK = os.path.join(REPO, ".local-tools/port-himax")
-RESULTS = os.path.join(REPO, "docs/research/birdhouse_v1_implementation_20261111/results")
+RESULTS = os.path.join(REPO, "docs/research/birdhouse_v1_codex_predeployment_20261111/results")
 MANIFEST = os.path.join(REPO, "firmware/himax_arc/birdhouse/model_manifest.json")
 TESTS = os.path.join(REPO, "firmware/himax_arc/tests")
 STAGE50 = os.path.join(WORK, "birdhouse-executable-step50/obj_socket_24/gnu_arcem9d_wei_r16")
@@ -75,12 +77,21 @@ def shorten(text, head=15, tail=80):
 def run(cmd, log, cwd=REPO, env=None, timeout=1800):
     """Run a command, append its output to the step log, return (rc, output)."""
     log.append("$ " + " ".join(scrub(str(c)) for c in cmd))
+    if cmd[:3] == ["make", "-C", TESTS]:
+        cmd = [*cmd, "BUILD=" + os.path.join(WORK, "host-tests")]
     p = subprocess.run(cmd, cwd=cwd, env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                        text=True, timeout=timeout, errors="replace")
     out = scrub(p.stdout)
     log.append(shorten(out.rstrip()))
     log.append(f"[exit {p.returncode}]")
     return p.returncode, out
+
+
+def first_party_warnings(output):
+    # Parallel make can interleave a compile command with a diagnostic. Match
+    # the diagnostic filename, not every path appearing elsewhere on its line.
+    return [m.group(0) for m in re.finditer(r"([^\s:]+):\d+(?::\d+)?:\s+warning:[^\n]*", output)
+            if any(p in m.group(1) for p in ("firmware/himax_arc/birdhouse/", "firmware/preprocess/", "firmware/model/"))]
 
 
 def need(path, what):
@@ -121,6 +132,11 @@ def sdk_make(out_dir, log, *args):
 
 
 # ---------------------------------------------------------------- milestone 1
+
+@step("m0", "offline tool regressions: full real-image payload checks, mutations, gates and safe make arguments")
+def m0_tools(log):
+    rc, out = run([PY, "-m", "unittest", "discover", "-s", "tools/himax/tests", "-v"], log)
+    return rc == 0 and "skipped" not in out, {"exit": rc, "real_candidate_tests_skipped": "skipped" in out}
 
 @step("m1", "model manifest is reproducible from the tracked model array")
 def m1_manifest(log):
@@ -177,17 +193,20 @@ def m1_stage50(log):
 
 @step("m2", "reference vectors are reproducible with the TensorFlow Lite interpreter")
 def m2_reference_vectors(log):
-    tracked = os.path.join(TESTS, "testdata/tflm_reference_vectors.json")
-    before = open(tracked, encoding="utf-8").read()
-    rc, out = run([PY, os.path.join(REPO, "tools/himax/gen_tflm_reference.py")], log, env=tf_env())
-    after = open(tracked, encoding="utf-8").read()
-    data = json.loads(after)
-    differing = [v["name"] for v in data["vectors"]
-                 if v["output_q_reference_kernels"] != v["output_q_default_kernels"]]
-    return rc == 0 and before == after, {
-        "vectors": len(data["vectors"]), "tensorflow_version": data["tensorflow_version"],
-        "identical_to_tracked": before == after,
-        "tflite_reference_vs_default_kernel_differences": differing}
+    regenerated = os.path.join(WORK, "reference-regen")
+    os.makedirs(regenerated)
+    rc, out = run([PY, os.path.join(REPO, "tools/himax/gen_tflm_reference.py"),
+                   "--out-dir", regenerated, "--selftest-out", os.path.join(regenerated, "bh_selftest_expected.h")],
+                  log, env=tf_env())
+    files = {"tflm_reference_vectors.json": os.path.join(TESTS, "testdata/tflm_reference_vectors.json"),
+             "tflm_reference_vectors.h": os.path.join(TESTS, "testdata/tflm_reference_vectors.h"),
+             "bh_selftest_expected.h": os.path.join(REPO, "firmware/himax_arc/birdhouse/bh_selftest_expected.h")}
+    same = rc == 0 and all(open(os.path.join(regenerated, n), "rb").read() == open(p, "rb").read()
+                           for n, p in files.items())
+    data = json.load(open(os.path.join(regenerated, "tflm_reference_vectors.json")))
+    return same, {"vectors": len(data["vectors"]), "tensorflow_version": data["tensorflow_version"],
+                  "all_three_generated_files_identical": same}
+
 
 
 @step("m2", "host kernels are built with the same operator gates as the firmware")
@@ -200,7 +219,7 @@ def m2_host_config(log):
     return rc == 0, {"verifier_exit": rc}
 
 
-@step("m2", "host inference on vendor TFLite Micro sources: init, arena, 26 vectors, repeat, errors")
+@step("m2", "host inference on vendor TFLite Micro sources: init, arena, 28 vectors, repeat, errors")
 def m2_host_inference(log):
     rc, _ = run(["make", "-C", TESTS, "-j8", "tflm", "CONFIG=overlay"], log)
     if rc != 0:
@@ -267,6 +286,18 @@ def m3_runtime(log):
     return ok, {"summary": summary, "sanitizers": "address,undefined", "expected_values": len(expected)}
 
 
+@step("m3", "actual vendor AT server dispatches Birdhouse commands and rejects invalid/busy requests")
+def m3_console(log):
+    ok, summary, _ = run_host_test("test_console", log)
+    return ok, {"summary": summary, "sanitizers": "address,undefined"}
+
+
+@step("m3", "preprocessing equals the independent stored Python feature oracle, not a duplicate pipeline")
+def m3_preprocess_reference(log):
+    ok, summary, _ = run_host_test("test_preprocess_reference", log)
+    return ok, {"summary": summary, "sanitizers": "address,undefined", "feature_elements": 9960}
+
+
 # ---------------------------------------------------------------- milestone 4
 
 CANDIDATE = os.path.join(WORK, "bh-candidate")
@@ -276,10 +307,7 @@ LDSCRIPT = os.path.join(SDK, "app/scenario_app/edge_impulse_visionai/edge_impuls
 
 
 def clean_build(out_dir, log, *args):
-    import shutil
-    if os.path.isdir(out_dir):
-        shutil.rmtree(out_dir)
-    os.makedirs(out_dir)
+    os.makedirs(out_dir, exist_ok=False)
     return sdk_make(out_dir, log, "-j8", *args)
 
 
@@ -302,9 +330,7 @@ def m4_baseline(log):
 @step("m4", "candidate firmware builds and links; no compiler warnings in Birdhouse sources")
 def m4_candidate(log):
     rc, out = clean_build(CANDIDATE, log)
-    warnings = [l for l in out.splitlines()
-                if "warning:" in l and ("firmware/himax_arc/birdhouse" in l or "firmware/preprocess" in l
-                                        or "firmware/model" in l)]
+    warnings = first_party_warnings(out)
     elf = os.path.join(CANDIDATE, BUILD_INFO, ELF_NAME)
     return rc == 0 and os.path.isfile(elf) and not warnings, {
         "linker_memory": link_memory(out), "birdhouse_warnings": len(warnings)}
@@ -387,10 +413,34 @@ def board_guard():
     return hits
 
 
+def overall_status(records):
+    statuses = {r["status"] for r in records}
+    if "FAIL" in statuses: return "FAIL"
+    if "BLOCKED" in statuses: return "BLOCKED"
+    if not records or "NOT_RUN" in statuses: return "PARTIAL"
+    return "PASS"
+
+
+def source_identity():
+    """Hash actual first-party inputs, including uncommitted fixes, not just HEAD."""
+    paths = []
+    for folder in ("firmware/himax_arc/birdhouse", "firmware/himax_arc/tests", "firmware/model",
+                   "firmware/preprocess", "tools/himax"):
+        for root, dirs, files in os.walk(os.path.join(REPO, folder)):
+            dirs[:] = [d for d in dirs if d not in ("__pycache__", ".pytest_cache")]
+            for f in files:
+                if f.endswith((".cc", ".h", ".mk", ".py", ".sh", ".json")) or f == "Makefile":
+                    paths.append(os.path.join(root, f))
+    return {os.path.relpath(p, REPO): hashlib.sha256(open(p, "rb").read()).hexdigest() for p in sorted(paths)}
+
+
 def main():
+    global RESULTS, WORK, CANDIDATE, BASELINE
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--only", help="comma-separated milestones, e.g. m1,m2")
     ap.add_argument("--list", action="store_true")
+    ap.add_argument("--results-dir", default=RESULTS, help="public-safe summaries (raw logs stay local)")
+    ap.add_argument("--work-root", help="new output tree under .local-tools/port-himax; never removed")
     args = ap.parse_args()
 
     if args.list:
@@ -404,15 +454,26 @@ def main():
         return 2
 
     only = set(args.only.split(",")) if args.only else None
+    if only and not only <= {s["milestone"] for s in STEPS}:
+        ap.error("unknown milestone in --only")
+    RESULTS = os.path.abspath(args.results_dir)
+    if os.path.exists(os.path.join(RESULTS, "summary.json")):
+        ap.error("results already exist; choose a new --results-dir to preserve evidence")
+    allowed = os.path.realpath(WORK) + os.sep
+    if args.work_root:
+        WORK = os.path.realpath(args.work_root)
+        if not WORK.startswith(allowed) or os.path.exists(WORK):
+            ap.error("--work-root must be a new directory under .local-tools/port-himax")
+        os.makedirs(WORK)
+    else:
+        WORK = tempfile.mkdtemp(prefix="bh-codex-audit-", dir=WORK)
+    CANDIDATE = os.path.join(WORK, "bh-candidate")
+    BASELINE = os.path.join(WORK, "bh-vendor-baseline")
+    os.makedirs(os.path.join(WORK, "logs"))
     os.makedirs(RESULTS, exist_ok=True)
     os.makedirs(os.path.join(WORK, "bh-results"), exist_ok=True)
 
     summary_path = os.path.join(RESULTS, "summary.json")
-    previous = {}
-    if os.path.exists(summary_path):
-        for r in json.load(open(summary_path, encoding="utf-8")).get("steps", []):
-            previous[(r["milestone"], r["name"])] = r
-
     records = []
     counters = {}
     for s in STEPS:
@@ -420,8 +481,8 @@ def main():
         counters[s["milestone"]] = counters.get(s["milestone"], 0) + 1
         step_id = f"{s['milestone']}_{counters[s['milestone']]:02d}"
         if only and s["milestone"] not in only:
-            if key in previous:
-                records.append(previous[key])
+            records.append({"id": step_id, "milestone": s["milestone"], "name": s["name"],
+                            "negative_control": s["negative_control"], "status": "NOT_RUN", "details": {}})
             continue
         log = []
         try:
@@ -429,22 +490,26 @@ def main():
             status = "PASS" if ok else "FAIL"
         except Blocked as e:
             status, details = "BLOCKED", {"reason": str(e)}
+        except (OSError, ValueError, KeyError) as e:
+            status, details = "FAIL", {"reason": scrub(str(e))}
         except subprocess.TimeoutExpired:
             status, details = "FAIL", {"reason": "timeout"}
         log_name = f"{step_id}.log.txt"
-        with open(os.path.join(RESULTS, log_name), "w", encoding="utf-8") as f:
+        with open(os.path.join(WORK, "logs", log_name), "w", encoding="utf-8") as f:
             f.write("\n".join(log) + "\n")
         records.append({"id": step_id, "milestone": s["milestone"], "name": s["name"],
                         "negative_control": s["negative_control"], "status": status,
-                        "details": details, "log": log_name})
+                        "details": details, "log": "local-only: " + log_name})
         print(f"{status:<8}{step_id}  {s['name']}")
 
     head = subprocess.run(["git", "-C", REPO, "rev-parse", "HEAD"], capture_output=True, text=True).stdout.strip()
     summary = {
         "generated_utc": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "git_head_when_run": head,
-        "overall": "PASS" if all(r["status"] == "PASS" for r in records) else
-                   ("FAIL" if any(r["status"] == "FAIL" for r in records) else "BLOCKED"),
+        "overall": overall_status(records),
+        "source_sha256": source_identity(),
+        "work_root": os.path.relpath(WORK, REPO),
+        "source_date_epoch": os.environ.get("SOURCE_DATE_EPOCH", "1794355200"),
         "steps": records,
     }
     with open(summary_path, "w", encoding="utf-8") as f:
@@ -460,7 +525,7 @@ def main():
             f.write(f"| `{r['id']}` | {r['status']} | {r['name']} | {kind} |\n")
         f.write("\nReproduce with `python3 tools/himax/run_offline_checks.py` using the project interpreter.\n")
     print(f"overall: {summary['overall']}")
-    return 0 if summary["overall"] == "PASS" else 1
+    return 0 if summary["overall"] in ("PASS", "PARTIAL") else 1
 
 
 if __name__ == "__main__":

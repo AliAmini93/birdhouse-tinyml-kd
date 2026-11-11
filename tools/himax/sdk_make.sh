@@ -21,20 +21,27 @@ if [ $# -lt 1 ]; then
 fi
 OUT="$1"; shift
 
-for forbidden in flash ota run gui menuconfig; do
-  for arg in "$@"; do
-    if [ "$arg" = "$forbidden" ]; then
-      echo "refusing vendor target '$forbidden'" >&2
-      exit 2
-    fi
-  done
+for arg in "$@"; do
+  case "$arg" in
+    bh_tflm_config|BH_LINK=[01]|BH_TFLM_OVERLAY=[01]|BH_STACK_USAGE=[01]) ;;
+    -j[1-9]*) [[ "$arg" =~ ^-j[1-9][0-9]*$ ]] || exit 2 ;;
+    *) echo "refusing non-allowlisted make argument '$arg'" >&2; exit 2 ;;
+  esac
 done
+# Inherited make options can inject makefiles/recipes even with no CLI target.
+unset MAKEFLAGS MFLAGS GNUMAKEFLAGS MAKEFILES
+export SOURCE_DATE_EPOCH="${SOURCE_DATE_EPOCH:-1794355200}"
+[[ "$SOURCE_DATE_EPOCH" =~ ^[0-9]+$ ]] || { echo "invalid SOURCE_DATE_EPOCH" >&2; exit 2; }
+export LC_ALL=C TZ=UTC
 
 [ -d "$SDK" ] || { echo "SDK not found: $SDK" >&2; exit 1; }
 [ -x "$TOOLCHAIN_BIN/arc-elf32-gcc" ] || { echo "ARC toolchain not found: $TOOLCHAIN_BIN" >&2; exit 1; }
 
+OUT="$(realpath -m -- "$OUT")"
+case "$OUT" in "$REPO"/.local-tools/port-himax/*) ;;
+  *) echo "out-dir must resolve below .local-tools/port-himax" >&2; exit 2;;
+esac
 mkdir -p "$OUT"
-OUT="$(cd "$OUT" && pwd)"
 case "$OUT" in *" "*) echo "out-dir must not contain spaces: $OUT" >&2; exit 1;; esac
 case "$REPO" in *" "*) echo "repository path must not contain spaces" >&2; exit 1;; esac
 

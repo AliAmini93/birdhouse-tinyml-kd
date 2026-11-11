@@ -1,0 +1,20 @@
+{
+  "status": "PASS for static inspection only",
+  "validated_elf_sha256": "8a280fa470c5e6a40b10a941a4e1fe99625233e8d28253b6bcfe4104aff7142f",
+  "heap": {
+    "linker_start": "0x80012ca0",
+    "linker_end": "0x8003e000",
+    "capacity_bytes": 176992,
+    "sbrk_upper_bound_matches_linker_end": true,
+    "runtime_free_heap": "UNMEASURED"
+  },
+  "stack": {
+    "linker_bytes": 8188,
+    "compile_time_STACKSIZE_macro_is_not_linker_capacity": true,
+    "partial_frame_sum_bytes": 1664,
+    "safety": "UNPROVEN; see omitted paths in postlink report"
+  },
+  "model_input_trust": "ModelInit is for the compiled, offline-hash-verified asset. Its identifier/schema checks are not a general untrusted-flatbuffer verifier.",
+  "serial_scope": "actual AT dispatcher/parser tested; UART bridge, baud, throughput, interrupt impact and concurrent I2C clients untested",
+  "physical_hardware_access": false
+}

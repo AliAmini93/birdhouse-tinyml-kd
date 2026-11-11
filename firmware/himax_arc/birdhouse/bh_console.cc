@@ -3,6 +3,20 @@
 #include "firmware/himax_arc/birdhouse/bh_port.h"
 #include "firmware/himax_arc/birdhouse/bh_runtime.h"
 #include "firmware-sdk/at-server/ei_at_server.h"
+#include <utility>
+
+// The SDK parser calls substr(npos) for an all-whitespace line. Interpose its
+// external call from ATServer, keeping vendor code unchanged. The mangled name
+// is shared by the pinned ARC and host C++11 SDK builds; link/audit fails if the
+// SDK ABI changes. Empty input follows the SDK's own AT_UNKNOWN path.
+extern "C" const ATParseResult_t& BhRealAtParse(ATParser*, std::string)
+    asm("__real__ZN8ATParser5parseENSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE");
+extern "C" const ATParseResult_t& BhWrapAtParse(ATParser*, std::string)
+    asm("__wrap__ZN8ATParser5parseENSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE");
+extern "C" const ATParseResult_t& BhWrapAtParse(ATParser* parser, std::string input) {
+  if (input.find_first_not_of(" \t") == std::string::npos) input.clear();
+  return BhRealAtParse(parser, std::move(input));
+}
 
 // Existing SDK handlers; their implementations remain in the vendor tree.
 bool at_sample_start(const char**, int);

@@ -1,0 +1,396 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "group": "generate",
+      "check": "run 1: vendor image generator succeeded in the sandbox",
+      "status": "PASS",
+      "detail": "exit 0"
+    },
+    {
+      "group": "generate",
+      "check": "run 2: vendor image generator succeeded in the sandbox",
+      "status": "PASS",
+      "detail": "exit 0"
+    },
+    {
+      "group": "content",
+      "check": "generator stored exactly the expected ELF sections",
+      "status": "PASS",
+      "detail": "['.ivt', '.vector', '.text', '.read_only_data', '.data', '.rodata_in_data', '.sdata']"
+    },
+    {
+      "group": "content",
+      "check": ".ivt: size and address in the image match the ELF",
+      "status": "PASS",
+      "detail": "00000148 @ 10000004"
+    },
+    {
+      "group": "content",
+      "check": ".vector: size and address in the image match the ELF",
+      "status": "PASS",
+      "detail": "00000400 @ 10000400"
+    },
+    {
+      "group": "content",
+      "check": ".text: size and address in the image match the ELF",
+      "status": "PASS",
+      "detail": "00048eca @ 10000800"
+    },
+    {
+      "group": "content",
+      "check": ".read_only_data: size and address in the image match the ELF",
+      "status": "PASS",
+      "detail": "00029ec4 @ 20020800"
+    },
+    {
+      "group": "content",
+      "check": ".data: size and address in the image match the ELF",
+      "status": "PASS",
+      "detail": "00001a2c @ 200ee2c0"
+    },
+    {
+      "group": "content",
+      "check": ".rodata_in_data: size and address in the image match the ELF",
+      "status": "PASS",
+      "detail": "00000010 @ 200efcec"
+    },
+    {
+      "group": "content",
+      "check": ".sdata: size and address in the image match the ELF",
+      "status": "PASS",
+      "detail": "00000018 @ 200efcfc"
+    },
+    {
+      "group": "content",
+      "check": "sections left out of the image hold no initial data",
+      "status": "PASS",
+      "detail": "['.gcc_except_table', '.ram_memory', '.tensor_arena', '.sbss_all', '.bss_all', '.Zdata', '.Xdata', '.Ydata']"
+    },
+    {
+      "group": "layout",
+      "check": "image no larger than the 2 MB flash",
+      "status": "PASS",
+      "detail": "628016 bytes"
+    },
+    {
+      "group": "layout",
+      "check": "image ends below the vendor configuration area at 0x1FE000",
+      "status": "PASS",
+      "detail": "end of last partition 0x99530"
+    },
+    {
+      "group": "layout",
+      "check": "partitions do not overlap",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "group": "layout",
+      "check": "application starts at 0x22000 in 64 KiB chunks",
+      "status": "PASS",
+      "detail": "8 chunks"
+    },
+    {
+      "group": "layout",
+      "check": "'BLp' header at 0x20000",
+      "status": "PASS",
+      "detail": "424c700220000003"
+    },
+    {
+      "group": "layout",
+      "check": "'BLp' header at 0x21000",
+      "status": "PASS",
+      "detail": "424c700220000003"
+    },
+    {
+      "group": "layout",
+      "check": "'BLp' header at 0x22000",
+      "status": "PASS",
+      "detail": "424c700220000003"
+    },
+    {
+      "group": "provenance",
+      "check": "local factory UF2 has the published SHA-256",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "group": "bootloader",
+      "check": "2nd bootloader region 0x0-0x10000 identical to the factory image",
+      "status": "PASS",
+      "detail": "d26e3c3892c37426"
+    },
+    {
+      "group": "bootloader",
+      "check": "bootloader region 0x10000-0x20000 identical to the factory image",
+      "status": "PASS",
+      "detail": "5e05ffb8d6037875"
+    },
+    {
+      "group": "bootloader",
+      "check": "both regions start with the SDK binaries for HX6537-A09TDIG-1111V",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "group": "bootloader",
+      "check": "loader configuration region 0x21000-0x22000 identical to the factory image",
+      "status": "PASS",
+      "detail": "e621c05d5c6158e2"
+    },
+    {
+      "group": "content",
+      "check": "every stored ELF byte and destination verified in actual image descriptors",
+      "status": "PASS",
+      "detail": "478510 bytes (including special IVT marker)"
+    },
+    {
+      "group": "content",
+      "check": "sampled windows of every stored ELF section are found in the image",
+      "status": "PASS",
+      "detail": "13/13"
+    },
+    {
+      "group": "content",
+      "check": "console strings of the Birdhouse module are present",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "group": "content",
+      "check": "model identifier 'TFL3' and manifest size are consistent with the stored data section",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "group": "generate",
+      "check": "two independent packaging runs give the same image",
+      "status": "PASS",
+      "detail": "identical"
+    },
+    {
+      "group": "uf2",
+      "check": "converter reproduces the factory UF2 byte for byte from its payload",
+      "status": "PASS",
+      "detail": "1541632 bytes"
+    },
+    {
+      "group": "uf2",
+      "check": "converter reproduces the Edge Impulse prebuilt UF2 byte for byte",
+      "status": "PASS",
+      "detail": "972288 bytes"
+    },
+    {
+      "group": "uf2",
+      "check": "no structural problems",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "group": "uf2",
+      "check": "single family 0xef32c892",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "group": "uf2",
+      "check": "flags 0x2000 on every block",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "group": "uf2",
+      "check": "256-byte payloads",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "group": "uf2",
+      "check": "starts at 0x10000000",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "group": "uf2",
+      "check": "ends inside the 2 MB firmware range",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "group": "uf2",
+      "check": "addresses contiguous",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "group": "uf2",
+      "check": "block numbering consistent",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "group": "uf2",
+      "check": "padding bytes are zero",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "group": "uf2",
+      "check": "UF2 payload equals the image",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "group": "uf2",
+      "check": "same family, flags and base address as the factory UF2",
+      "status": "PASS",
+      "detail": "['0xef32c892'] 0x10000000"
+    }
+  ],
+  "facts": {
+    "elf": {
+      "sha256": "8a280fa470c5e6a40b10a941a4e1fe99625233e8d28253b6bcfe4104aff7142f",
+      "size_bytes": 1650872
+    },
+    "sections_not_stored": [
+      {
+        "name": ".gcc_except_table",
+        "size": 562,
+        "type": "PROGBITS",
+        "has_nonzero_bytes": true
+      },
+      {
+        "name": ".ram_memory",
+        "size": 133120,
+        "type": "PROGBITS",
+        "has_nonzero_bytes": false
+      },
+      {
+        "name": ".tensor_arena",
+        "size": 670704,
+        "type": "PROGBITS",
+        "has_nonzero_bytes": false
+      },
+      {
+        "name": ".sbss_all",
+        "size": 16,
+        "type": "NOBITS",
+        "has_nonzero_bytes": false
+      },
+      {
+        "name": ".bss_all",
+        "size": 76948,
+        "type": "NOBITS",
+        "has_nonzero_bytes": false
+      },
+      {
+        "name": ".Zdata",
+        "size": 12,
+        "type": "PROGBITS",
+        "has_nonzero_bytes": false
+      },
+      {
+        "name": ".Xdata",
+        "size": 32768,
+        "type": "PROGBITS",
+        "has_nonzero_bytes": false
+      },
+      {
+        "name": ".Ydata",
+        "size": 32768,
+        "type": "PROGBITS",
+        "has_nonzero_bytes": false
+      }
+    ],
+    "partitions": [
+      {
+        "type": "0x1",
+        "addr": "0x0",
+        "size": 47756
+      },
+      {
+        "type": "0x0",
+        "addr": "0x10000",
+        "size": 48428
+      },
+      {
+        "type": "0x3",
+        "addr": "0x20000",
+        "size": 1380
+      },
+      {
+        "type": "0x12",
+        "addr": "0x21000",
+        "size": 1284
+      },
+      {
+        "type": "0x4",
+        "addr": "0x22000",
+        "size": 65536
+      },
+      {
+        "type": "0x4",
+        "addr": "0x32000",
+        "size": 65536
+      },
+      {
+        "type": "0x4",
+        "addr": "0x42000",
+        "size": 65536
+      },
+      {
+        "type": "0x4",
+        "addr": "0x52000",
+        "size": 65536
+      },
+      {
+        "type": "0x4",
+        "addr": "0x62000",
+        "size": 65536
+      },
+      {
+        "type": "0x4",
+        "addr": "0x72000",
+        "size": 65536
+      },
+      {
+        "type": "0x4",
+        "addr": "0x82000",
+        "size": 65536
+      },
+      {
+        "type": "0x4",
+        "addr": "0x92000",
+        "size": 30000
+      }
+    ],
+    "deterministic": true,
+    "edge_impulse_prebuilt_image_bytes": 486144,
+    "image": {
+      "bytes": 628016,
+      "sha256": "c2d7e176436433f714633bc817cec3bc232c8fabd62389567be518358b6de388",
+      "application_bytes": 488752,
+      "application_chunks": 8
+    },
+    "uf2": {
+      "bytes": 1256448,
+      "blocks": 2454,
+      "sha256": "009799e1ca3b39fa9f3fcee9ce97dd6f5d93a3bedf383b2172bfa873c21600ae",
+      "first_address": "0x10000000",
+      "end_address": "0x10099600"
+    },
+    "size_comparison_image_bytes": {
+      "factory_grove_ai_v02_00": 770816,
+      "candidate": 628016,
+      "edge_impulse_prebuilt": 486144
+    },
+    "generator_version": "2.5.3",
+    "sandbox": "bubblewrap: read-only root, new private work dir, no devices, no /sys, /run or /media, no network",
+    "outputs_local_only": [
+      ".local-tools/port-himax/bh-codex-validated/bh-package/candidate/out/birdhouse_candidate_output.img",
+      ".local-tools/port-himax/bh-codex-validated/bh-package/candidate/out/birdhouse_candidate_OFFLINE_ONLY_do_not_deploy.uf2"
+    ]
+  },
+  "note": "Packaging success is not permission to deploy."
+}

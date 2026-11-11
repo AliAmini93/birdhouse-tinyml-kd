@@ -17,6 +17,7 @@ Usage:
   python3 tools/himax/gen_tflm_reference.py
 """
 import hashlib
+import argparse
 import json
 import os
 import re
@@ -147,6 +148,10 @@ def fnv1a32(values):
 
 
 def main():
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--out-dir", default=os.path.join(REPO, "firmware/himax_arc/tests/testdata"))
+    ap.add_argument("--selftest-out", default=os.path.join(REPO, "firmware/himax_arc/birdhouse/bh_selftest_expected.h"))
+    args = ap.parse_args()
     import numpy as np
     import tensorflow as tf
 
@@ -183,7 +188,7 @@ def main():
             "is_bird": bool(np.float32(p) >= np.float32(THRESHOLD)),
         })
 
-    out_dir = os.path.join(REPO, "firmware/himax_arc/tests/testdata")
+    out_dir = args.out_dir
     os.makedirs(out_dir, exist_ok=True)
     summary = {
         "generator": "tools/himax/gen_tflm_reference.py",
@@ -267,7 +272,7 @@ def main():
         "#endif  // BIRDHOUSE_HIMAX_BH_SELFTEST_EXPECTED_H_",
         "",
     ]
-    with open(os.path.join(REPO, "firmware/himax_arc/birdhouse/bh_selftest_expected.h"), "w",
+    with open(args.selftest_out, "w",
               encoding="utf-8") as f:
         f.write("\n".join(st))
 
