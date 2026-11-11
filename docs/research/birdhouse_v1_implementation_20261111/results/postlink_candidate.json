@@ -292,7 +292,7 @@
     ],
     "elf": {
       "size_bytes": 1649872,
-      "sha256": "896bee5ba5353b7744d85c9b36ec2f149dc45db8cdef3c60cf6560ced4ea4f6b"
+      "sha256": "9f72740553f5215fd8a7bf1746575703ebfe595f88a9bad41759f9c14c239bdc"
     },
     "policy": {
       "iccm1_min_free_bytes": 16384,

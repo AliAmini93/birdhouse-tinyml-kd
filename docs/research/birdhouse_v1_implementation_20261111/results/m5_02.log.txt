@@ -1,0 +1,3 @@
+$ git -C <repo>/.local-tools/source/firmware-seeed-grove-vision-ai status --porcelain
+
+[exit 0]

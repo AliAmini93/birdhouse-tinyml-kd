@@ -1,6 +1,6 @@
 # Offline check results
 
-Generated 2026-11-11T10:40:33Z at commit `9fd8368604a8` (tree may contain later edits).
+Generated 2026-11-11T10:47:33Z at commit `ac95adede9c8` (tree may contain later edits).
 
 Overall: **PASS**
 
@@ -23,5 +23,7 @@ Overall: **PASS**
 | `m4_03` | PASS | operator audit of the candidate: configuration, kernel objects, registrations in the ELF | positive |
 | `m4_04` | PASS | post-link audit: memory, buffers, model bytes, hooks at call sites, stack chain, heap | positive |
 | `m4_05` | PASS | vendor SDK working tree is unmodified after all builds | positive |
+| `m5_01` | PASS | offline packaging in a sandbox; image, bootloader regions and UF2 validated (no deployment) | positive |
+| `m5_02` | PASS | vendor SDK working tree is unmodified after packaging | positive |
 
 Reproduce with `python3 tools/himax/run_offline_checks.py` using the project interpreter.

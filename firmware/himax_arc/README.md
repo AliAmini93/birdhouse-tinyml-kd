@@ -1,54 +1,50 @@
-# Birdhouse Himax ARC Port
+# Birdhouse on the Himax HX6537-A (Seeed Grove Vision AI V1)
 
-Target: Seeed Studio Grove Vision AI Module V1.
+Status: firmware candidate built and validated **offline**. It has not been flashed; no result in
+this directory comes from the physical board.
 
-Status: Experimental offline port. NOT validated on hardware.
+## Layout
 
-## Verified results
+| Path | Content |
+|---|---|
+| `birdhouse/` | The module linked into the vendor firmware: capture, PDM adapter, runtime, model wrapper, diagnostics, Himax glue, operator overlay, build overlay |
+| `tests/` | Host tests: emulation of the vendor audio library, capture/adapter/runtime suites, inference test on the vendor TFLite Micro sources |
+| `experiments/` | Earlier step-by-step experiments (stage 24–50). Superseded and kept for history; not part of the candidate. The stage50 build could not run the model (see the reports). |
 
-- Steps 24-25: Model assets, preprocessing and BirdModel
-  compiled successfully for ARC.
-- Step 26: Birdhouse components linked with the Himax SDK.
-- Step 27: Model weights and Mel constants were confirmed
-  in the linked ELF SYSTEM0 read-only data section.
-- Step 28: All 249 PCM windows matched on the host.
-- Step 29: Streaming Log-Mel matched the reference INT8
-  preprocessing exactly on three synthetic host signals.
-- Step 30: Actual Streaming code generation for ARC passed.
-- Step 31: Simulated stereo PDM bridge passed host parity
-  and compiled for ARC.
-- Step 32: Bridge linked successfully into offline ELF.
-- Step 33: Host audio queue tests passed; ARC compilation
-  FAILED due to the lock-free atomic static assertion.
+Tools live in `tools/himax/`. Reports and evidence live in
+`docs/research/birdhouse_v1_implementation_20261111/`.
 
-## Memory after Step 32
+## How it attaches to the vendor firmware
 
-- ICCM1: 292342 / 327680 bytes (89.22%)
-- SYSTEM0: 403668 / 1439744 bytes (28.04%)
-- DCCM: 66448 / 253952 bytes (26.17%)
+The vendor Edge Impulse application is built unmodified from the SDK under `.local-tools/` (not
+published). The module is added by `birdhouse/build/birdhouse_overlay.mk`:
 
-These are linker-reported placements, not measured runtime
-memory usage.
+- an include directory placed before the vendor include path re-enables the INT8
+  `FULLY_CONNECTED` kernel that the vendor configuration disables;
+- two functions are interposed with the linker's `--wrap`: the vendor main loop's
+  `is_inference_running()` (used as the poll hook) and `hx_drv_pdm_deinit()` (to see PDM FIFO
+  recoveries);
+- `AT+BIRD*` commands are registered on the vendor console.
 
-## Important limitations
+## Commands
 
-- No firmware has been flashed to the Grove Vision AI V1.
-- No runtime inference on the board has been verified.
-- No actual PDM capture has been verified.
-- No real-time latency measurement is available.
-- Step 33 requires an interrupt-safe queue implementation
-  suitable for the Himax ARC target.
-- The experiments contain prototypes, not production code.
-- Some experiment Makefile fragments rely on separate
-  SDK/toolchain files and objects in .local-tools.
-- The streaming prototype duplicates FFT logic. It should
-  be refactored before production integration.
+```
+python3 tools/himax/run_offline_checks.py     # everything: audits, host tests, build, packaging checks
+make -C firmware/himax_arc/tests run-all      # host tests only
+tools/himax/sdk_make.sh <out-dir> -j8         # firmware ELF only (out of tree)
+```
 
-## Next work
+None of these commands programs a device. The packaging step runs in a sandbox, refuses to run
+while a Grove device is attached, and leaves its output under `.local-tools/`.
 
-1. Investigate ARC interrupt and atomic synchronization.
-2. Fix and test the producer/consumer audio queue.
-3. Integrate the production streaming audio pipeline.
-4. Build and audit the final offline firmware.
-5. Request explicit approval before any board write,
-   flash, erase, reset, or bootloader modification.
+## What is and is not verified
+
+Verified offline: operator coverage and configuration, inference on the vendor TFLite Micro
+sources with reference kernels (28 inputs, bit-exact with TensorFlow Lite), capture logic against
+an emulated audio library, memory map, hooks at their call sites, image layout and UF2 format.
+
+Not verified: execution of the ARC MLI kernels, real PDM audio, timing, interrupt behaviour,
+stack depth, and every step that involves the board. The candidate carries self-tests and
+diagnostics to answer those on first use.
+
+Do not flash without the gates in `OFFLINE_VALIDATION_REPORT.md` section 9.

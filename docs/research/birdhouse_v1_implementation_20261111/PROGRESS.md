@@ -23,9 +23,9 @@ Evidence lives in `results/` next to this file: `summary.md`, `summary.json`, on
 | M0 | Project state recovered; research assessment saved | PASS | `8a4d8df` |
 | M1 | Model-execution blocker reproduced, fixed by overlay, guarded by an automated audit | PASS | `b822c5b` |
 | M2 | Offline TFLite Micro execution validated on host (reference kernels) | PASS | `9fd8368` |
-| M3 | Audio capture architecture implemented and host-tested | PASS | see git log |
-| M4 | Firmware candidate built; post-link audit | PASS | see git log |
-| M5 | Offline packaging and image validation | pending | |
+| M3 | Audio capture architecture implemented and host-tested | PASS | `7cb1d95` |
+| M4 | Firmware candidate built; post-link audit | PASS | `ac95ade` |
+| M5 | Offline packaging and image validation; final report | PASS | see git log |
 
 ## M0 — project state
 
@@ -90,7 +90,7 @@ the same integer rules; a hash of every input is checked before it is used.
 | Input tensor INT8 `[1,40,249,1]`, 9,960 bytes, scale 0.0200184, zero point −67 | PASS |
 | Output tensor INT8, scale 1/256, zero point −128; bird threshold is raw output ≥ 45 | PASS |
 | `Invoke` on 28 inputs, raw output equal to TensorFlow Lite | PASS — 28/28, maximum difference 0 |
-| Bird / non-bird decision on all inputs (10 bird, 18 non-bird) | PASS |
+| Bird / non-bird decision on all inputs (12 bird, 16 non-bird) | PASS |
 | Tracked reference clip gives 116 (p = 0.953, bird) | PASS |
 | Repeated inference, reverse order, re-initialisation in between | PASS — identical outputs |
 | Error handling: null arguments, corrupt identifier, use before init, arena too small | PASS |
@@ -220,3 +220,36 @@ numeric behaviour. Expected host values: `results/expected_device_values.json`.
 - 27 KB of code space is left; further features must be weighed against it.
 - The vendor application's other functions (camera, Edge Impulse ingestion) are untouched but were
   not exercised; starting vendor microphone sampling during a Birdhouse capture would conflict.
+
+## M5 — offline packaging
+
+Procedure (`tools/himax/package_offline.py`): the Linux parts of the vendor image generator are
+copied to a work directory and run there inside a bubblewrap sandbox (rest of the filesystem
+read-only, no serial or block devices, empty `/media`, no network). The vendor `make flash` target
+is not used; it would write into the SDK tree. The vendor `uf2conv.py` is not used either: without
+`-c` it searches for a board, switches it into bootloader mode and copies the file to any mounted
+bootloader drive, and it installs Python packages if they are missing. UF2 conversion is done by
+`tools/himax/uf2_tool.py`, which only converts files.
+
+Validation (40 checks, all PASS; `results/package_candidate.json`):
+
+| Group | What was shown |
+|---|---|
+| generate | generator 2.5.3 succeeds in the sandbox; two runs on the same ELF give the same image |
+| content | exactly `.ivt .vector .text .read_only_data .data .rodata_in_data .sdata` are stored, with ELF sizes and addresses; sections left out hold no initial data (`.gcc_except_table` is dropped by the vendor flow for every build); sampled windows of every stored section and the Birdhouse console strings are present in the image |
+| layout | 626,688 bytes; application at 0x22000 in 8 chunks of 64 KiB; ends at 0x99000; no overlap; below the configuration area at 0x1FE000 |
+| bootloader | 0x0–0x10000, 0x10000–0x20000 and 0x21000–0x22000 byte-identical to the factory image; both bootloaders equal the SDK binaries for `HX6537-A09TDIG-1111V` |
+| uf2 | converter reproduces the factory and the Edge Impulse UF2 byte for byte; candidate UF2 has family 0xEF32C892, 256-byte payloads, contiguous addresses 0x10000000–0x10099000 |
+
+Size in context: factory image 770,816 bytes, candidate 626,688, Edge Impulse prebuilt 486,144.
+
+**Build identity.** The vendor code embeds the build date and time, so every rebuild of the ELF has
+a different hash; packaging a given ELF is deterministic. The candidate that passed all checks is
+identified by the hashes in `results/package_candidate.json`. Any later hardware step must use that
+exact file (verify its SHA-256), not a fresh rebuild, or the checks must be run again on the rebuild.
+
+**Not done, by instruction:** no file was copied to any drive, no device was contacted. The outputs
+are under `.local-tools/port-himax/bh-package/candidate/out/` and are named
+`…OFFLINE_ONLY_do_not_deploy.uf2`.
+
+See `OFFLINE_VALIDATION_REPORT.md` for the consolidated result and the deployment recommendation.

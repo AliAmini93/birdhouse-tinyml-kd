@@ -7,13 +7,13 @@ board/board.mk:115: "------------------------------------------"
 Creating Directory    :  <repo>/.local-tools/port-himax/bh-candidate/obj_socket_24/gnu_arcem9d_wei_r16//app
 Creating Directory    :  <repo>/.local-tools/port-himax/bh-candidate/obj_socket_24/gnu_arcem9d_wei_r16/app/scenario_app/edge_impulse_visionai
 Creating Directory    :  <repo>/.local-tools/port-himax/bh-candidate/obj_socket_24/gnu_arcem9d_wei_r16/app/scenario_app/edge_impulse_visionai/datapath
+Creating Directory    :  <repo>/.local-tools/port-himax/bh-candidate/obj_socket_24/gnu_arcem9d_wei_r16/app/scenario_app/edge_impulse_visionai/debugger
 Creating Directory    :  <repo>/.local-tools/port-himax/bh-candidate/obj_socket_24/gnu_arcem9d_wei_r16/app/scenario_app/edge_impulse_visionai/drivers/sensor
 Creating Directory    :  <repo>/.local-tools/port-himax/bh-candidate/obj_socket_24/gnu_arcem9d_wei_r16/app/scenario_app/edge_impulse_visionai/drivers/sensor/camera
-Creating Directory    :  <repo>/.local-tools/port-himax/bh-candidate/obj_socket_24/gnu_arcem9d_wei_r16/app/scenario_app/edge_impulse_visionai/drivers/flash
-Creating Directory    :  <repo>/.local-tools/port-himax/bh-candidate/obj_socket_24/gnu_arcem9d_wei_r16/app/scenario_app/edge_impulse_visionai/debugger
 Creating Directory    :  <repo>/.local-tools/port-himax/bh-candidate/obj_socket_24/gnu_arcem9d_wei_r16/app/scenario_app/edge_impulse_visionai/drivers/sensor/imu
+Creating Directory    :  <repo>/.local-tools/port-himax/bh-candidate/obj_socket_24/gnu_arcem9d_wei_r16/app/scenario_app/edge_impulse_visionai/drivers/flash
 Creating Directory    :  <repo>/.local-tools/port-himax/bh-candidate/obj_socket_24/gnu_arcem9d_wei_r16/app/scenario_app/edge_impulse_visionai/drivers/webusb
-Creating Directory    :  <repo>/.local-tools/port-himax/bh-candidate/obj_socket_24/gnu_arcem9d_wei_r16/app/scenario_app/edge_impulse_visionai/ei-model/edge-impulse-sdk/dsp/dct
+Creating Directory    :  <repo>/.local-tools/port-himax/bh-candidate/obj_socket_24/gnu_arcem9d_wei_r16/app/scenario_app/edge_impulse_visionai/ei-model/edge-impulse-sdk/classifier
 … [865 lines omitted] …
 Compiling (birdhouse)  :  firmware/himax_arc/birdhouse/bh_diag.cc
 arc-elf32-g++ -c -include ./board/socket/configs/24/core_config.h -DBOARD_HIMAXEM9D -DBOARD_SOCKET -DCHANG_PLL_BEFORE_PMU -DCIS_COMMON -DCIS_OV2640_BAYER -DCIS_OV_SENSOR -DCIS_XSHUT_SGPIO1 -DCPU_ARC -DCURRENT_CORE=arcem9d_wei_r16 -DDBG_LESS -DDEBUG -DEDGE_IMPULSE_VISIONAI -DEIDSP_QUANTIZE_FILTERBANK=0 -DEI_CLASSIFIER_ALLOCATION_STATIC_HIMAX_GNU -DEI_DSP_IMAGE_BUFFER_STATIC_SIZE=1024 -DEI_PORTING_S …[line truncated]
@@ -93,6 +93,6 @@ Memory region         Used Size  Region Size  %age Used
           .stack:          0 GB         8 KB      0.00%
             XCCM:         32 KB        32 KB    100.00%
             YCCM:         32 KB        32 KB    100.00%
-<repo>/.local-tools/toolchains/arc_gnu_ei_prebuilt_minimal_elf32_le_linux_install/bin/../lib/gcc/arc-elf32/10.2.0/../../../../arc-elf32/bin/ld: total time in link: 0.126283
+<repo>/.local-tools/toolchains/arc_gnu_ei_prebuilt_minimal_elf32_le_linux_install/bin/../lib/gcc/arc-elf32/10.2.0/../../../../arc-elf32/bin/ld: total time in link: 0.127456
 make: Leaving directory '<repo>/.local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3'
 [exit 0]

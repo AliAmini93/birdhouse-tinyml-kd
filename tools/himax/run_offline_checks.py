@@ -346,6 +346,32 @@ def m4_sdk_pristine(log):
     return rc == 0 and out.strip() == "", {"sdk_commit": head.strip(), "modified_or_untracked_files": len(out.strip().splitlines())}
 
 
+# ---------------------------------------------------------------- milestone 5
+
+@step("m5", "offline packaging in a sandbox; image, bootloader regions and UF2 validated (no deployment)")
+def m5_package(log):
+    elf = os.path.join(CANDIDATE, BUILD_INFO, ELF_NAME)
+    need(elf, "candidate build")
+    need(os.path.join(REPO, ".local-tools/firmware/grove-ai-v1/factory/grove_ai_v02-00.uf2"), "factory UF2 for comparison")
+    json_out = os.path.join(RESULTS, "package_candidate.json")
+    rc, out = run([PY, "-I", os.path.join(REPO, "tools/himax/package_offline.py"), "--elf", elf,
+                   "--work", os.path.join(WORK, "bh-package/candidate"), "--toolchain-bin", TOOLCHAIN_BIN,
+                   "--manifest", MANIFEST, "--json-out", json_out], log)
+    if rc == 2:
+        raise Blocked("packaging refused or sandbox unavailable: " + out.strip().splitlines()[-1])
+    facts = json.load(open(json_out, encoding="utf-8"))["facts"] if os.path.exists(json_out) else {}
+    return rc == 0, {"image": facts.get("image"), "uf2": facts.get("uf2"),
+                     "deterministic": facts.get("deterministic"),
+                     "size_comparison_image_bytes": facts.get("size_comparison_image_bytes"),
+                     "candidate_elf_sha256": facts.get("elf", {}).get("sha256")}
+
+
+@step("m5", "vendor SDK working tree is unmodified after packaging")
+def m5_sdk_pristine(log):
+    rc, out = run(["git", "-C", os.path.dirname(SDK), "status", "--porcelain"], log)
+    return rc == 0 and out.strip() == "", {"modified_or_untracked_files": len(out.strip().splitlines())}
+
+
 # --------------------------------------------------------------------- runner
 
 def board_guard():

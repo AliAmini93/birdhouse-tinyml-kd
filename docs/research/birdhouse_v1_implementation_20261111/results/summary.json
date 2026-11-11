@@ -1,6 +1,6 @@
 {
-  "generated_utc": "2026-11-11T10:40:33Z",
-  "git_head_when_run": "9fd8368604a828b3650a2f85adade7dde981e220",
+  "generated_utc": "2026-11-11T10:47:33Z",
+  "git_head_when_run": "ac95adede9c889450cf3b2f164ad1e10046bcfa0",
   "overall": "PASS",
   "steps": [
     {
@@ -338,7 +338,7 @@
           "SYSTEM0": 556432,
           "DCCM": 22288
         },
-        "elf_sha256": "896bee5ba5353b7744d85c9b36ec2f149dc45db8cdef3c60cf6560ced4ea4f6b"
+        "elf_sha256": "9f72740553f5215fd8a7bf1746575703ebfe595f88a9bad41759f9c14c239bdc"
       },
       "log": "m4_04.log.txt"
     },
@@ -353,6 +353,47 @@
         "modified_or_untracked_files": 0
       },
       "log": "m4_05.log.txt"
+    },
+    {
+      "id": "m5_01",
+      "milestone": "m5",
+      "name": "offline packaging in a sandbox; image, bootloader regions and UF2 validated (no deployment)",
+      "negative_control": false,
+      "status": "PASS",
+      "details": {
+        "image": {
+          "bytes": 626688,
+          "sha256": "e9431dcb438215b3b967d7475a4b29b5ef96acb94091cf672f2dd558a16446cb",
+          "application_bytes": 487424,
+          "application_chunks": 8
+        },
+        "uf2": {
+          "bytes": 1253376,
+          "blocks": 2448,
+          "sha256": "86eab34110ad99065066333fb654b9c5373c0eae8ed7c0a645baf99e1750b40e",
+          "first_address": "0x10000000",
+          "end_address": "0x10099000"
+        },
+        "deterministic": true,
+        "size_comparison_image_bytes": {
+          "factory_grove_ai_v02_00": 770816,
+          "candidate": 626688,
+          "edge_impulse_prebuilt": 486144
+        },
+        "candidate_elf_sha256": "9f72740553f5215fd8a7bf1746575703ebfe595f88a9bad41759f9c14c239bdc"
+      },
+      "log": "m5_01.log.txt"
+    },
+    {
+      "id": "m5_02",
+      "milestone": "m5",
+      "name": "vendor SDK working tree is unmodified after packaging",
+      "negative_control": false,
+      "status": "PASS",
+      "details": {
+        "modified_or_untracked_files": 0
+      },
+      "log": "m5_02.log.txt"
     }
   ]
 }
