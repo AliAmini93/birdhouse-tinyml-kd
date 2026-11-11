@@ -1,0 +1,42 @@
+$ make -C <repo>/firmware/himax_arc/tests -j8 unit CONFIG=overlay SAN=1
+make: Entering directory '<repo>/firmware/himax_arc/tests'
+make: Nothing to be done for 'unit'.
+make: Leaving directory '<repo>/firmware/himax_arc/tests'
+[exit 0]
+$ <repo>/.local-tools/port-himax/host-tests/overlay-san/test_runtime
+[case] model self-test on the embedded reference features
+[case] graded model self-test: eight steps across the output range, all exact on host
+EXPECTED_LINE BIRDHOUSE SELFTEST model step=1 out_q=-128 expected_q=-128 abs_diff=0 feature_crc=1699e7d0 invoke_us=0 verdict=EXACT
+EXPECTED_LINE BIRDHOUSE SELFTEST model step=2 out_q=-125 expected_q=-125 abs_diff=0 feature_crc=a076cc9c invoke_us=0 verdict=EXACT
+EXPECTED_LINE BIRDHOUSE SELFTEST model step=3 out_q=-89 expected_q=-89 abs_diff=0 feature_crc=465e5d91 invoke_us=0 verdict=EXACT
+EXPECTED_LINE BIRDHOUSE SELFTEST model step=4 out_q=12 expected_q=12 abs_diff=0 feature_crc=40a36a19 invoke_us=0 verdict=EXACT
+EXPECTED_LINE BIRDHOUSE SELFTEST model step=5 out_q=100 expected_q=100 abs_diff=0 feature_crc=e467f562 invoke_us=0 verdict=EXACT
+EXPECTED_LINE BIRDHOUSE SELFTEST model step=6 out_q=116 expected_q=116 abs_diff=0 feature_crc=e0553cc1 invoke_us=0 verdict=EXACT
+EXPECTED_LINE BIRDHOUSE SELFTEST model step=7 out_q=116 expected_q=116 abs_diff=0 feature_crc=7225c21b invoke_us=0 verdict=EXACT
+EXPECTED_LINE BIRDHOUSE SELFTEST model step=8 out_q=116 expected_q=116 abs_diff=0 feature_crc=0605df04 invoke_us=0 verdict=EXACT
+[case] synthetic pipeline runs equal a direct call of preprocessing and the model
+EXPECTED {"test":"AT+BIRDSYNTH=0","name":"SILENCE","pcm_crc":"27f1082d","feature_crc":"82645b85","out_q":-100,"decision":"NON-BIRD"}
+EXPECTED {"test":"AT+BIRDSYNTH=1","name":"NOISE","pcm_crc":"38964861","feature_crc":"a19915ff","out_q":-127,"decision":"NON-BIRD"}
+EXPECTED {"test":"AT+BIRDSYNTH=2","name":"TONES","pcm_crc":"48ff799b","feature_crc":"7d44c492","out_q":-128,"decision":"NON-BIRD"}
+EXPECTED {"test":"AT+BIRDSYNTH=3","name":"CHIRP_STEPS","pcm_crc":"53b719d3","feature_crc":"c8108345","out_q":-128,"decision":"NON-BIRD"}
+EXPECTED {"test":"AT+BIRDSELFTEST","out_q":116,"decision":"BIRD"}
+[case] microphone run: 80,000 samples after the settle blocks, same result as the synthetic run
+[case] nothing is printed while a capture is in progress
+[case] repeated classification: queued runs restart audio and settle again every time
+[case] capture timeout: audio never delivers, deadline expires, next run works
+[case] incomplete recording: audio stops delivering half way
+[case] PDM start failure is reported with its stage and does not stick
+[case] PDM stop failure fails the run; the next start is still possible
+[case] PDM FIFO overflow during capture fails the run at stage CAPTURE
+[case] library errors and bad block addresses fail the run
+[case] overrun inside the audio library: decision is produced but flagged SUSPECT
+[case] time base at half speed: flagged CLOCK, samples intact
+[case] model initialisation failure is reported before audio is started
+[case] cancel aborts the capture and clears the queue
+[case] self-tests are refused while capturing
+[case] PCM and feature dumps decode back to the buffers
+[case] idle polling does nothing and prints nothing
+[case] report lines are short, prefixed and free of format artefacts
+[case] soak: 40 consecutive runs with alternating content
+SUMMARY {"suite":"runtime","checks_passed":283,"checks_failed":0,"status":"PASS"}
+[exit 0]

@@ -25,7 +25,11 @@ ifeq ($(filter $(CONFIG),overlay vendor),)
 $(error CONFIG must be 'overlay' or 'vendor')
 endif
 
+ifeq ($(SAN),1)
+OBJ := $(BUILD)/$(CONFIG)-san
+else
 OBJ := $(BUILD)/$(CONFIG)
+endif
 BH  := $(REPO)/firmware/himax_arc/birdhouse
 T   := $(REPO)/firmware/himax_arc/tests
 
@@ -107,6 +111,32 @@ else
 run-tflm: $(TFLM_TEST)
 	$(TFLM_TEST) expect-blocked
 endif
+
+# --- capture / adapter / runtime tests ----------------------------------------
+R := $(OBJ)/repo/firmware
+CORE_OBJS    := $(R)/himax_arc/birdhouse/bh_capture.o $(R)/himax_arc/birdhouse/bh_diag.o
+FAKE_OBJS    := $(R)/himax_arc/tests/fake_aud_lib.o $(R)/himax_arc/tests/host_port.o
+PORT_OBJS    := $(R)/himax_arc/birdhouse/bh_pdm_port.o
+PIPE_OBJS    := $(R)/himax_arc/birdhouse/bh_runtime.o $(R)/preprocess/audio_preprocess.o \
+                $(R)/preprocess/mel_filterbank.o
+
+$(OBJ)/test_diag: $(R)/himax_arc/tests/test_diag.o $(R)/himax_arc/birdhouse/bh_diag.o
+	$(CXX) $(SANFLAGS) -o $@ $^
+$(OBJ)/test_capture: $(R)/himax_arc/tests/test_capture.o $(R)/himax_arc/birdhouse/bh_capture.o
+	$(CXX) $(SANFLAGS) -o $@ $^
+$(OBJ)/test_pdm_port: $(R)/himax_arc/tests/test_pdm_port.o $(CORE_OBJS) $(PORT_OBJS) $(FAKE_OBJS)
+	$(CXX) $(SANFLAGS) -o $@ $^
+$(OBJ)/test_runtime: $(R)/himax_arc/tests/test_runtime.o $(CORE_OBJS) $(PORT_OBJS) $(FAKE_OBJS) \
+                     $(PIPE_OBJS) $(MODEL_OBJS) $(TFLM_LIB)
+	$(CXX) $(SANFLAGS) -o $@ $^ -lm
+
+UNIT_TESTS := $(OBJ)/test_diag $(OBJ)/test_capture $(OBJ)/test_pdm_port $(OBJ)/test_runtime
+
+.PHONY: unit run-unit run-all
+unit: $(UNIT_TESTS)
+run-unit: $(UNIT_TESTS)
+	@for t in $(UNIT_TESTS); do echo "=== $$t"; $$t || exit 1; done
+run-all: run-tflm run-unit
 
 -include $(shell find $(OBJ)/repo -name '*.d' 2>/dev/null)
 

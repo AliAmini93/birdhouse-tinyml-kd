@@ -44,12 +44,14 @@ static const ReferenceVector kReferenceVectors[] = {
   {"lcg_narrow_1", kVectorLcgNarrow, 0x00000007u, 0xd1a75aedu, -125, false},
   {"lcg_narrow_2", kVectorLcgNarrow, 0x000007eau, 0xdf09b68eu, -127, false},
   {"lcg_narrow_3", kVectorLcgNarrow, 0xb1bd0001u, 0xbec91aa8u, -125, false},
+  {"ref_scaled_1_8", kVectorRefScaled, 0x00000001u, 0x9593118au, -128, false},
   {"ref_scaled_2_8", kVectorRefScaled, 0x00000002u, 0xecd3f435u, -125, false},
   {"ref_scaled_3_8", kVectorRefScaled, 0x00000003u, 0xcf2f1ba8u, -89, false},
   {"ref_scaled_4_8", kVectorRefScaled, 0x00000004u, 0xfe732475u, 12, false},
   {"ref_scaled_5_8", kVectorRefScaled, 0x00000005u, 0x915ab621u, 100, true},
   {"ref_scaled_6_8", kVectorRefScaled, 0x00000006u, 0xcc937361u, 116, true},
   {"ref_scaled_7_8", kVectorRefScaled, 0x00000007u, 0x57f5cac5u, 116, true},
+  {"ref_scaled_8_8", kVectorRefScaled, 0x00000008u, 0x61cdd234u, 116, true},
   {"ref_noise_1", kVectorRefNoise, 0x0000000bu, 0x97cd5dc0u, 108, true},
   {"ref_noise_2", kVectorRefNoise, 0x00000016u, 0xd15d533du, 111, true},
   {"ref_noise_3", kVectorRefNoise, 0x00000021u, 0xfdff3f86u, 111, true},
@@ -58,7 +60,7 @@ static const ReferenceVector kReferenceVectors[] = {
   {"ref_shift_200", kVectorRefShift, 0x000000c8u, 0x13885a48u, 108, true},
   {"ref_reversed", kVectorRefReversed, 0x00000000u, 0x83340b54u, 116, true},
 };
-static const int kReferenceVectorCount = 26;
+static const int kReferenceVectorCount = 28;
 
 }  // namespace bh_test
 

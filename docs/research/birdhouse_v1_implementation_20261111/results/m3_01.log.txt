@@ -1,0 +1,18 @@
+$ make -C <repo>/firmware/himax_arc/tests -j8 unit CONFIG=overlay SAN=1
+make: Entering directory '<repo>/firmware/himax_arc/tests'
+g++ -std=c++11 -O2 -g -DTF_LITE_STATIC_MEMORY -DBIRDHOUSE_HOST_BUILD=1 -I<repo>/firmware/himax_arc/birdhouse/tflm_overlay -isystem <repo>/.local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3/app/scenario_app/edge_impulse_visionai/ei-model -I<repo> -Wall -Wextra -Werror -fsanitize=address,undefined -fno-omit-frame-pointer -MMD -MP -c <repo>/firmware/himax_arc/birdhou …[line truncated]
+g++ -fsanitize=address,undefined -fno-omit-frame-pointer -o <repo>/.local-tools/port-himax/host-tests/overlay-san/test_runtime <repo>/.local-tools/port-himax/host-tests/overlay-san/repo/firmware/himax_arc/tests/test_runtime.o <repo>/.local-tools/port-himax/host-tests/overlay-san/repo/firmware/himax_arc/birdhouse/bh_capture.o <repo>/.local-tools/port-himax/host-tests/overlay-san/repo/firmware/himax …[line truncated]
+make: Leaving directory '<repo>/firmware/himax_arc/tests'
+[exit 0]
+$ <repo>/.local-tools/port-himax/host-tests/overlay-san/test_diag
+[case] CRC-32 matches the standard check value and is incremental
+[case] integer square root
+[case] PCM statistics
+[case] base64 (RFC 4648 vectors, padding, chunking)
+[case] synthetic signals are deterministic and within range
+  synth kind=0 name=SILENCE      pcm_crc=27f1082d min=0 max=0 rms=0
+  synth kind=1 name=NOISE        pcm_crc=38964861 min=-4096 max=4095 rms=2368
+  synth kind=2 name=TONES        pcm_crc=48ff799b min=-11000 max=11000 rms=5234
+  synth kind=3 name=CHIRP_STEPS  pcm_crc=53b719d3 min=-6000 max=6000 rms=6000
+SUMMARY {"suite":"diag","checks_passed":71,"checks_failed":0,"status":"PASS"}
+[exit 0]

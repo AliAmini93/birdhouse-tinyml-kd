@@ -1,0 +1,18 @@
+$ make -C <repo>/firmware/himax_arc/tests -j8 unit CONFIG=overlay SAN=1
+make: Entering directory '<repo>/firmware/himax_arc/tests'
+make: Nothing to be done for 'unit'.
+make: Leaving directory '<repo>/firmware/himax_arc/tests'
+[exit 0]
+$ <repo>/.local-tools/port-himax/host-tests/overlay-san/test_pdm_port
+[case] normal capture through the ring, including many wraps
+[case] start/stop argument and state errors
+[case] library refuses to register or start: nothing is left half-started
+[case] a failing stop is reported once and does not block later starts
+[case] library error from request_read / update_idx is latched
+[case] a block address outside the ring layout is rejected without copying
+[case] held-off interrupts: the library silently resets its ring; capture is flagged SUSPECT
+[case] PDM driver re-initialisation during capture is an error
+[case] a callback pending at stop time is ignored
+[case] one-tick clock error at a callback is tolerated
+SUMMARY {"suite":"pdm_port","checks_passed":75,"checks_failed":0,"status":"PASS"}
+[exit 0]

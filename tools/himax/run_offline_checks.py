@@ -25,6 +25,7 @@ import argparse
 import datetime
 import json
 import os
+import re
 import subprocess
 import sys
 
@@ -218,6 +219,131 @@ def m2_host_inference_vendor(log):
     rc, out = run([os.path.join(WORK, "host-tests/vendor/test_tflm_inference"), "expect-blocked"], log)
     blocked_at = [l.split("=", 1)[1] for l in out.splitlines() if l.strip().startswith("blocked_at=")]
     return rc == 0, {"blocked_at": blocked_at[0] if blocked_at else None}
+
+
+# ---------------------------------------------------------------- milestone 3
+
+def run_host_test(name, log):
+    """Build (sanitizers on) and run one host test; return (ok, summary, output)."""
+    rc, _ = run(["make", "-C", TESTS, "-j8", "unit", "CONFIG=overlay", "SAN=1"], log)
+    if rc != 0:
+        return False, {"reason": "host build failed"}, ""
+    rc, out = run([os.path.join(WORK, "host-tests/overlay-san", name)], log)
+    summary = last_json(out, "SUMMARY") or {}
+    clean = "AddressSanitizer" not in out and "runtime error" not in out
+    return rc == 0 and summary.get("status") == "PASS" and clean, summary, out
+
+
+@step("m3", "diagnostics helpers (CRC-32, statistics, base64, synthetic signals)")
+def m3_diag(log):
+    ok, summary, _ = run_host_test("test_diag", log)
+    return ok, {"summary": summary, "sanitizers": "address,undefined"}
+
+
+@step("m3", "capture core: 80,000 samples, settling, boundaries, errors, timing verdicts, reuse")
+def m3_capture(log):
+    ok, summary, _ = run_host_test("test_capture", log)
+    return ok, {"summary": summary, "sanitizers": "address,undefined"}
+
+
+@step("m3", "PDM adapter against the emulated audio library (ring wrap, faults, overrun, late callback)")
+def m3_pdm_port(log):
+    ok, summary, _ = run_host_test("test_pdm_port", log)
+    return ok, {"summary": summary, "sanitizers": "address,undefined"}
+
+
+@step("m3", "end to end on host: audio emulation -> capture -> log-mel -> model -> report")
+def m3_runtime(log):
+    ok, summary, out = run_host_test("test_runtime", log)
+    expected = [json.loads(l[len("EXPECTED "):]) for l in out.splitlines() if l.startswith("EXPECTED ")]
+    lines = [l[len("EXPECTED_LINE "):] for l in out.splitlines() if l.startswith("EXPECTED_LINE ")]
+    with open(os.path.join(RESULTS, "expected_device_values.json"), "w", encoding="utf-8") as f:
+        json.dump({
+            "note": "Host results (x86-64, reference kernels, glibc maths). On the device the model "
+                    "outputs should match; feature checksums may differ slightly because the ARC build "
+                    "uses newlib maths, in which case dump the features with AT+BIRDFEAT and compare.",
+            "self_test_lines": lines, "synthetic_runs": expected}, f, indent=2)
+        f.write("\n")
+    return ok, {"summary": summary, "sanitizers": "address,undefined", "expected_values": len(expected)}
+
+
+# ---------------------------------------------------------------- milestone 4
+
+CANDIDATE = os.path.join(WORK, "bh-candidate")
+BASELINE = os.path.join(WORK, "bh-vendor-baseline")
+ELF_NAME = "WEI_FW_gnu_arcem9d_wei_r16.elf"
+LDSCRIPT = os.path.join(SDK, "app/scenario_app/edge_impulse_visionai/edge_impulse_visionai.ld")
+
+
+def clean_build(out_dir, log, *args):
+    import shutil
+    if os.path.isdir(out_dir):
+        shutil.rmtree(out_dir)
+    os.makedirs(out_dir)
+    return sdk_make(out_dir, log, "-j8", *args)
+
+
+def link_memory(out):
+    mem = {}
+    for line in out.splitlines():
+        m = re.match(r"\s*(ICCM1|SYSTEM0|DCCM):\s+(\d+) (B|KB)\s+(\d+) (B|KB)\s+([\d.]+)%", line)
+        if m:
+            mem[m.group(1)] = {"used": int(m.group(2)) * (1024 if m.group(3) == "KB" else 1),
+                               "percent": float(m.group(6))}
+    return mem
+
+
+@step("m4", "vendor-only firmware builds from the pristine SDK (comparison baseline)")
+def m4_baseline(log):
+    rc, out = clean_build(BASELINE, log, "BH_LINK=0")
+    return rc == 0 and os.path.isfile(os.path.join(BASELINE, BUILD_INFO, ELF_NAME)), {"linker_memory": link_memory(out)}
+
+
+@step("m4", "candidate firmware builds and links; no compiler warnings in Birdhouse sources")
+def m4_candidate(log):
+    rc, out = clean_build(CANDIDATE, log)
+    warnings = [l for l in out.splitlines()
+                if "warning:" in l and ("firmware/himax_arc/birdhouse" in l or "firmware/preprocess" in l
+                                        or "firmware/model" in l)]
+    elf = os.path.join(CANDIDATE, BUILD_INFO, ELF_NAME)
+    return rc == 0 and os.path.isfile(elf) and not warnings, {
+        "linker_memory": link_memory(out), "birdhouse_warnings": len(warnings)}
+
+
+@step("m4", "operator audit of the candidate: configuration, kernel objects, registrations in the ELF")
+def m4_ops(log):
+    need(os.path.join(CANDIDATE, BUILD_INFO, ELF_NAME), "candidate build")
+    rc, _ = sdk_make(CANDIDATE, log, "bh_tflm_config")
+    if rc != 0:
+        return False, {"reason": "config dump failed"}
+    rc, out, _ = verify_ops("candidate", os.path.join(CANDIDATE, "birdhouse/tflm_config.macros"), log, extra=[
+        "--obj-root", os.path.join(CANDIDATE, BUILD_INFO), "--elf", os.path.join(CANDIDATE, BUILD_INFO, ELF_NAME),
+        "--toolchain-bin", TOOLCHAIN_BIN])
+    return rc == 0, {"verifier_exit": rc, "summary": out.strip().splitlines()[0] if out.strip() else ""}
+
+
+@step("m4", "post-link audit: memory, buffers, model bytes, hooks at call sites, stack chain, heap")
+def m4_postlink(log):
+    elf = os.path.join(CANDIDATE, BUILD_INFO, ELF_NAME)
+    need(elf, "candidate build")
+    json_out = os.path.join(RESULTS, "postlink_candidate.json")
+    rc, out = run([PY, "-I", os.path.join(REPO, "tools/himax/postlink_audit.py"), "--elf", elf,
+                   "--baseline-elf", os.path.join(BASELINE, BUILD_INFO, ELF_NAME), "--ldscript", LDSCRIPT,
+                   "--toolchain-bin", TOOLCHAIN_BIN, "--manifest", MANIFEST,
+                   "--stack-usage-root", CANDIDATE, "--json-out", json_out], log)
+    facts = json.load(open(json_out, encoding="utf-8"))["facts"] if os.path.exists(json_out) else {}
+    return rc == 0, {"memory": facts.get("memory"), "heap_bytes": facts.get("heap_bytes"),
+                     "stack_bytes": facts.get("stack_bytes"),
+                     "known_inference_stack_chain_bytes": facts.get("stack_chain", {}).get("known_total_bytes"),
+                     "delta_vs_vendor_only": facts.get("delta_vs_vendor_only"),
+                     "elf_sha256": facts.get("elf", {}).get("sha256")}
+
+
+@step("m4", "vendor SDK working tree is unmodified after all builds")
+def m4_sdk_pristine(log):
+    rc, out = run(["git", "-C", os.path.dirname(SDK), "status", "--porcelain"], log)
+    rc2, head = run(["git", "-C", os.path.dirname(SDK), "rev-parse", "HEAD"], log)
+    return rc == 0 and out.strip() == "", {"sdk_commit": head.strip(), "modified_or_untracked_files": len(out.strip().splitlines())}
 
 
 # --------------------------------------------------------------------- runner

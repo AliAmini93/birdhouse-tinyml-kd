@@ -14,12 +14,14 @@ kernel sets agree: False
   lcg_narrow_1             q_ref= -125 q_default= -125 p=0.0117 NON-BIRD
   lcg_narrow_2             q_ref= -127 q_default= -127 p=0.0039 NON-BIRD
   lcg_narrow_3             q_ref= -125 q_default= -126 p=0.0117 NON-BIRD
+  ref_scaled_1_8           q_ref= -128 q_default= -128 p=0.0000 NON-BIRD
   ref_scaled_2_8           q_ref= -125 q_default= -126 p=0.0117 NON-BIRD
   ref_scaled_3_8           q_ref=  -89 q_default=  -89 p=0.1523 NON-BIRD
   ref_scaled_4_8           q_ref=   12 q_default=   12 p=0.5469 NON-BIRD
   ref_scaled_5_8           q_ref=  100 q_default=  100 p=0.8906 BIRD
   ref_scaled_6_8           q_ref=  116 q_default=  116 p=0.9531 BIRD
   ref_scaled_7_8           q_ref=  116 q_default=  116 p=0.9531 BIRD
+  ref_scaled_8_8           q_ref=  116 q_default=  116 p=0.9531 BIRD
   ref_noise_1              q_ref=  108 q_default=  108 p=0.9219 BIRD
   ref_noise_2              q_ref=  111 q_default=  111 p=0.9336 BIRD
   ref_noise_3              q_ref=  111 q_default=  111 p=0.9336 BIRD

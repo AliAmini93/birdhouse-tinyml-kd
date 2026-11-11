@@ -1,0 +1,22 @@
+$ make -C <repo>/firmware/himax_arc/tests -j8 unit CONFIG=overlay SAN=1
+make: Entering directory '<repo>/firmware/himax_arc/tests'
+make: Nothing to be done for 'unit'.
+make: Leaving directory '<repo>/firmware/himax_arc/tests'
+[exit 0]
+$ <repo>/.local-tools/port-himax/host-tests/overlay-san/test_capture
+[case] normal capture: exactly 80,000 mono samples, settle blocks dropped
+[case] blocks after completion and after Finish never touch the buffer
+[case] block boundaries: 1, 3 and mixed blocks per callback; targets on and off a boundary
+[case] settle count is configurable, including zero
+[case] invalid Begin arguments are rejected and nothing is written
+[case] incomplete recording: audio stops early
+[case] PDM re-initialisation (FIFO overflow) is an error before completion only
+[case] the first error is kept
+[case] null block pointer or zero blocks is flagged
+[case] a stalled callback (lost block) makes the capture SUSPECT
+[case] a uniformly wrong time base is reported as CLOCK, not as lost audio
+[case] one-tick clock errors are counted and do not make a capture SUSPECT
+[case] repeated use: a second Begin starts from a clean state
+[case] names for every error and quality value
+SUMMARY {"suite":"capture","checks_passed":280,"checks_failed":0,"status":"PASS"}
+[exit 0]
