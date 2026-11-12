@@ -1,0 +1,345 @@
+{
+ "acquired_utc": "2026-11-12T16:48:01Z",
+ "bl702_tinyuf2_v2.0.1": {
+  "build_date": "Apr  4 2023",
+  "features_from_strings": [
+   "SFUD SPI-flash driver with SFDP probing, sector/block/chip erase",
+   "XMODEM transmit state machine",
+   "WebUSB landing page (files.seeedstudio.com/grove_ai_vision/index.html)",
+   "Microsoft OS 2.0 DeviceInterfaceGUIDs (WinUSB)",
+   "ghostfat INFO_UF2.TXT and INDEX.HTM"
+  ],
+  "first_word_is_riscv_auipc": true,
+  "info_uf2_board_id": "Grove Vision AI",
+  "info_uf2_model": "Seeed Studio Grove Vision AI",
+  "raw_image_without_bouffalo_boot_header": true,
+  "uf2_family_0xef32c892_built_in_code": "lui/addi pair at image offset 0x982",
+  "usb_device_descriptors": [
+   {
+    "bcdDevice": "0100",
+    "bcdUSB": "0210",
+    "class": "ef/02/01",
+    "vid_pid": "2886:8060"
+   },
+   {
+    "bcdDevice": "0100",
+    "bcdUSB": "0200",
+    "class": "ef/02/01",
+    "vid_pid": "2886:0060"
+   }
+  ],
+  "vendor_build_paths_present": "yes (not reproduced)",
+  "version_banner": "TinyUF2 Bootloader v2.0.1 - bouffalolab/bl_mcu_sdk (V1.4.3-8-g8742503a)"
+ },
+ "downloads": [
+  {
+   "bytes": 6974,
+   "final_host": "https://api.github.com",
+   "local_relpath": "metadata/repo.json",
+   "requested_url": "https://api.github.com/repos/Seeed-Studio/Seeed_Arduino_GroveAI",
+   "sha256": "894a07cce29c352eb1658152404d5821892bd1b414d8a3f4d01a24d1e64356f8"
+  },
+  {
+   "bytes": 30687,
+   "final_host": "https://api.github.com",
+   "local_relpath": "metadata/releases.json",
+   "requested_url": "https://api.github.com/repos/Seeed-Studio/Seeed_Arduino_GroveAI/releases",
+   "sha256": "790225847df8302921975f2dd514f372738f349ee6ef2350d12dbbedf6d01fdc"
+  },
+  {
+   "bytes": 1375,
+   "final_host": "https://api.github.com",
+   "local_relpath": "metadata/tags.json",
+   "requested_url": "https://api.github.com/repos/Seeed-Studio/Seeed_Arduino_GroveAI/tags",
+   "sha256": "7ebef8c71833d9a745b17843d10017fbf7dd0c14870df2df171fb40dbfa7fc80"
+  },
+  {
+   "bytes": 4297,
+   "final_host": "https://api.github.com",
+   "local_relpath": "metadata/branch_master.json",
+   "requested_url": "https://api.github.com/repos/Seeed-Studio/Seeed_Arduino_GroveAI/branches/master",
+   "sha256": "5a4dfdbbd92d8505ad2b151bd1cfa877ed8c98895cbb3e919577c8d7ea1d4e39"
+  },
+  {
+   "bytes": 1127306,
+   "final_host": "https://codeload.github.com",
+   "local_relpath": "source/Seeed_Arduino_GroveAI-v2.0.0.tar.gz",
+   "requested_url": "https://codeload.github.com/Seeed-Studio/Seeed_Arduino_GroveAI/tar.gz/refs/tags/v2.0.0",
+   "sha256": "fb097a50e3d71137a01f782a763fbf6a6c1fe009a89c286d33da34c1f67eb86b"
+  },
+  {
+   "bytes": 166229,
+   "final_host": "https://wiki.seeedstudio.com",
+   "local_relpath": "docs/seeed_wiki_Grove-Vision-AI-Module.html",
+   "requested_url": "https://wiki.seeedstudio.com/Grove-Vision-AI-Module/",
+   "sha256": "be3494412532cf568ecf3191231439f7937b73b327c7e029845a6f1e3d483bb8"
+  },
+  {
+   "bytes": 5856,
+   "final_host": "https://raw.githubusercontent.com",
+   "local_relpath": "docs/bouffalo_sdk_flash_cube.rst",
+   "requested_url": "https://raw.githubusercontent.com/bouffalolab/bouffalo_sdk/master/docs/zh/get_started/flash_cube.rst",
+   "sha256": "48751b817cb3197d2ccaf86491277a21a6f40d387d9cbecfa1b8e65a053404b2"
+  },
+  {
+   "bytes": 2065694,
+   "final_host": "https://raw.githubusercontent.com",
+   "local_relpath": "docs/bouffalo_FlashCube_User_Guide.pdf",
+   "requested_url": "https://raw.githubusercontent.com/bouffalolab/bouffalo_sdk/master/tools/bflb_tools/bouffalo_flash_cube/docs/FlashCube_User_Guide.pdf",
+   "sha256": "51136477c2a90d11b1865b766555dea3313eeeea78f5a34b8a5aed71e6ae293d"
+  },
+  {
+   "asset_id": 130945222,
+   "asset_uploaded_at": "2023-10-17T03:01:32Z",
+   "bytes": 93500,
+   "final_host": "https://release-assets.githubusercontent.com",
+   "local_relpath": "assets/v2.0.0/tinyuf2-grove_vision_ai_v2.0.1.bin",
+   "published_digest": null,
+   "release_id": 114739495,
+   "release_published_at": "2023-08-02T01:48:56Z",
+   "release_tag": "v2.0.0",
+   "requested_url": "https://github.com/Seeed-Studio/Seeed_Arduino_GroveAI/releases/download/v2.0.0/tinyuf2-grove_vision_ai_v2.0.1.bin",
+   "sha256": "5b0773315e923ce65b5c033b8b269d7ad396a088940a50f9cfe13ac3972d1d9c",
+   "uploader": "LynnL4"
+  },
+  {
+   "asset_id": 102196405,
+   "asset_uploaded_at": "2023-04-04T01:43:34Z",
+   "bytes": 93500,
+   "final_host": "https://release-assets.githubusercontent.com",
+   "local_relpath": "assets/v1.1.0/tinyuf2-grove_vision_ai_v2.0.1.bin",
+   "published_digest": null,
+   "release_id": 96435427,
+   "release_published_at": "2023-03-22T06:00:25Z",
+   "release_tag": "v1.1.0",
+   "requested_url": "https://github.com/Seeed-Studio/Seeed_Arduino_GroveAI/releases/download/v1.1.0/tinyuf2-grove_vision_ai_v2.0.1.bin",
+   "sha256": "5b0773315e923ce65b5c033b8b269d7ad396a088940a50f9cfe13ac3972d1d9c",
+   "uploader": "LynnL4"
+  },
+  {
+   "asset_id": 121727367,
+   "asset_uploaded_at": "2023-08-16T10:53:41Z",
+   "bytes": 1541632,
+   "final_host": "https://release-assets.githubusercontent.com",
+   "local_relpath": "assets/v2.0.0/grove_ai_v02-00.uf2",
+   "published_digest": null,
+   "release_id": 114739495,
+   "release_published_at": "2023-08-02T01:48:56Z",
+   "release_tag": "v2.0.0",
+   "requested_url": "https://github.com/Seeed-Studio/Seeed_Arduino_GroveAI/releases/download/v2.0.0/grove_ai_v02-00.uf2",
+   "sha256": "8854e09348cec166c127e3bafda89b0b35e3a7a62916e27661410ff03f4b5b3c",
+   "uploader": "LynnL4"
+  },
+  {
+   "asset_id": 121851617,
+   "asset_uploaded_at": "2023-08-17T05:32:00Z",
+   "bytes": 38400,
+   "final_host": "https://release-assets.githubusercontent.com",
+   "local_relpath": "assets/v2.0.0/erase_model.uf2",
+   "published_digest": null,
+   "release_id": 114739495,
+   "release_published_at": "2023-08-02T01:48:56Z",
+   "release_tag": "v2.0.0",
+   "requested_url": "https://github.com/Seeed-Studio/Seeed_Arduino_GroveAI/releases/download/v2.0.0/erase_model.uf2",
+   "sha256": "1668c816a1d0de5e7fe498495330f055af8c77098adfce1e7551ea2e68b29ad9",
+   "uploader": "LynnL4"
+  },
+  {
+   "bytes": 1130891,
+   "final_host": "https://codeload.github.com",
+   "local_relpath": "source/Seeed_Arduino_GroveAI-master-b4ef904dea4bcaf9ac55672a2138388169dce65a.tar.gz",
+   "requested_url": "https://codeload.github.com/Seeed-Studio/Seeed_Arduino_GroveAI/tar.gz/b4ef904dea4bcaf9ac55672a2138388169dce65a",
+   "sha256": "13ec7b56032de354cfd426cb38046d845ade461cc5c0755c54f246218ab967b6"
+  }
+ ],
+ "executed_downloaded_code": false,
+ "factory_uf2_vs_local_fallbacks": {
+  "copy_a_byte_identical": true,
+  "copy_b_byte_identical": true
+ },
+ "hardware_access": false,
+ "himax_boot_config_record_0x21000": {
+  "bytes_equal_to_factory_record": 397,
+  "factory_and_candidate_record_identical": true,
+  "first_differing_offset": 8,
+  "official_i2c_erase_blob_bytes": 764,
+  "official_i2c_erase_blob_sha256": "94173481259fd4bdead3ca10379839063c89f79acde578b2163a64d15df30019",
+  "official_i2c_erase_blob_target": "0x21000 (cmd_start word)",
+  "record_header": "BLp\\x02"
+ },
+ "himax_sdk_loader_locations": {
+  "birdhouse_candidate_local:sdk_loader1": "0x10010000",
+  "birdhouse_candidate_local:sdk_loader2": "0x10000000",
+  "birdhouse_candidate_local:sdk_rom_i2c_loader": "not found as exact substring",
+  "official_factory:sdk_loader1": "0x10010000",
+  "official_factory:sdk_loader2": "0x10000000",
+  "official_factory:sdk_rom_i2c_loader": "not found as exact substring"
+ },
+ "installed_bl702_per_cached_INFO_UF2": {
+  "board_id": "Grove AI",
+  "build": "2d5b48b",
+  "date": "Aug 23 2022",
+  "model": "Seeed Studio Grove AI",
+  "sdk": "bouffalolab/bl_mcu_sdk (V1.4.3-8-g8742503a)"
+ },
+ "not_downloaded": [
+  "BLDevCube installer archive (tool; out of A1 scope and not to be executed)"
+ ],
+ "resume_acquired_utc": "2026-11-12T16:48:55Z",
+ "scope": "A1 offline acquisition and audit; nothing executed; no hardware access",
+ "source_repository": {
+  "default_branch": "master",
+  "default_branch_commit": "b4ef904dea4bcaf9ac55672a2138388169dce65a",
+  "fork": false,
+  "full_name": "Seeed-Studio/Seeed_Arduino_GroveAI",
+  "license": "MIT",
+  "owner_type": "Organization",
+  "tags": [
+   {
+    "commit": "49664aa8d5d63dfaaefe319b54455fb320791cbc",
+    "name": "v2.0.0"
+   },
+   {
+    "commit": "cb0a4426801ea7cb12a87a1fed91177bf710f703",
+    "name": "v1.1.0"
+   },
+   {
+    "commit": "4bb63f7c98202fd5dfd0561a645f2eaf32010ba0",
+    "name": "v1.0.0"
+   }
+  ]
+ },
+ "tinyuf2_v2.0.1_copies_in_v1.1.0_and_v2.0.0_identical": true,
+ "uf2_overlaps": {
+  "birdhouse_candidate_local__official_erase_model": {
+   "identical_bytes_in_overlap": 0,
+   "overlap_bytes": 0,
+   "overlap_ranges": []
+  },
+  "official_factory__birdhouse_candidate_local": {
+   "identical_bytes_in_overlap": 157278,
+   "overlap_bytes": 628224,
+   "overlap_ranges": [
+    [
+     "0x10000000",
+     "0x10099600"
+    ]
+   ]
+  },
+  "official_factory__official_erase_model": {
+   "identical_bytes_in_overlap": 0,
+   "overlap_bytes": 0,
+   "overlap_ranges": []
+  }
+ },
+ "uf2_structure": {
+  "birdhouse_candidate_local": {
+   "address_end": "0x10099600",
+   "address_min": "0x10000000",
+   "bad_blocks": 0,
+   "blockNo_sequence_ok": true,
+   "blocks": 2454,
+   "contiguous_ranges": [
+    [
+     "0x10000000",
+     "0x10099600",
+     628224
+    ]
+   ],
+   "distinct_payload_byte_values": 256,
+   "family_ids": [
+    "0xef32c892"
+   ],
+   "flag_names": [
+    "FAMILY_ID_PRESENT"
+   ],
+   "flags": [
+    "0x2000"
+   ],
+   "flat_sha256_ff_filled": "b8a12eb299aaa7ce0428c05eab0c4fe1c7ed0ce21b4b15d387f03d9dacfcab2d",
+   "intra_file_overlap_bytes": 0,
+   "numBlocks_values": [
+    2454
+   ],
+   "payload_all_00": false,
+   "payload_all_ff": false,
+   "payload_bytes": 628224,
+   "payload_sizes": [
+    256
+   ],
+   "size_multiple_of_512": true
+  },
+  "official_erase_model": {
+   "address_end": "0x00004b00",
+   "address_min": "0x00000000",
+   "bad_blocks": 0,
+   "blockNo_sequence_ok": true,
+   "blocks": 75,
+   "contiguous_ranges": [
+    [
+     "0x00000000",
+     "0x00004b00",
+     19200
+    ]
+   ],
+   "distinct_payload_byte_values": 256,
+   "family_ids": [
+    "0xef32c892"
+   ],
+   "flag_names": [
+    "FAMILY_ID_PRESENT"
+   ],
+   "flags": [
+    "0x2000"
+   ],
+   "flat_sha256_ff_filled": "4c1d6254f14a45e6bd607f20000cde14868912ad7eb8278a715f53ca25742c66",
+   "intra_file_overlap_bytes": 0,
+   "numBlocks_values": [
+    75
+   ],
+   "payload_all_00": false,
+   "payload_all_ff": false,
+   "payload_bytes": 19200,
+   "payload_sizes": [
+    256
+   ],
+   "size_multiple_of_512": true
+  },
+  "official_factory": {
+   "address_end": "0x100bc300",
+   "address_min": "0x10000000",
+   "bad_blocks": 0,
+   "blockNo_sequence_ok": true,
+   "blocks": 3011,
+   "contiguous_ranges": [
+    [
+     "0x10000000",
+     "0x100bc300",
+     770816
+    ]
+   ],
+   "distinct_payload_byte_values": 256,
+   "family_ids": [
+    "0xef32c892"
+   ],
+   "flag_names": [
+    "FAMILY_ID_PRESENT"
+   ],
+   "flags": [
+    "0x2000"
+   ],
+   "flat_sha256_ff_filled": "809bfedf75413355d88b97564b07eab2b526ec0c00c112e5e04edf4ad4768a40",
+   "intra_file_overlap_bytes": 0,
+   "numBlocks_values": [
+    3011
+   ],
+   "payload_all_00": false,
+   "payload_all_ff": false,
+   "payload_bytes": 770816,
+   "payload_sizes": [
+    256
+   ],
+   "size_multiple_of_512": true
+  }
+ }
+}
