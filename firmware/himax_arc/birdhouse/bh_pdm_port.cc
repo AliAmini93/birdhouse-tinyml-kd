@@ -47,6 +47,9 @@ alignas(32) uint32_t g_dma_buffer[bh::kDmaBlockCount * bh::kDmaBlockBytes / size
 audio_config_t g_config;
 
 bh::Capture* volatile g_capture = nullptr;
+// 0 = no transfer attempted, 1 = active/starting, 2 = permanently quarantined.
+// Vendor stop/reset has no established pending-IRQ contract. There is no
+// production transition from quarantine to unused, even after a stop retry.
 volatile uint32_t g_started = 0;
 volatile uint32_t g_late_callbacks = 0;
 
@@ -106,14 +109,15 @@ int bh_port_pdm_start(bh::Capture* capture) {
   }
   const uint32_t irq = bh_port_irq_save();
   g_started = 1;
-  // Reset the library indices/configuration before publishing the new owner.
-  // Otherwise an old pending IRQ could copy the preceding run's ring into it.
+  // Keep IRQs masked: vendor DMA enable precedes its queue-count publication.
+  // Resetting indices does NOT establish a clean boundary for an old IRQ.
+  // A subsequent run is forbidden, including after partial-start cleanup.
   const bool ok = hx_lib_audio_start(&g_config) == AUDIO_NO_ERROR;
   if (ok) g_capture = capture;
   bh_port_irq_restore(irq);
   if (!ok) {
     // A failed start can have enabled part of the driver. Stop explicitly;
-    // keep the fault latched if quiescence cannot be confirmed.
+    // permanently quarantine, regardless of the cleanup API's return value.
     bh_port_pdm_stop();
     return -3;
   }
@@ -124,11 +128,11 @@ int bh_port_pdm_stop() {
   if (g_started == 0) return -1;
   const uint32_t irq = bh_port_irq_save();
   g_capture = nullptr;
+  g_started = 2;
   bh_port_irq_restore(irq);
   const bool ok = hx_lib_audio_stop() == AUDIO_NO_ERROR;
-  // A failed stop is not evidence that DMA stopped. Block future starts until
-  // an explicit stop retry succeeds. The detached capture is safe either way.
-  g_started = ok ? 0 : 2;
+  // The return value describes the API only. A pending completion can still
+  // re-arm DMA; neither success nor a retry proves physical quiescence.
   return ok ? 0 : -2;
 }
 
@@ -139,3 +143,13 @@ void bh_port_on_pdm_reinit() {
   bh::Capture* capture = g_capture;
   if (g_started != 0 && capture != nullptr) capture->OnFifoEvent();
 }
+
+#if defined(BIRDHOUSE_HOST_BUILD)
+// Test process isolation only. Never linked into production firmware. The fake
+// driver reset is deliberately separate, so it cannot silently reopen starts.
+void bh_port_pdm_test_reset() {
+  g_capture = nullptr;
+  g_started = 0;
+  g_late_callbacks = 0;
+}
+#endif

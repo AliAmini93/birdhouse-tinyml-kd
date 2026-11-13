@@ -10,10 +10,13 @@ class Capture;
 }
 
 // Starts PDM capture; audio blocks are delivered to `capture` from interrupt
-// context until bh_port_pdm_stop(). Returns 0 on success.
+// context until bh_port_pdm_stop(). At most one transfer attempt per process
+// lifetime. Success reports the API result, not measured DMA progress.
 int bh_port_pdm_start(bh::Capture* capture);
-// Detaches the capture before stopping. Failed stop blocks starts until an
-// explicit stop retry succeeds. No callback may touch the detached object.
+// Detaches under saved IRQ state, permanently quarantines starts, then attempts
+// vendor stop. Even success does not establish DMA/IRQ quiescence. An explicit
+// stop retry is permitted but cannot lift quarantine. No callback may touch the
+// detached object. Production has no quarantine reset API.
 int bh_port_pdm_stop();
 bool bh_port_pdm_faulted();
 bool bh_port_vendor_busy();  // vendor inference or camera streaming owns resources

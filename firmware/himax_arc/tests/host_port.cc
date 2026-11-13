@@ -19,8 +19,8 @@ void SetEcho(bool echo) { g_echo = echo; }
 
 uint64_t bh_port_now_us() { return fake_aud::now_us(); }
 bool bh_port_vendor_busy() { return false; }
-uint32_t bh_port_irq_save() { return 0; }
-void bh_port_irq_restore(uint32_t) {}
+uint32_t bh_port_irq_save() { return fake_aud::IrqSave(); }
+void bh_port_irq_restore(uint32_t state) { fake_aud::IrqRestore(state); }
 
 void bh_port_printf(const char* format, ...) {
   char buffer[512];

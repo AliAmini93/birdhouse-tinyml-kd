@@ -76,7 +76,7 @@ bool AtRunOnce() {
 bool AtRunMany(const char** argv, const int argc) {
   bool ok = false;
   const uint32_t n = argc == 1 ? ParseU32(argv[0], &ok) : 0;
-  if (!ok || n == 0 || n > 1000) {
+  if (!ok || n != 1) {
     bh_port_printf("BIRDHOUSE ERROR bad run count\n");
     return true;
   }
@@ -151,7 +151,7 @@ void RegisterCommandsOnce() {
   at->register_handlers("SNAPSHOT", nullptr, at_get_snapshot, GuardSnapshot, nullptr);
   at->register_handlers("SNAPSHOTSTREAM", nullptr, nullptr, GuardStream, nullptr);
   at->register_command("BIRDINFO", "Birdhouse: version, model and configuration", nullptr, AtInfo, nullptr, nullptr);
-  at->register_command("BIRDRUN", "Birdhouse: capture 5 s and classify (=N to repeat)", AtRunOnce, nullptr, AtRunMany, "COUNT");
+  at->register_command("BIRDRUN", "Birdhouse: one capture attempt; stop quarantines PDM (=1 only)", AtRunOnce, nullptr, AtRunMany, "COUNT");
   at->register_command("BIRDSTOP", "Birdhouse: abort capture and queued runs", AtStop, nullptr, nullptr, nullptr);
   at->register_command("BIRDLAST", "Birdhouse: print the last result", nullptr, AtLast, nullptr, nullptr);
   at->register_command("BIRDSELFTEST", "Birdhouse: model self-test on reference features (=STEP for one)", AtSelfTest, nullptr, AtSelfTestStep, "STEP");

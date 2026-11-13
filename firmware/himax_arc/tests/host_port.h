@@ -4,6 +4,10 @@
 
 #include <string>
 
+// Emulate a fresh process between independent test cases only. No production
+// reset exists; fake_aud::Reset() alone must not reset the adapter lifecycle.
+void bh_port_pdm_test_reset();
+
 namespace host_port {
 
 // Everything printed through bh_port_printf since the last Clear().

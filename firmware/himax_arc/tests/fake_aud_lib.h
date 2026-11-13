@@ -9,8 +9,13 @@
 //   request_read  address of the block at the read index and the number of
 //                 CONTIGUOUS unread blocks (up to the end of the ring only)
 //   update_idx    read index += n, set to 0 when it reaches the block count
-//   stop          no further block completions
-// The emulation is driven block by block from the test, with fault injection.
+//   DMA ISR      vendor RX callback re-arms before application delivery;
+//                completion acknowledgment follows the callback's return
+//   stop          disable/reset does not prove absence of a pending completion
+// This is a single-core behavioral model, NOT hardware validation. The unknown
+// reset/pending interaction is selectable in tests; neither choice is asserted
+// to describe the device. Legacy callback-only injection remains explicitly
+// separate from pending DMA completion injection.
 #ifndef BIRDHOUSE_HIMAX_TESTS_FAKE_AUD_LIB_H_
 #define BIRDHOUSE_HIMAX_TESTS_FAKE_AUD_LIB_H_
 
@@ -61,11 +66,15 @@ struct Faults {
   bool fail_start;
   bool fail_stop;
   bool callback_during_stop;
+  bool stop_clears_pending;  // alternate hypothesis, default false (unknown on device)
+  bool completion_at_start_enable;
+  bool start_without_progress;  // API succeeds but no DMA is armed (P3)
+  int completion_in_stop;   // 0 none; 1 before disable; 2 after disable; 3 after reset
   int fail_request_read;    // number of upcoming request_read calls that fail
   int fail_update_idx;
   int bad_address;          // number of upcoming request_read calls with a wrong address
   int suppress_callbacks;   // number of upcoming block completions without a callback
-                            // (models interrupts being held off)
+                            // (application starvation only; ISR still re-arms)
 };
 
 struct Counters {
@@ -76,6 +85,14 @@ struct Counters {
   uint32_t callbacks;
   uint32_t ring_overflows;   // silent index resets inside the "library"
   uint32_t fatal_block_count;
+  uint32_t isr_entries;
+  uint32_t rearms;
+  uint32_t acknowledgments;
+  uint32_t irq_before_queue_publication;
+  uint32_t sequence;
+  uint32_t last_rearm;
+  uint32_t last_callback;
+  uint32_t last_ack;
 };
 
 void Reset();
@@ -97,8 +114,19 @@ void GlitchNextClockRead(int64_t delta_us);
 // call the application callback (as the interrupt would).
 void CompleteBlock();
 void CompleteBlocks(uint32_t n);
-// A callback that was already pending when stop() was called.
+// Legacy application-only callback, WITHOUT the vendor ISR/re-arm/ack path.
 void DeliverLateCallback();
+
+// Queue an old/spurious completion without fabricating newly acquired PCM.
+// Delivery executes the modeled ISR even after successful vendor stop.
+void QueueCompletion();
+bool DispatchPending();
+bool pending();
+// Host IRQ port: save/restore the entire opaque prior state (bit 0 enables IRQ).
+uint32_t IrqSave();
+void IrqRestore(uint32_t state);
+void SetIrqState(uint32_t state);
+uint32_t irq_state();
 
 }  // namespace fake_aud
 

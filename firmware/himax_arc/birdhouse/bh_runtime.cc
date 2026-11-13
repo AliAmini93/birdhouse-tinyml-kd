@@ -215,7 +215,7 @@ ModelStatus RuntimeEnsureModel() {
 }
 
 int RuntimeRequestRuns(uint32_t count) {
-  if (count == 0) return -2;
+  if (count != 1) return -2;  // repeated physical capture is unqualified
   if (g_state == kRunCapturing || g_pending != 0 || bh_port_pdm_faulted() || bh_port_vendor_busy()) return -1;
   g_pending = count;
   return 0;
@@ -251,7 +251,7 @@ void RuntimePoll() {
     if (finished) {
       FinishCapture(reason);
       RuntimePrintResult(g_last);
-      if (g_state == kRunFailed || !g_last.has_decision) g_pending = 0;
+      if (g_state == kRunFailed || !g_last.has_decision || bh_port_pdm_faulted()) g_pending = 0;
     }
   } else if (g_pending != 0) {
     --g_pending;

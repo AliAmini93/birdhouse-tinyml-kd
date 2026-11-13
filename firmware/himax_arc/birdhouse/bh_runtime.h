@@ -62,8 +62,9 @@ const char* RunStageName(RunStage s);
 // Builds the interpreter on first use. Safe to call repeatedly.
 ModelStatus RuntimeEnsureModel();
 
-// Queue `count` microphone runs (count >= 1); gaps between runs are allowed.
-// Returns 0, or -1 if a run is already active or queued, -2 for count == 0.
+// Queue one microphone attempt (count must equal 1). Stop or partial-start
+// cleanup permanently quarantines further attempts for this process lifetime.
+// Returns 0, -1 if busy/quarantined, or -2 for a count other than 1.
 int RuntimeRequestRuns(uint32_t count);
 // Abort the active capture and drop queued runs.
 void RuntimeCancel();

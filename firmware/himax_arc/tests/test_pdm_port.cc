@@ -9,6 +9,7 @@
 #include "firmware/himax_arc/birdhouse/bh_port.h"
 #include "firmware/himax_arc/tests/bh_test.h"
 #include "firmware/himax_arc/tests/fake_aud_lib.h"
+#include "firmware/himax_arc/tests/host_port.h"
 
 namespace {
 
@@ -30,6 +31,7 @@ bool Matches(const int16_t* pcm, uint32_t count, uint64_t first_frame) {
 std::vector<int16_t> g_pcm(bh::kTargetSamples + 16, 0x7B7B);
 
 void Fresh() {
+  bh_port_pdm_test_reset();  // independent process, not a hardware restart
   fake_aud::Reset();
   fake_aud::SetSource(Source, nullptr);
   std::fill(g_pcm.begin(), g_pcm.end(), static_cast<int16_t>(0x7B7B));
@@ -85,7 +87,7 @@ int main() {
     c.Finish();
   }
 
-  BH_CASE("library refuses to register or start: nothing is left half-started");
+  BH_CASE("registration failure is retryable; transfer attempt permanently quarantines");
   {
     Fresh();
     bh::Capture c;
@@ -97,12 +99,14 @@ int main() {
     BH_CHECK(bh_port_pdm_start(&c) == -3);
     BH_CHECK(!fake_aud::running());
     fake_aud::faults().fail_start = false;
-    BH_CHECK(bh_port_pdm_start(&c) == 0);      // recovers
+    BH_CHECK(bh_port_pdm_faulted());
+    BH_CHECK(bh_port_pdm_start(&c) == -1);
     BH_CHECK(bh_port_pdm_stop() == 0);
+    BH_CHECK(bh_port_pdm_faulted());
     c.Finish();
   }
 
-  BH_CASE("failed stop detaches ownership and blocks restart until explicit stop succeeds");
+  BH_CASE("failed stop detaches ownership; successful retry cannot lift quarantine");
   {
     Fresh();
     bh::Capture c;
@@ -124,7 +128,8 @@ int main() {
     fake_aud::faults().fail_stop = false;
     BH_CHECK(bh_port_pdm_stop() == 0);
     BH_CHECK(c.Begin(g_pcm.data(), bh::kTargetSamples, kConfig));
-    BH_CHECK(bh_port_pdm_start(&c) == 0);      // stage50 would have refused forever
+    BH_CHECK(bh_port_pdm_start(&c) == -1);     // no new owner after retry
+    BH_CHECK(bh_port_pdm_faulted());
     BH_CHECK(bh_port_pdm_stop() == 0);
     c.Finish();
   }
@@ -170,7 +175,7 @@ int main() {
     c.Finish();
   }
 
-  BH_CASE("held-off interrupts: the library silently resets its ring; capture is flagged SUSPECT");
+  BH_CASE("application callback starvation: ring overflow is flagged SUSPECT");
   {
     Fresh();
     bh::Capture c;
@@ -207,7 +212,7 @@ int main() {
     BH_CHECK(c.stats().fifo_events == 1);
   }
 
-  BH_CASE("a callback pending at stop time is ignored");
+  BH_CASE("legacy application-only late callback cannot access detached owner");
   {
     Fresh();
     bh::Capture c;

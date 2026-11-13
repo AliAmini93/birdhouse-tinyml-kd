@@ -41,6 +41,7 @@ int16_t MicSource(uint64_t frame, int channel, void*) {
 }
 
 void Fresh() {
+  bh_port_pdm_test_reset();  // independent process only
   fake_aud::Reset();
   fake_aud::SetSource(MicSource, nullptr);
   bh::RuntimeTestReset();
@@ -208,38 +209,36 @@ int main() {
     BH_CHECK(!host_port::Output().empty());
   }
 
-  BH_CASE("repeated classification: queued runs restart audio and settle again every time");
+  BH_CASE("only one run may be requested; successful capture permanently quarantines");
   {
     Fresh();
     g_mic_kind = 2;
     BH_CHECK(bh::RuntimeRequestRuns(0) == -2);
-    BH_CHECK(bh::RuntimeRequestRuns(5) == 0);
-    BH_CHECK(bh::RuntimeRequestRuns(1) == -1);  // already queued
+    BH_CHECK(bh::RuntimeRequestRuns(5) == -2);
+    BH_CHECK(bh::RuntimePendingRuns() == 0);
+    BH_CHECK(bh::RuntimeRequestRuns(1) == 0);
+    BH_CHECK(bh::RuntimeRequestRuns(1) == -1);
     Drive();
-    BH_CHECK(fake_aud::counters().blocks_completed == 5 * 82);
-    BH_CHECK(bh::RuntimeLastResult().seq == 5);
     BH_CHECK(bh::RuntimeLastResult().state == bh::kRunDone);
     BH_CHECK(bh::RuntimeLastResult().output_q == g_expected[2].output_q);
     BH_CHECK(bh::RuntimeLastResult().pcm_crc32 == g_expected[2].pcm_crc);
-    BH_CHECK(fake_aud::counters().starts == 5 && fake_aud::counters().stops == 5);
-    BH_CHECK(bh::ModelGetInfo().invoke_count == 5);
-    size_t pos = 0;
-    int results = 0;
-    while ((pos = host_port::Output().find("state=DONE", pos)) != std::string::npos) {
-      ++results;
-      pos += 10;
-    }
-    BH_CHECK(results == 5);
-    BH_CHECK(bh::RuntimeRequestRuns(1) == 0);  // idle again
+    BH_CHECK(bh_port_pdm_faulted());
+    BH_CHECK(bh::RuntimePendingRuns() == 0);
+    BH_CHECK(bh::RuntimeRequestRuns(1) == -1);
+    bh::RuntimeCancel();  // successful stop retry is not quiescence evidence
+    BH_CHECK(bh_port_pdm_faulted());
+    BH_CHECK(bh::RuntimeRequestRuns(1) == -1);
     Drive();
-    BH_CHECK(bh::RuntimeLastResult().seq == 6);
+    BH_CHECK(fake_aud::counters().starts == 1);
+    BH_CHECK(bh::ModelGetInfo().invoke_count == 1);
   }
 
-  BH_CASE("capture timeout: audio never delivers, deadline expires, next run works");
+  BH_CASE("P3 API success without DMA progress times out and quarantines");
   {
     Fresh();
     g_mic_kind = 0;
-    BH_CHECK(bh::RuntimeRequestRuns(3) == 0);
+    fake_aud::faults().start_without_progress = true;
+    BH_CHECK(bh::RuntimeRequestRuns(1) == 0);
     bh::RuntimePoll();
     BH_CHECK(bh::RuntimeState() == bh::kRunCapturing);
     fake_aud::AdvanceTime(bh::kCaptureDeadlineUs - 1000);
@@ -253,9 +252,9 @@ int main() {
     BH_CHECK(!fake_aud::running());
     BH_CHECK(bh::RuntimePendingRuns() == 0);  // a failing run is not repeated blindly
     BH_CHECK(Contains(host_port::Output(), "state=FAILED stage=CAPTURE detail=5 TIMEOUT"));
-    BH_CHECK(bh::RuntimeRequestRuns(1) == 0);
-    Drive();
-    BH_CHECK(bh::RuntimeLastResult().state == bh::kRunDone);
+    BH_CHECK(bh_port_pdm_faulted());
+    BH_CHECK(bh::RuntimeRequestRuns(1) == -1);
+    BH_CHECK(fake_aud::counters().starts == 1);
   }
 
   BH_CASE("incomplete recording: audio stops delivering half way");
@@ -275,23 +274,23 @@ int main() {
     BH_CHECK(!r.has_decision);
   }
 
-  BH_CASE("PDM start failure is reported with its stage and does not stick");
+  BH_CASE("partial PDM start failure is reported and permanently quarantines");
   {
     Fresh();
     fake_aud::faults().fail_start = true;
-    BH_CHECK(bh::RuntimeRequestRuns(2) == 0);
+    BH_CHECK(bh::RuntimeRequestRuns(1) == 0);
     Drive();
     const bh::RunResult r = bh::RuntimeLastResult();
     BH_CHECK(r.state == bh::kRunFailed && r.failed_stage == bh::kStagePdmStart && r.failure_detail == -3);
     BH_CHECK(bh::RuntimePendingRuns() == 0);
     BH_CHECK(Contains(host_port::Output(), "state=FAILED stage=PDM_START detail=-3"));
     fake_aud::faults().fail_start = false;
-    BH_CHECK(bh::RuntimeRequestRuns(1) == 0);
-    Drive();
-    BH_CHECK(bh::RuntimeLastResult().state == bh::kRunDone);
+    BH_CHECK(bh_port_pdm_faulted());
+    BH_CHECK(bh::RuntimeRequestRuns(1) == -1);
+    BH_CHECK(fake_aud::counters().starts == 1);
   }
 
-  BH_CASE("PDM stop failure requires explicit successful stop retry");
+  BH_CASE("PDM stop failure and successful retry both retain quarantine");
   {
     Fresh();
     fake_aud::faults().fail_stop = true;
@@ -303,9 +302,9 @@ int main() {
     fake_aud::faults().fail_stop = false;
     bh::RuntimeCancel();  // explicit stop retry
     BH_CHECK(!fake_aud::running());
-    BH_CHECK(bh::RuntimeRequestRuns(1) == 0);
-    Drive();
-    BH_CHECK(bh::RuntimeLastResult().state == bh::kRunDone);
+    BH_CHECK(bh_port_pdm_faulted());
+    BH_CHECK(bh::RuntimeRequestRuns(1) == -1);
+    BH_CHECK(fake_aud::counters().starts == 1);
   }
 
   BH_CASE("PDM FIFO overflow during capture fails the run at stage CAPTURE");
@@ -398,7 +397,7 @@ int main() {
   BH_CASE("cancel aborts the capture and clears the queue");
   {
     Fresh();
-    BH_CHECK(bh::RuntimeRequestRuns(4) == 0);
+    BH_CHECK(bh::RuntimeRequestRuns(1) == 0);
     bh::RuntimePoll();
     fake_aud::CompleteBlocks(10);
     bh::RuntimeCancel();
@@ -406,10 +405,10 @@ int main() {
     BH_CHECK(bh::RuntimeLastResult().failure_detail == bh::kCapCancelled);
     BH_CHECK(bh::RuntimePendingRuns() == 0);
     BH_CHECK(!fake_aud::running());
-    bh::RuntimeCancel();  // idle: no effect
-    BH_CHECK(bh::RuntimeRequestRuns(1) == 0);
-    Drive();
-    BH_CHECK(bh::RuntimeLastResult().state == bh::kRunDone);
+    bh::RuntimeCancel();  // explicit stop retry retains quarantine
+    BH_CHECK(bh_port_pdm_faulted());
+    BH_CHECK(bh::RuntimeRequestRuns(1) == -1);
+    BH_CHECK(fake_aud::counters().starts == 1);
   }
 
   BH_CASE("self-tests are refused while capturing");
@@ -512,23 +511,23 @@ int main() {
     }
   }
 
-  BH_CASE("soak: 40 consecutive runs with alternating content");
+  BH_CASE("40 independent process fixtures preserve capture and numerical regression coverage");
   {
-    Fresh();
     int ok = 0;
     for (int i = 0; i < 40; ++i) {
+      Fresh();  // intentionally NOT evidence for stop/restart on one device
       g_mic_kind = i % bh::kSynthKindCount;
       if (bh::RuntimeRequestRuns(1) != 0) break;
       Drive();
       const bh::RunResult r = bh::RuntimeLastResult();
       if (r.state == bh::kRunDone && r.quality == bh::kQualityClean &&
-          r.pcm_crc32 == g_expected[g_mic_kind].pcm_crc && r.output_q == g_expected[g_mic_kind].output_q) {
-        ++ok;
-      }
+          r.pcm_crc32 == g_expected[g_mic_kind].pcm_crc && r.output_q == g_expected[g_mic_kind].output_q) ++ok;
+      BH_CHECK(bh_port_pdm_faulted());
+      BH_CHECK(bh::RuntimeRequestRuns(1) == -1);
+      BH_CHECK(fake_aud::counters().starts == 1 && fake_aud::counters().stops == 1);
+      BH_CHECK(fake_aud::counters().ring_overflows == 0);
     }
     BH_CHECK(ok == 40);
-    BH_CHECK(fake_aud::counters().starts == 40 && fake_aud::counters().stops == 40);
-    BH_CHECK(fake_aud::counters().ring_overflows == 0);
   }
 
   return bh_test::Finish("runtime");

@@ -14,7 +14,7 @@
 // Commands (all prefixed AT+ on the vendor console):
 //   BIRDINFO?            version, model checksum, arena, configuration
 //   BIRDRUN              one capture + classification
-//   BIRDRUN=<n>          n runs back to back (gaps between runs)
+//   BIRDRUN=1            one attempt; stop permanently quarantines further runs
 //   BIRDSTOP             abort the active capture, drop queued runs
 //   BIRDLAST?            print the last result again
 //   BIRDSELFTEST         model on embedded reference features, 8 graded steps

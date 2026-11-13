@@ -37,6 +37,7 @@ static void Send(const char* command) {
 static bool Has(const char* text) { return host_port::Output().find(text) != std::string::npos; }
 
 int main() {
+  bh_port_pdm_test_reset();
   fake_aud::Reset();
   bh::RuntimeTestReset();
   ATServer::get_instance()->register_command("SAMPLESTART", "", nullptr, nullptr, at_sample_start, "SENSOR");
@@ -68,7 +69,10 @@ int main() {
   Send("AT+BIRDPCM=0,1,2\r");
   BH_CHECK(Has("BIRDHOUSE ERROR"));
   Send("AT+BIRDRUN=2\r");
-  BH_CHECK(bh::RuntimePendingRuns() == 2);
+  BH_CHECK(Has("BIRDHOUSE ERROR bad run count"));
+  BH_CHECK(bh::RuntimePendingRuns() == 0);
+  Send("AT+BIRDRUN=1\r");
+  BH_CHECK(bh::RuntimePendingRuns() == 1);
   Send("AT+SAMPLESTART=Microphone\r");
   BH_CHECK(Has("vendor sampling/camera command refused") && vendor_calls == 0);
   Send("AT+RUNIMPULSE\r");
@@ -82,7 +86,19 @@ int main() {
   BH_CHECK(Has("BIRDHOUSE STOP state=FAILED"));
   BH_CHECK(bh::RuntimePendingRuns() == 0 && !fake_aud::running());
   Send("AT+RUNIMPULSE\r");
-  BH_CHECK(vendor_calls == 1);
+  BH_CHECK(Has("vendor sampling/camera command refused") && vendor_calls == 0);
+  Send("AT+BIRDSELFTEST=4\r");
+  BH_CHECK(Has("BIRDHOUSE ERROR busy"));
+  Send("AT+BIRDRUN=1\r");
+  BH_CHECK(Has("BIRDHOUSE RUN queued=0 rc=-1"));
+  Send("AT+BIRDSTOP\r");  // stop retry cannot reopen vendor or Birdhouse
+  BH_CHECK(bh_port_pdm_faulted());
+  Send("AT+RUNIMPULSE\r");
+  BH_CHECK(Has("vendor sampling/camera command refused") && vendor_calls == 0);
+  // A fresh process fixture still exercises successful self-test and dumping.
+  bh_port_pdm_test_reset();
+  fake_aud::Reset();
+  bh::RuntimeTestReset();
   Send("AT+BIRDSELFTEST=4\r");
   BH_CHECK(Has("step=4 out_q=12 expected_q=12 abs_diff=0"));
   Send("AT+BIRDPCM=0,1\r");

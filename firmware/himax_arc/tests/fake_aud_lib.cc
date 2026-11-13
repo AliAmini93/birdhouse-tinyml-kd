@@ -22,6 +22,10 @@ struct State {
   uint64_t block_period_us;
   int64_t clock_glitch_us;
   bool clock_glitch_armed;
+  uint32_t irq_state;
+  bool pending;
+  bool in_isr;
+  bool queue_published;
 };
 
 State g;
@@ -64,14 +68,37 @@ extern "C" AUDIO_ERROR_E hx_lib_audio_start(audio_config_t* cfg) {
   g.write_idx = 0;
   g.frame = 0;
   g.running = true;
+  g.queue_published = false;
   ++g.counters.starts;
+  if (g.faults.start_without_progress) g.running = false;
+  if (g.faults.completion_at_start_enable) {
+    fake_aud::QueueCompletion();
+    fake_aud::DispatchPending();
+  }
+  // Deliberately after DMA enable, as in the traced low-level driver.
+  g.queue_published = true;
   return g.faults.fail_start ? AUDIO_ERROR_DRIVER : AUDIO_NO_ERROR;
 }
 
 extern "C" AUDIO_ERROR_E hx_lib_audio_stop(void) {
   ++g.counters.stops;
   if (g.faults.callback_during_stop && g.callback != nullptr) g.callback(0);
-  if (!g.faults.fail_stop) g.running = false;
+  if (g.faults.completion_in_stop == 1) fake_aud::QueueCompletion();
+  fake_aud::DispatchPending();
+  if (!g.faults.fail_stop) {
+    g.running = false;
+    if (g.faults.completion_in_stop == 2) {
+      fake_aud::QueueCompletion();
+      fake_aud::DispatchPending();
+    }
+    g.running = false;  // reset's modeled disable effect, separate from pending
+    if (g.faults.stop_clears_pending) g.pending = false;
+    g.queue_published = false;
+    if (g.faults.completion_in_stop == 3) {
+      fake_aud::QueueCompletion();
+      fake_aud::DispatchPending();
+    }
+  }
   return g.faults.fail_stop ? AUDIO_ERROR_NOT_INIT : AUDIO_NO_ERROR;
 }
 
@@ -109,6 +136,7 @@ void Reset() {
   g.source = DefaultSource;
   g.block_period_us = 64000;
   g.now_us = 1000000;  // arbitrary non-zero start
+  g.irq_state = 0xA5u;  // enabled plus opaque bits that must survive restore
 }
 
 void SetSource(SampleSource source, void* context) {
@@ -137,7 +165,7 @@ void GlitchNextClockRead(int64_t delta_us) {
 }
 
 void CompleteBlock() {
-  if (!g.running) return;
+  if (!g.running || g.pending) return;
   g.now_us += g.block_period_us;
 
   // The DMA engine has filled the block at the write index.
@@ -150,8 +178,24 @@ void CompleteBlock() {
   }
   g.frame += frames;
   ++g.counters.blocks_completed;
+  g.running = false;  // the ISR must re-arm to acquire another block
+  QueueCompletion();
+  DispatchPending();
+}
 
-  // Interrupt handler of the real library.
+void QueueCompletion() { g.pending = true; }
+bool pending() { return g.pending; }
+
+bool DispatchPending() {
+  if (!g.pending || (g.irq_state & 1u) == 0 || g.in_isr || g.config.block_num == 0) return false;
+  g.in_isr = true;
+  const uint32_t saved_irq = g.irq_state;
+  g.irq_state &= ~1u;
+  ++g.counters.isr_entries;
+  if (!g.queue_published) ++g.counters.irq_before_queue_publication;
+
+  // Behavioral model of the traced DMA branch, including a stale completion.
+  // The real DMA branch invokes its RX callback without a queue-empty guard.
   g.write_idx += 1;
   if (g.write_idx == g.config.block_num) g.write_idx = 0;
   if (g.write_idx == g.read_idx) {
@@ -159,15 +203,36 @@ void CompleteBlock() {
     g.write_idx = 0;
     g.read_idx = 0;
   }
+  g.running = true;
+  ++g.counters.rearms;
+  g.counters.last_rearm = ++g.counters.sequence;
   if (g.faults.suppress_callbacks > 0) {
     --g.faults.suppress_callbacks;
-    return;
-  }
-  if (Unread() >= g.config.cb_evt_blk && g.callback != nullptr) {
+  } else if (Unread() >= g.config.cb_evt_blk && g.callback != nullptr) {
     ++g.counters.callbacks;
+    g.counters.last_callback = ++g.counters.sequence;
     g.callback(0);
   }
+  // The completion remains pending throughout re-arm and application callback.
+  g.pending = false;
+  ++g.counters.acknowledgments;
+  g.counters.last_ack = ++g.counters.sequence;
+  g.in_isr = false;
+  g.irq_state = saved_irq;
+  return true;
 }
+
+uint32_t IrqSave() {
+  const uint32_t state = g.irq_state;
+  g.irq_state &= ~1u;
+  return state;
+}
+void IrqRestore(uint32_t state) {
+  g.irq_state = state;
+  DispatchPending();
+}
+void SetIrqState(uint32_t state) { g.irq_state = state; }
+uint32_t irq_state() { return g.irq_state; }
 
 void CompleteBlocks(uint32_t n) {
   for (uint32_t i = 0; i < n; ++i) CompleteBlock();

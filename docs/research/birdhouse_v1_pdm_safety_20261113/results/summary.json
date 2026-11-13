@@ -1,0 +1,325 @@
+{
+  "date": "2026-11-13",
+  "scope": "OWNER-AUTHORIZED INTERACTIVE OFFLINE PDM; NOT_FOR_FLASH",
+  "repository": "AliAmini93/birdhouse-tinyml-kd",
+  "branch": "research/birdhouse-v1-pdm-safety-offline-20261113",
+  "source_baseline": "5361a74143f909d6cc113f4cf0a9b35e8614240a",
+  "starting_head": "d6b67707251d24791030cd51700830e56330bcdd",
+  "P1": {
+    "status": "PARTIALLY_MITIGATED_FAIL_CLOSED",
+    "physical_quiescence": "OPEN",
+    "contract": "One transfer attempt; permanent first-party quarantine on stop or partial-start cleanup, including successful stop/retry",
+    "register_or_vendor_patch": false,
+    "startup_mask_preserved": true,
+    "stop_detach_irq_state_restored": true,
+    "safe_initial_peripheral_state_proven": false,
+    "pending_reset_semantics_proven": false,
+    "alternative_approaches": [
+      "documented channel-local stop/drain/ack protocol: missing vendor semantics",
+      "application generation filter: too late to prevent re-arm and no generation token",
+      "permanent lifecycle quarantine: implemented containment"
+    ]
+  },
+  "P2": {
+    "status": "VERIFIED_LIMIT",
+    "model_is_hardware_validation": false
+  },
+  "P3": {
+    "status": "VERIFIED_LIMIT",
+    "api_success_proves_progress": false,
+    "host_no_progress_timeout_test": "PASS"
+  },
+  "P4": {
+    "status": "VENDOR_LEVEL_BLOCKED",
+    "boot_path_to_poll_confirmed": true,
+    "error_isr_path_to_poll_confirmed": true,
+    "main_loop_deadline_can_unblock_poll": false,
+    "vendor_or_register_patch": false,
+    "needed": [
+      "exact vendor bounded-open implementation and cleanup contract",
+      "init failure propagation through boot/audio/driver",
+      "bounded or deferred ISR recovery with no unconditional failed-init transfer",
+      "channel-local stop/ack/reset/pending semantics and later separately approved physical qualification"
+    ]
+  },
+  "tests": {
+    "status": "PASS",
+    "python_test_methods": 4,
+    "native_variants": 16,
+    "native_assertions_total": 5048,
+    "native": [
+      {
+        "suite": "diag",
+        "checks_passed": 71,
+        "checks_failed": 0,
+        "status": "PASS",
+        "sanitizer": "none"
+      },
+      {
+        "suite": "capture",
+        "checks_passed": 281,
+        "checks_failed": 0,
+        "status": "PASS",
+        "sanitizer": "none"
+      },
+      {
+        "suite": "pdm_port",
+        "checks_passed": 95,
+        "checks_failed": 0,
+        "status": "PASS",
+        "sanitizer": "none"
+      },
+      {
+        "suite": "pdm_lifecycle_model_only",
+        "checks_passed": 969,
+        "checks_failed": 0,
+        "status": "PASS",
+        "sanitizer": "none"
+      },
+      {
+        "suite": "runtime",
+        "checks_passed": 466,
+        "checks_failed": 0,
+        "status": "PASS",
+        "sanitizer": "none"
+      },
+      {
+        "suite": "console",
+        "checks_passed": 35,
+        "checks_failed": 0,
+        "status": "PASS",
+        "sanitizer": "none"
+      },
+      {
+        "suite": "preprocess_reference",
+        "checks_passed": 21,
+        "checks_failed": 0,
+        "status": "PASS",
+        "sanitizer": "none"
+      },
+      {
+        "suite": "tflm_inference",
+        "checks_passed": 586,
+        "checks_failed": 0,
+        "status": "PASS",
+        "sanitizer": "none"
+      },
+      {
+        "suite": "diag",
+        "checks_passed": 71,
+        "checks_failed": 0,
+        "status": "PASS",
+        "sanitizer": "ASan+UBSan"
+      },
+      {
+        "suite": "capture",
+        "checks_passed": 281,
+        "checks_failed": 0,
+        "status": "PASS",
+        "sanitizer": "ASan+UBSan"
+      },
+      {
+        "suite": "pdm_port",
+        "checks_passed": 95,
+        "checks_failed": 0,
+        "status": "PASS",
+        "sanitizer": "ASan+UBSan"
+      },
+      {
+        "suite": "pdm_lifecycle_model_only",
+        "checks_passed": 969,
+        "checks_failed": 0,
+        "status": "PASS",
+        "sanitizer": "ASan+UBSan"
+      },
+      {
+        "suite": "runtime",
+        "checks_passed": 466,
+        "checks_failed": 0,
+        "status": "PASS",
+        "sanitizer": "ASan+UBSan"
+      },
+      {
+        "suite": "console",
+        "checks_passed": 35,
+        "checks_failed": 0,
+        "status": "PASS",
+        "sanitizer": "ASan+UBSan"
+      },
+      {
+        "suite": "preprocess_reference",
+        "checks_passed": 21,
+        "checks_failed": 0,
+        "status": "PASS",
+        "sanitizer": "ASan+UBSan"
+      },
+      {
+        "suite": "tflm_inference",
+        "checks_passed": 586,
+        "checks_failed": 0,
+        "status": "PASS",
+        "sanitizer": "ASan+UBSan"
+      }
+    ],
+    "compiled_mutants_rejected": [
+      {
+        "mutation": "stop_reopens",
+        "rejected_by_assertion": true
+      },
+      {
+        "mutation": "restart_guard_bypassed",
+        "rejected_by_assertion": true
+      },
+      {
+        "mutation": "owner_not_detached",
+        "rejected_by_assertion": true
+      },
+      {
+        "mutation": "start_mask_removed",
+        "rejected_by_assertion": true
+      },
+      {
+        "mutation": "irq_restore_enables_caller",
+        "rejected_by_assertion": true
+      },
+      {
+        "mutation": "model_ack_too_early",
+        "rejected_by_assertion": true
+      },
+      {
+        "mutation": "model_rearm_too_late",
+        "rejected_by_assertion": true
+      }
+    ],
+    "static_mutants_rejected": 4,
+    "frozen_original_observations": 16,
+    "additional_static_call_path_order_checks": 9,
+    "relinked_pdm_observations": 16,
+    "stop_scenario_combinations": 32,
+    "start_stop_failure_irq_combinations": 8,
+    "asan_ubsan": "PASS",
+    "leak_detection": "DISABLED; no leak claim",
+    "model_reference_outputs": 28,
+    "preprocess_feature_elements": 9960,
+    "runtime_numerical_fixtures": 40,
+    "same_device_restart_soak": false,
+    "initial_failure": "Unsanitized cached console parser operands missing; corrected harness to compile three SDK host parser units in place",
+    "final_test_case_wording_only_change": true
+  },
+  "arc": {
+    "status": "PASS_INCREMENTAL_OFFLINE_ONLY_NOT_FOR_FLASH",
+    "first_party_compiles": 10,
+    "clean_sdk_rebuild": false,
+    "postlink_checks": 28,
+    "elf": {
+      "path": ".local-tools/port-himax/pdm-safety-20261113-OFFLINE_ONLY-NOT_FOR_FLASH/arc/birdhouse_pdm_quarantine_OFFLINE_ONLY_NOT_FOR_FLASH.elf",
+      "size_bytes": 1650872,
+      "sha256": "bc49e1610fcff768b2f8aef36a42f17f928e20227494c29de3a6c0e3a34c09af"
+    },
+    "test_reset_symbol_absent": true,
+    "fake_symbols_absent": true,
+    "real_int8_mli_fc_retained": true,
+    "memory": {
+      "ICCM1": {
+        "origin": "0x10000000",
+        "length": 327680,
+        "used": 301306,
+        "free": 26374,
+        "used_percent": 91.95
+      },
+      "SYSTEM0": {
+        "origin": "0x20020800",
+        "length": 1439744,
+        "used": 849204,
+        "free": 590540,
+        "used_percent": 58.98
+      },
+      "DCCM": {
+        "origin": "0x80000000",
+        "length": 253952,
+        "used": 76960,
+        "free": 176992,
+        "used_percent": 30.3
+      }
+    },
+    "heap_capacity_bytes": 176992,
+    "stack_extent_bytes": 8188,
+    "partial_known_inference_frame_sum_bytes": 1664,
+    "stack_safety": "UNPROVEN",
+    "packaging_executed": false,
+    "arc_firmware_executed": false,
+    "initial_failures": [
+      "Dry-run required creating new output root",
+      "First link required creating new map-output parent; unchanged link command then passed"
+    ],
+    "total_link_object_archive_operands": 286
+  },
+  "preservation": {
+    "validated_elf_sha256": "8a280fa470c5e6a40b10a941a4e1fe99625233e8d28253b6bcfe4104aff7142f",
+    "validated_image_sha256": "c2d7e176436433f714633bc817cec3bc232c8fabd62389567be518358b6de388",
+    "validated_uf2_sha256": "009799e1ca3b39fa9f3fcee9ce97dd6f5d93a3bedf383b2172bfa873c21600ae",
+    "previous_candidate_unchanged": true,
+    "model_preprocessing_unchanged": true,
+    "sdk_clean_commit": "9dc2370d4dc269dc4bcafcf0354b8f745d08801f",
+    "reused_inputs_unchanged": true,
+    "launchers_automation_unchanged": true
+  },
+  "hardware": {
+    "access": false,
+    "enumeration": false,
+    "flash": false,
+    "capture": false,
+    "windows_pc_access": false,
+    "stop_quiescence_measured": false,
+    "poll_timeout_measured": false,
+    "windows_read_evidence": "Owner-reported limited ten-minute visible MSC read stability only; not write qualification"
+  },
+  "publication": {
+    "status": "GIT_METADATA_READ_ONLY_UNCOMMITTED_UNSYNCED_CHANGES",
+    "local_head": "d6b67707251d24791030cd51700830e56330bcdd",
+    "remote_head_observed": "d6b67707251d24791030cd51700830e56330bcdd",
+    "new_commits": [],
+    "clean_worktree": false,
+    "network_status": "AVAILABLE",
+    "normal_push_observation": "Everything up-to-date; only unchanged HEAD is published",
+    "r0_checkpoint": "git add and commit failed: read-only .git/index.lock",
+    "r1_r2_checkpoint": "git add failed: same read-only metadata restriction; normal unchanged-HEAD push succeeded",
+    "r3_checkpoint": "Final explicit-file staging and git commit both failed: read-only .git/index.lock; normal unchanged-HEAD push succeeded; remote SHA equals old local HEAD; worktree remains dirty",
+    "sandbox_escalation_attempted": false,
+    "automatic_approval_rejection": false,
+    "sync_ok": false,
+    "final_remote_comparison": "MATCHES_UNCHANGED_HEAD_ONLY; new work not synchronized"
+  },
+  "decision": {
+    "offline_containment_validation": "PASS",
+    "first_flash": "NO-GO",
+    "real_capture": "NO-GO",
+    "physical_recovery": "NO-GO",
+    "new_owner_flash_authorization": false
+  },
+  "source_sha256": {
+    "firmware/himax_arc/birdhouse/bh_arc_glue.cc": "6cb5ea89c2ff7f1346c79c270278f9afda9f5b5210e581ab492dfdf07a9160a4",
+    "firmware/himax_arc/birdhouse/bh_console.cc": "a1095079b14bfda853853844651ac042f3f86c6f0a30baff5ca9790b0c55e13d",
+    "firmware/himax_arc/birdhouse/bh_pdm_port.cc": "e9c1edec9b874cfc2a3dac8e0e822cb796a0c803e377568e6fd3274ae8f021b6",
+    "firmware/himax_arc/birdhouse/bh_port.h": "6cf42967e69bd5fd00d03e39d9fb7bef8104153d40ae2dbac55b362e08130317",
+    "firmware/himax_arc/birdhouse/bh_runtime.cc": "ccbad306476a32cdd8ba8da7caefc430b56e0ca9f8a27bd7f44ea8888ad32ebb",
+    "firmware/himax_arc/birdhouse/bh_runtime.h": "1acdbc686a86a8841eba0a64097aefe2031e60c03462383554c79428eed19519",
+    "firmware/himax_arc/tests/fake_aud_lib.cc": "8a07183a9c6f72ebdf88b63f2f87b133b357272ed361939793bdf902946b4652",
+    "firmware/himax_arc/tests/fake_aud_lib.h": "589ca80cfae11e37bfe9ac3ad193ff0afd6d03a6e7658d76270bde284d653e57",
+    "firmware/himax_arc/tests/host_port.cc": "6e02c62013c3eb2b31d8798b059150c6be717bfc90e43a84ee15bae22a576940",
+    "firmware/himax_arc/tests/host_port.h": "bd20eb9700c3f97f1ef2f585e61e9ffffb54b12c8f41cd203e5068a6ebfc06fa",
+    "firmware/himax_arc/tests/test_console.cc": "3c2518f7c190b39cfb0c96522b9d02ccf1ff916ae1b75c676fff97e4e37ce015",
+    "firmware/himax_arc/tests/test_pdm_lifecycle.cc": "2047076633779bedc65fe73260a0c7a50e4a6ed16919a7e7cb7478d8fbfb766c",
+    "firmware/himax_arc/tests/test_pdm_port.cc": "b4a617387fcb2cd741163d89e7ea7e7b11b2153713f204ed27731dd534b20a3c",
+    "firmware/himax_arc/tests/test_runtime.cc": "5195cc031784c94f11dd8901f16b983788ef5fd097bdaf3f8dc34abd850f6ff9",
+    "tools/himax/tests/test_pdm_safety.py": "24789d32898de0c7ad1c39b784d40dfc14c72e83585b70066ac8ac148d2e5993"
+  },
+  "reports": [
+    "R0_BASELINE_AND_CONTRACT.md",
+    "P1_ISR_STOP_RACE_REMEDIATION.md",
+    "P4_BOOT_ISR_POLLING_DECISION.md",
+    "OFFLINE_TEST_AND_BUILD_MATRIX.md",
+    "FINAL_GO_NO_GO.md",
+    "results/summary.json"
+  ]
+}
