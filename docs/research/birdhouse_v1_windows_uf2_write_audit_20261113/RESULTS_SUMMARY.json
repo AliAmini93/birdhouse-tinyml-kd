@@ -1,0 +1,210 @@
+{
+  "schema_version": 1,
+  "audit_date": "2026-11-13",
+  "baseline_commit": "9ab87fea1bde6419478480249e9dd518acff6bfd",
+  "branch": "research/birdhouse-v1-predeployment-codex-20261111",
+  "board": "Seeed Grove Vision AI V1; HX6537-A plus BL702",
+  "mode": "interactive_file_only_research",
+  "decisions": {
+    "offline_audit": "GO_COMPLETE",
+    "factory_first_write": "NO_GO",
+    "birdhouse_deployment": "NO_GO",
+    "active_diagnostics": "NO_GO",
+    "recovery_execution": "NO_GO",
+    "bl702_update": "NO_GO_UNAUTHORIZED"
+  },
+  "scope": {
+    "target_on_different_windows10_host": true,
+    "hardware_access": false,
+    "device_enumeration": false,
+    "vendor_code_execution": false,
+    "physical_experiment": false,
+    "source_firmware_model_config_changes": false,
+    "host_configuration_changes": false,
+    "package_installation": false,
+    "sandbox_bypass_requested": false,
+    "headless_or_background_workflow_started": false,
+    "subagents_spawned": false,
+    "python": "existing owner-mandated BH_PYTHON, isolated -I, standard library only",
+    "new_files": [
+      "EVIDENCE_MATRIX.md",
+      "UF2_WRITE_MECHANISM_AUDIT.md",
+      "WINDOWS10_FIRST_WRITE_DRAFT.md",
+      "RECOVERY_AND_ROLLBACK_GATES.md",
+      "FINAL_GO_NO_GO.md",
+      "RESULTS_SUMMARY.json"
+    ]
+  },
+  "installed_bl702": {
+    "reported_build_label": "2d5b48b",
+    "reported_build_date": "2022-08-23",
+    "sdk_banner": "V1.4.3-8-g8742503a",
+    "evidence": "prior cached INFO_UF2 plus owner Windows report",
+    "exact_binary_available": false,
+    "exact_source_commit_resolved": false,
+    "accepted_family_and_address_policy": "UNKNOWN",
+    "buffering_erase_ack_completion_integrity": "UNKNOWN",
+    "direct_himax_spi_programming": "UNPROVEN",
+    "both_himax_loaders_damaged_uf2_recovery": "UNPROVEN"
+  },
+  "owner_windows_observations": {
+    "source": "owner reported; no raw Windows logs inspected",
+    "visually_stable_minutes": 10,
+    "info_uf2_readable": true,
+    "system_event_query_window_minutes": 30,
+    "matching_disk_usb_warning_error_count": 0,
+    "event_query_coverage_independently_verified": false,
+    "write_transport_qualified": false
+  },
+  "historical_ubuntu": {
+    "source": "prior sanitized Stage A/C report; not reaggregated here",
+    "pid0060_msc_sessions": 27,
+    "resets_total": 59,
+    "pid8060_resets_in_reviewed_history": 0,
+    "scsi_timeout_root_cause": "HYPOTHESIS_UNPROVEN"
+  },
+  "replacement_bl702_v2_0_1": {
+    "installed": false,
+    "bytes": 93500,
+    "sha256": "5b0773315e923ce65b5c033b8b269d7ad396a088940a50f9cfe13ac3972d1d9c",
+    "family_constant_offset": "0x982",
+    "constructed_constant": "0xef32c892",
+    "constant_bytes_independently_rechecked": true,
+    "complete_write_mechanism_proven": false,
+    "applicability_to_installed_build": "NOT_ESTABLISHED"
+  },
+  "public_core_comparison": {
+    "repository": "adafruit/tinyuf2",
+    "historical_commit": "e91e98cbabf9139b9c84e21a4304a504be8e4345",
+    "historical_commit_date": "2022-08-17",
+    "current_commit": "d4a85300160ae1ad9069a4e450e067949fca35fd",
+    "current_commit_date": "2026-11-12",
+    "paths": ["src/ghostfat.c", "src/msc.c", "src/board_api.h"],
+    "is_installed_grove_bl702_source": false,
+    "historical_write_api_returns_status": false,
+    "current_write_api_returns_status": true,
+    "current_flush_status_hook": "optional; does not establish readback by itself"
+  },
+  "uf2": {
+    "all_intervals_half_open": true,
+    "all_flags": "0x2000",
+    "all_family_ids": "0xef32c892",
+    "all_payload_sizes": 256,
+    "independently_validated_blocks": 5540,
+    "valid_magics_numbering_unique_contiguous_addresses": true,
+    "unused_block_bytes_zero": true,
+    "factory": {
+      "bytes": 1541632,
+      "sha256": "8854e09348cec166c127e3bafda89b0b35e3a7a62916e27661410ff03f4b5b3c",
+      "blocks": 3011,
+      "address_start": "0x10000000",
+      "address_end_exclusive": "0x100bc300",
+      "payload_bytes": 770816,
+      "payload_sha256": "809bfedf75413355d88b97564b07eab2b526ec0c00c112e5e04edf4ad4768a40"
+    },
+    "candidate": {
+      "bytes": 1256448,
+      "sha256": "009799e1ca3b39fa9f3fcee9ce97dd6f5d93a3bedf383b2172bfa873c21600ae",
+      "blocks": 2454,
+      "address_start": "0x10000000",
+      "address_end_exclusive": "0x10099600",
+      "payload_bytes": 628224,
+      "payload_sha256": "b8a12eb299aaa7ce0428c05eab0c4fe1c7ed0ce21b4b15d387f03d9dacfcab2d",
+      "unrounded_image_bytes": 628016,
+      "unrounded_image_sha256": "c2d7e176436433f714633bc817cec3bc232c8fabd62389567be518358b6de388",
+      "zero_payload_padding_bytes": 208,
+      "elf_sha256": "8a280fa470c5e6a40b10a941a4e1fe99625233e8d28253b6bcfe4104aff7142f",
+      "stored_elf_sections_independently_reconstructed": 7,
+      "application_container_count": 8,
+      "compiled_model_bytes": 59760,
+      "compiled_model_sha256": "9e04d17723b87f9acbba3030c23e1e50b551493125e9bf7dc0aeb27f0b12db55",
+      "compiled_model_present_after_section_reconstruction": true,
+      "same_filename_other_local_variants_exist": true,
+      "substituted_other_variant": false
+    },
+    "erase_model": {
+      "bytes": 38400,
+      "sha256": "1668c816a1d0de5e7fe498495330f055af8c77098adfce1e7551ea2e68b29ad9",
+      "blocks": 75,
+      "address_start": "0x00000000",
+      "address_end_exclusive": "0x00004b00",
+      "payload_bytes": 19200,
+      "payload_sha256": "4c1d6254f14a45e6bd607f20000cde14868912ad7eb8278a715f53ca25742c66",
+      "physical_address_mapping": "UNKNOWN"
+    },
+    "comparison": {
+      "overlap_bytes": 628224,
+      "identical_bytes_in_overlap": 157278,
+      "both_full_images_include_two_himax_loaders": true,
+      "entire_loader_slots_identical": true,
+      "boot_config_slot_0x21000_0x22000_identical": true,
+      "factory_tail_not_supplied_by_candidate_bytes": 142592,
+      "actual_tail_retention": "UNKNOWN",
+      "actual_physical_sector_erase_effects": "UNKNOWN",
+      "package_zero_offset_to_himax_physical_zero": "UNPROVEN"
+    }
+  },
+  "conditional_sector_arithmetic": {
+    "is_measured_board_behavior": false,
+    "assumption": "offset-based minimum rounded erases; geometry not established",
+    "sector_4k": {
+      "candidate_sector_count": 154,
+      "candidate_rounded_end_offset": "0x9a000",
+      "candidate_unsupplied_last_sector_bytes": 2560,
+      "factory_sector_count": 189,
+      "factory_rounded_end_offset": "0xbd000",
+      "factory_unsupplied_last_sector_bytes": 3328,
+      "uncovered_factory_tail_above_candidate_rounded_end_bytes": 140032
+    },
+    "sector_64k": {
+      "candidate_rounded_end_offset": "0xa0000",
+      "candidate_unsupplied_last_unit_bytes": 27136
+    },
+    "sdk_config_offset": "0x1fe000",
+    "config_preservation_guaranteed": false
+  },
+  "wei_repair_source": {
+    "repository": "Seeed-Studio/Seeed_Arduino_GroveAI",
+    "commit": "49664aa8d5d63dfaaefe319b54455fb320791cbc",
+    "implementation_path": "Seeed_Arduino_GroveAI.cpp",
+    "page_size_header_line": "Seeed_Arduino_GroveAI.h:41",
+    "configuration_target_offset": "0x21000",
+    "configuration_array_bytes": 764,
+    "configuration_array_sha256": "94173481259fd4bdead3ca10379839063c89f79acde578b2163a64d15df30019",
+    "full_page_copy_bytes": 128,
+    "loop_iterations": 6,
+    "last_full_copy_source_offset": 640,
+    "out_of_bounds_source_read_bytes": 4,
+    "later_remainder_bytes": 124,
+    "runtime_effect": "UNKNOWN; source has undefined out-of-bounds access",
+    "full_image_recovery": false,
+    "independent_of_uf2_msc": false,
+    "executed": false
+  },
+  "backup_and_recovery": {
+    "generic_official_bl702_read_flash_documented": true,
+    "qualified_truly_nondestructive_full_board_backup": false,
+    "installed_bl702_backup_available": false,
+    "installed_himax_app_config_backup_available": false,
+    "factory_is_installed_state_backup": false,
+    "independent_full_image_himax_recovery_qualified": false,
+    "both_loader_loss_recovery_qualified": false,
+    "owner_installed_state_loss_acceptance": "NOT_ESTABLISHED_BY_AUDIT_AUTHORIZATION"
+  },
+  "highest_risk_blockers": [
+    "missing exact installed updater code and physical mapping/erase/verify semantics",
+    "no qualified independent full-image Himax recovery or both-loader-loss restoration",
+    "no qualified complete backup and no installed-state loss acceptance",
+    "Windows WRITE10 and programming completion unqualified",
+    "PDM P1 stop/IRQ/re-arm and pending completion uncertainty",
+    "PDM P4 unbounded boot/ISR ready polling",
+    "official WEI repair source last-page bounds defect"
+  ],
+  "validation": {
+    "method": "independent standard-library byte/text parsers, source review, report/JSON/privacy/scope checks",
+    "existing_vendor_generators_or_hardware_tests_rerun": false,
+    "physical_safety_proven": false,
+    "publication_scope": "only the six named sanitized reports",
+    "commit_and_remote_sync": "determined after report creation and reported in final delivery; not predicted here"
+  }
+}
