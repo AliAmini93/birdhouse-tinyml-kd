@@ -1,0 +1,74 @@
+{
+  "permissions": {
+    "deny": [
+      "mcp__*",
+      "Bash(sudo *)",
+      "Bash(su *)",
+      "Bash(pkexec *)",
+      "Bash(lsusb *)",
+      "Bash(usb-devices *)",
+      "Bash(udevadm *)",
+      "Bash(stty *)",
+      "Bash(mount *)",
+      "Bash(umount *)",
+      "Bash(udisksctl *)",
+      "Bash(fwupdmgr *)",
+      "Bash(mmcli *)",
+      "Bash(systemctl *)",
+      "Bash(modprobe *)",
+      "Bash(usbreset *)",
+      "Bash(i2c*)",
+      "Bash(blisp *)",
+      "Bash(blflash *)",
+      "Bash(*BLDevCube*)",
+      "Bash(*ota.exe*)",
+      "Bash(*uf2conv.py*)",
+      "Bash(git push --force *)",
+      "Bash(git reset *)",
+      "Bash(git clean *)",
+      "Bash(git rebase *)",
+      "Read(//dev/**)",
+      "Read(//sys/**)",
+      "Edit(//dev/**)",
+      "Edit(//sys/**)"
+    ],
+    "blockReadsOutsideWorkingDirectories": true
+  },
+  "sandbox": {
+    "enabled": true,
+    "failIfUnavailable": true,
+    "allowUnsandboxedCommands": false,
+    "filesystem": {
+      "denyWrite": [
+        "/dev",
+        "/sys",
+        "/etc",
+        "/boot",
+        "/run",
+        "~/.config",
+        "~/.local/share"
+      ],
+      "denyRead": [
+        "/dev/bus/usb",
+        "/dev/serial",
+        "/sys/bus/usb",
+        "/sys/class/tty",
+        "/sys/class/block",
+        "/run/udev",
+        "~/birdhouse-private"
+      ]
+    },
+    "network": {
+      "allowedDomains": [
+        "github.com",
+        "api.github.com",
+        "raw.githubusercontent.com",
+        "git.kernel.org",
+        "code.claude.com",
+        "wiki.seeedstudio.com",
+        "gitlab.freedesktop.org",
+        "www.kernel.org"
+      ]
+    }
+  }
+}
