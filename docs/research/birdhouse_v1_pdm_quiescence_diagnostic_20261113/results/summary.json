@@ -1,0 +1,204 @@
+{
+  "date": "2026-11-13",
+  "verdict": "DIAGNOSTIC_IMPLEMENTED_UF2_BLOCKED_P1_OPEN",
+  "artifact_verdict": "BLOCKED",
+  "technical_blocker": "BUBBLEWRAP_NAMESPACE_CREATION_DENIED",
+  "hardware_execution_authorized": false,
+  "hardware_execution_performed": false,
+  "branch": "research/birdhouse-v1-first-flash-prep-20261113",
+  "repository_head": "5a94940fcce5708ff686c7aaa18ae5606ee035c6",
+  "source_baseline": "3d0fb3fd4c1889d79462bbc404aee722c1811894",
+  "source_inventory_sha256": "796a930d078b1bfa83a6c869d66a55a0df0571313c5948ff3b38d3138891084e",
+  "source_inventory_files": 98,
+  "source_is_baseline_plus_uncommitted_diagnostic_patch": true,
+  "sdk_commit": "9dc2370d4dc269dc4bcafcf0354b8f745d08801f",
+  "sdk_clean": true,
+  "private_work_root": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY",
+  "preservation": {
+    "prior_uncommitted_reports": 6,
+    "working_reports_and_staged_unstaged_patches_saved": true,
+    "prior_report_bytes_unchanged": true,
+    "prior_binary_reference_bytes_unchanged": true,
+    "no_old_candidate_relabelled": true
+  },
+  "channel": {
+    "pdm_instance": 0,
+    "dma_channel": 4,
+    "mask": "0x10",
+    "dma_completion_irq": 24,
+    "dma_error_irq": 40,
+    "pdm_peripheral_rx_irq": 69,
+    "pdm_peripheral_error_irq": 70,
+    "pdm_peripheral_clip_irq": 71,
+    "basis": "Pinned board/24 macro, linked pdm_rx_devs descriptor +7, driver shift/load and dmac_init interrupt setup"
+  },
+  "observability": {
+    "dma_busy": "SDK_SUPPORTED_READ_AUX_DMACSTAT0_BIT4",
+    "dma_completion_history": "SDK_SUPPORTED_READ_AUX_DMACSTAT1_BIT4",
+    "dma_error_history": "SDK_SUPPORTED_READ_AUX_DMACSTAT1_BIT20",
+    "dma_irq_request": "SDK_SUPPORTED_READ_AUX_DMACIRQ_BIT4_NOT_CPU_IRQ_LATCH",
+    "enabled_state": "UNOBSERVABLE",
+    "cpu_irq_pending_latch": "UNOBSERVABLE",
+    "pending_identity_survives_reset": "UNOBSERVABLE",
+    "bus_drain_all_in_flight_writes": "UNOBSERVABLE",
+    "same_value_or_between_scan_writes": "UNOBSERVABLE",
+    "buffer_activity": "EXACT_CHANGED_WORD_WITNESS_ONLY_VIA_UNCACHED_LOAD",
+    "enable_attempt": "OBSERVED_FORWARDING_WRAPPER_ON_AUDITED_PDM_PATHS_NOT_ALL_POSSIBLE_AUX_WRITERS",
+    "complete_quiescence": "UNOBSERVABLE"
+  },
+  "instrumentation": {
+    "opt_in_command": "AT+BIRDDMA=1",
+    "arm_queues_capture": false,
+    "capture_command": "AT+BIRDRUN=1",
+    "stored_query": "AT+BIRDDMA?",
+    "captures_per_process": 1,
+    "permanent_quarantine_retained": true,
+    "recovery_or_repeated_captures_enabled": false,
+    "on_audio_start_runtime_source_unchanged": true,
+    "vendor_stop_sequence_unchanged": true,
+    "additional_irq_mask_or_ack": false,
+    "printing_from_interrupt_or_observation": false,
+    "row_phases": [
+      "before vendor stop after detachment",
+      "first sequential read after return",
+      "32 timed post-stop rows"
+    ],
+    "target_window_us": 512000,
+    "target_step_us": 16000,
+    "max_accepted_sample_gap_us": 32000,
+    "clock_poll_budget": 1000000,
+    "buffer_words_per_scan": 4096,
+    "dma_buffer_writes_by_diagnostic": false,
+    "dynamic_allocation": false,
+    "observer_timing_perturbs_interleavings": true,
+    "return_to_phase_marker_gap_unobservable": true,
+    "verdicts": [
+      "PASS_SAMPLED_ONLY",
+      "FAIL",
+      "INCONCLUSIVE"
+    ],
+    "full_quiescence_never_marked_pass": true
+  },
+  "offline_tests": {
+    "status": "PASS",
+    "final_native_variants": 18,
+    "final_native_assertions": 5590,
+    "base_suites_assertions": 5058,
+    "final_observer_assertions": 532,
+    "observer_assertions_per_variant": 266,
+    "sanitizers": "ASan+UBSan; leak checking disabled",
+    "lifecycle_compiled_mutants_rejected": 7,
+    "observer_compiled_mutants_rejected": 6,
+    "static_mutants_rejected": 4,
+    "observer_static_contract_tests": [
+      "SDK read getters and board/24 channel/IRQ match",
+      "ISR/start/runtime unchanged; stop detachment and forwarding retained"
+    ],
+    "diagnostic_tests_reject_unknown_zero_pending_rearm_late_writes_and_bad_clock": true
+  },
+  "clean_arc_build": {
+    "status": "PASS",
+    "exit": 0,
+    "seconds": 32.71,
+    "clean_new_root": true,
+    "old_objects_reused": false,
+    "elf": {
+      "path": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY/arc/obj_socket_24/gnu_arcem9d_wei_r16/WEI_FW_gnu_arcem9d_wei_r16.elf",
+      "bytes": 1667964,
+      "sha256": "3e350b171ed79ae9cdc96d635475b9f6de921288adbc29aab34905d96db41eee"
+    }
+  },
+  "fresh_postlink": {
+    "status": "PASS",
+    "checks": 28,
+    "operator_status": "PASS",
+    "operator_checks": 83,
+    "independent_diagnostic_status": "PASS",
+    "independent_checks": 14,
+    "heap_bytes": 159072,
+    "stack_extent_bytes": 8188,
+    "partial_inference_frames_bytes": 1664,
+    "wrapper_frame_bytes": 12,
+    "pdm_stop_frame_bytes": 72,
+    "physical_stack_safety": "UNPROVEN",
+    "memory": {
+      "ICCM1": {
+        "origin": "0x10000000",
+        "length": 327680,
+        "used": 302466,
+        "free": 25214,
+        "used_percent": 92.31
+      },
+      "SYSTEM0": {
+        "origin": "0x20020800",
+        "length": 1439744,
+        "used": 849812,
+        "free": 589932,
+        "used_percent": 59.03
+      },
+      "DCCM": {
+        "origin": "0x80000000",
+        "length": 253952,
+        "used": 94880,
+        "free": 159072,
+        "used_percent": 37.36
+      }
+    },
+    "model_sha256_in_elf": "9e04d17723b87f9acbba3030c23e1e50b551493125e9bf7dc0aeb27f0b12db55",
+    "host_test_symbols_absent": true
+  },
+  "packaging": {
+    "guard_and_verifier_unchanged": true,
+    "passive_guard_read_reliable": true,
+    "grove_volume_detected": false,
+    "output_root_constraints": "PASS",
+    "sandbox_flags_unchanged": true,
+    "packager_exit": 1,
+    "diagnostic": "bwrap: No permissions to create new namespace",
+    "generator_launched": false,
+    "new_image": null,
+    "new_uf2": null,
+    "new_uf2_sha256": null,
+    "new_uf2_bytes": null,
+    "new_uf2_blocks": null,
+    "escalation_or_host_fallback": false
+  },
+  "physical_findings": {
+    "dma_stopped_after_stop": "NOT_TESTED",
+    "pending_irq_survival": "NOT_TESTED_UNRESOLVED",
+    "rearm_after_stop": "NOT_TESTED",
+    "P1": "OPEN_PERMANENT_QUARANTINE_RETAINED",
+    "P4": "VENDOR_LEVEL_BLOCKED",
+    "single_pass_covers_all_interleavings": false,
+    "safe_console_open_DTR_contract": "NOT_ESTABLISHED",
+    "independent_recovery_backup": "NOT_QUALIFIED"
+  },
+  "publication": {
+    "status": "UNCOMMITTED_UNSYNCED",
+    "earlier_git_commit_failure": "read-only .git/index.lock, exit 128",
+    "metadata_escalation": false,
+    "prior_six_staged_reports_preserved": true,
+    "new_source_not_staged_or_committed": true,
+    "new_content_push_attempted": false,
+    "owner_recipe": "FINAL_DECISION.md",
+    "public_vendor_source_binaries_audio_identifiers": false
+  },
+  "report_integrity": {
+    "status": "PASS",
+    "json_links_known_sha256_consistency": "PASS",
+    "privacy_review": "PASS",
+    "previous_six_reports_preserved_and_unchanged": "PASS",
+    "prior_binary_references_unchanged": "PASS",
+    "source_frozen_after_build": "PASS",
+    "fresh_elf_double_read_hash": "PASS",
+    "new_uf2": "ABSENT",
+    "no_approval_fields_prechecked": true
+  },
+  "reports": [
+    "OBSERVABILITY_AND_DESIGN.md",
+    "OFFLINE_VALIDATION.md",
+    "WINDOWS10_SINGLE_CAPTURE_PROTOCOL.md",
+    "FINAL_DECISION.md",
+    "results/summary.json"
+  ]
+}

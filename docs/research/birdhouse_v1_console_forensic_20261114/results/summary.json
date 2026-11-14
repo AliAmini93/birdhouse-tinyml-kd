@@ -1,0 +1,712 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-14",
+  "verdict": "ARTIFACT_READY_FOR_OWNER_RISK_DECISION",
+  "audit_status": "PASS",
+  "scope": "read_only_existing_firmware_forensics",
+  "hardware_operations": 0,
+  "rebuilds": 0,
+  "image_generations": 0,
+  "baseline_commit": "3d0fb3fd4c1889d79462bbc404aee722c1811894",
+  "repository_head": "5a94940fcce5708ff686c7aaa18ae5606ee035c6",
+  "diagnostic_patch_committed": false,
+  "source_inventory_sha256": "796a930d078b1bfa83a6c869d66a55a0df0571313c5948ff3b38d3138891084e",
+  "source_files_checked": 98,
+  "source_file_mismatches": [],
+  "sdk_commit": "9dc2370d4dc269dc4bcafcf0354b8f745d08801f",
+  "sdk_clean": true,
+  "artifact_correspondence": {
+    "status": "PASS",
+    "uf2": {
+      "path": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY/package-native-terminal-01/out/birdhouse_candidate_OFFLINE_ONLY_do_not_deploy.uf2",
+      "sha256": "0eb316e68ba5b88c407d9f2f907891bab722820077e40de8d93f167d746f9cf8",
+      "bytes": 1260032,
+      "blocks": 2461,
+      "payload_bytes": 630016,
+      "padding_bytes": 208,
+      "family": "0xef32c892",
+      "start": "0x10000000",
+      "end": "0x10099d00"
+    },
+    "image": {
+      "path": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY/package-native-terminal-01/out/birdhouse_candidate_output.img",
+      "sha256": "abb9a98da36447c9632d14d8b913a21480aedd8c9afbc594ffc8b91d1159fe1b",
+      "bytes": 629808
+    },
+    "elf": {
+      "path": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY/arc/obj_socket_24/gnu_arcem9d_wei_r16/WEI_FW_gnu_arcem9d_wei_r16.elf",
+      "sha256": "3e350b171ed79ae9cdc96d635475b9f6de921288adbc29aab34905d96db41eee",
+      "bytes": 1667964
+    },
+    "stored_elf_bytes_verified": 480290,
+    "packager_checks": 41,
+    "independent_full_uf2_parse": "PASS",
+    "sbs_payload_destinations_and_all_stored_elf_bytes": "PASS",
+    "both_generator_images_identical": true
+  },
+  "compiled_console": {
+    "uart": "DFSS_UART_1",
+    "uart_id": 1,
+    "requested_baud": 921600,
+    "data_bits": 8,
+    "parity": "NONE",
+    "stop_bits": 1,
+    "hardware_flow_control": "OFF",
+    "descriptor_initial_baud_not_effective_after_open": 115200,
+    "descriptor_bus_frequency_hz": 400000000,
+    "computed_divisor_at_nominal_clock": 27,
+    "inferred_wire_baud_at_nominal_clock": 925925.925925926,
+    "wire_baud_physically_measured": false,
+    "qfn72_schematic_pad_labels": {
+      "UART1_RX": 36,
+      "UART1_TX": 37
+    },
+    "active_pin_route": "UNKNOWN",
+    "sideband": {
+      "DEBUGGER_ATTACH_PIN": "PGPIO1",
+      "DEBUGGER_ATTACH_STATE": 1,
+      "WEBUSB_SYNC_PIN": "PGPIO8",
+      "WEBUSB_SYNC_STATE": 1,
+      "webusb_initial_output": 0
+    },
+    "himax_dtr_rts_gate_in_traced_at_path": false,
+    "installed_bl702_dtr_rts_effects": "UNKNOWN",
+    "installed_bl702_cdc_line_coding_mapping": "UNKNOWN"
+  },
+  "compiler_commands": [
+    {
+      "translation_unit": "app/main.c",
+      "compiler": "arc-elf32-gcc",
+      "command_line_definitions": [
+        "-DBOARD_HIMAXEM9D",
+        "-DBOARD_SOCKET",
+        "-DCHANG_PLL_BEFORE_PMU",
+        "-DCIS_COMMON",
+        "-DCIS_OV2640_BAYER",
+        "-DCIS_OV_SENSOR",
+        "-DCIS_XSHUT_SGPIO1",
+        "-DCPU_ARC",
+        "-DCURRENT_CORE=arcem9d_wei_r16",
+        "-DDBG_LESS",
+        "-DDEBUG",
+        "-DEDGE_IMPULSE_VISIONAI",
+        "-DEIDSP_QUANTIZE_FILTERBANK=0",
+        "-DEI_CLASSIFIER_ALLOCATION_STATIC_HIMAX_GNU",
+        "-DEI_DSP_IMAGE_BUFFER_STATIC_SIZE=1024",
+        "-DEI_PORTING_SEEED_VISION_AI",
+        "-DEMBARC_TCF_GENERATED",
+        "-DGROVE_VISION_AI",
+        "-DHM_COMMON",
+        "-DHW_VERSION=24",
+        "-DIC_PACKAGE_QFN72",
+        "-DLIB_AUDIO",
+        "-DLIB_BSS_HANDLE",
+        "-DLIB_CLIB",
+        "-DLIB_COMMON",
+        "-DLIB_I2C_COMM",
+        "-DLIB_PWRMGMT",
+        "-DLIB_SECURITY",
+        "-DLIB_SENSORDP",
+        "-DNDEBUG",
+        "-DPLATFORM_EMBARC",
+        "-DREPO_REV=162765",
+        "-DSCRATCH_MEM_Z_SIZE=0",
+        "-DSPI_SLAVE_HANDSHAKE_IC",
+        "-DTF_LITE_STATIC_MEMORY",
+        "-DTOOLCHAIN=ARC_GNU",
+        "-D_HAVE_LIBGLOSS_",
+        "-D_HEAPSIZE=524288",
+        "-D_STACKSIZE=102400",
+        "-D__GNU__",
+        "-D__Xdmac"
+      ],
+      "undefinitions": [],
+      "forced_includes": [
+        "./board/socket/configs/24/core_config.h"
+      ],
+      "target_options": [
+        "-Os",
+        "-Os",
+        "-Os",
+        "-Os"
+      ]
+    },
+    {
+      "translation_unit": "app/scenario_app/edge_impulse_visionai/edge_impulse_visionai.cc",
+      "compiler": "arc-elf32-g++",
+      "command_line_definitions": [
+        "-DBOARD_HIMAXEM9D",
+        "-DBOARD_SOCKET",
+        "-DCHANG_PLL_BEFORE_PMU",
+        "-DCIS_COMMON",
+        "-DCIS_OV2640_BAYER",
+        "-DCIS_OV_SENSOR",
+        "-DCIS_XSHUT_SGPIO1",
+        "-DCPU_ARC",
+        "-DCURRENT_CORE=arcem9d_wei_r16",
+        "-DDBG_LESS",
+        "-DDEBUG",
+        "-DEDGE_IMPULSE_VISIONAI",
+        "-DEIDSP_QUANTIZE_FILTERBANK=0",
+        "-DEI_CLASSIFIER_ALLOCATION_STATIC_HIMAX_GNU",
+        "-DEI_DSP_IMAGE_BUFFER_STATIC_SIZE=1024",
+        "-DEI_PORTING_SEEED_VISION_AI",
+        "-DEMBARC_TCF_GENERATED",
+        "-DGROVE_VISION_AI",
+        "-DHM_COMMON",
+        "-DHW_VERSION=24",
+        "-DIC_PACKAGE_QFN72",
+        "-DLIB_AUDIO",
+        "-DLIB_BSS_HANDLE",
+        "-DLIB_CLIB",
+        "-DLIB_COMMON",
+        "-DLIB_I2C_COMM",
+        "-DLIB_PWRMGMT",
+        "-DLIB_SECURITY",
+        "-DLIB_SENSORDP",
+        "-DNDEBUG",
+        "-DPLATFORM_EMBARC",
+        "-DREPO_REV=162765",
+        "-DSCRATCH_MEM_Z_SIZE=0",
+        "-DSPI_SLAVE_HANDSHAKE_IC",
+        "-DTF_LITE_STATIC_MEMORY",
+        "-DTOOLCHAIN=ARC_GNU",
+        "-D_HAVE_LIBGLOSS_",
+        "-D_HEAPSIZE=524288",
+        "-D_STACKSIZE=102400",
+        "-D__GNU__"
+      ],
+      "undefinitions": [],
+      "forced_includes": [
+        "./board/socket/configs/24/core_config.h"
+      ],
+      "target_options": [
+        "-Os",
+        "-Os",
+        "-Os",
+        "-mcpu=em4_fpus",
+        "-mcode-density"
+      ]
+    },
+    {
+      "translation_unit": "library/common/console_io.c",
+      "compiler": "arc-elf32-gcc",
+      "command_line_definitions": [
+        "-DBOARD_HIMAXEM9D",
+        "-DBOARD_SOCKET",
+        "-DCHANG_PLL_BEFORE_PMU",
+        "-DCIS_COMMON",
+        "-DCIS_OV2640_BAYER",
+        "-DCIS_OV_SENSOR",
+        "-DCIS_XSHUT_SGPIO1",
+        "-DCPU_ARC",
+        "-DCURRENT_CORE=arcem9d_wei_r16",
+        "-DDBG_LESS",
+        "-DDEBUG",
+        "-DEDGE_IMPULSE_VISIONAI",
+        "-DEIDSP_QUANTIZE_FILTERBANK=0",
+        "-DEI_CLASSIFIER_ALLOCATION_STATIC_HIMAX_GNU",
+        "-DEI_DSP_IMAGE_BUFFER_STATIC_SIZE=1024",
+        "-DEI_PORTING_SEEED_VISION_AI",
+        "-DEMBARC_TCF_GENERATED",
+        "-DGROVE_VISION_AI",
+        "-DHM_COMMON",
+        "-DHW_VERSION=24",
+        "-DIC_PACKAGE_QFN72",
+        "-DLIB_AUDIO",
+        "-DLIB_BSS_HANDLE",
+        "-DLIB_CLIB",
+        "-DLIB_COMMON",
+        "-DLIB_I2C_COMM",
+        "-DLIB_PWRMGMT",
+        "-DLIB_SECURITY",
+        "-DLIB_SENSORDP",
+        "-DNDEBUG",
+        "-DPLATFORM_EMBARC",
+        "-DREPO_REV=162765",
+        "-DSCRATCH_MEM_Z_SIZE=0",
+        "-DSPI_SLAVE_HANDSHAKE_IC",
+        "-DTF_LITE_STATIC_MEMORY",
+        "-DTOOLCHAIN=ARC_GNU",
+        "-D_HAVE_LIBGLOSS_",
+        "-D_HEAPSIZE=524288",
+        "-D_STACKSIZE=102400",
+        "-D__GNU__",
+        "-D__Xdmac"
+      ],
+      "undefinitions": [],
+      "forced_includes": [
+        "./board/socket/configs/24/core_config.h"
+      ],
+      "target_options": [
+        "-Os",
+        "-Os",
+        "-Os",
+        "-Os"
+      ]
+    }
+  ],
+  "link_wraps": [
+    "is_inference_running",
+    "hx_drv_pdm_deinit",
+    "_dma_chan_enable",
+    "_ZN8ATParser5parseENSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE"
+  ],
+  "command_registration": {
+    "name": "BIRDINFO",
+    "query": "AT+BIRDINFO?",
+    "handler": "AtInfo",
+    "handler_address": "0x100008bc",
+    "registration_call_address": "0x10000ce8",
+    "registration_hook": "__wrap_is_inference_running",
+    "hook_call_address": "0x10002ca2",
+    "registered_before_first_received_character_is_handled": true,
+    "condition": "normal startup/allocation success and intended main-loop polling reached",
+    "execute_terminator": "CR",
+    "LF_behavior": "ignored"
+  },
+  "recorded_prior_checks": {
+    "clean_build": "PASS",
+    "postlink": [
+      28,
+      28
+    ],
+    "operators": [
+      83,
+      83
+    ],
+    "diagnostic_postlink": [
+      14,
+      14
+    ],
+    "package": [
+      41,
+      41
+    ],
+    "rerun_in_this_audit": false
+  },
+  "bridge": {
+    "reported_installed_build": "2d5b48b",
+    "reported_date": "2022-08-23",
+    "exact_installed_source_or_binary_available": false,
+    "demonstrable_incompatibility_found": false,
+    "compatibility_physically_established": false,
+    "required_bridge_update_demonstrated": false
+  },
+  "recommendation": {
+    "decision": "owner_may_accept_specific_residual_risks_and_proceed_later",
+    "proposed_windows_writes": 1,
+    "factory_rehearsal_recommended": false,
+    "reason": "rehearsal adds a full write without proving diagnostic console behavior",
+    "initial_later_console_check": "one manual open at 921600 8N1 no flow; one BIRDINFO read query terminated with CR",
+    "console_open_requires_separate_explicit_risk_acceptance": true,
+    "no_hardware_authorization_from_audit": true
+  },
+  "remaining_uncertainties": [
+    "installed_BL702_CDC_and_DTR_RTS_behavior",
+    "active_pin_mux_and_physical_routing",
+    "durable_Himax_programming_and_boot",
+    "P4_boot_ISR_ready_poll",
+    "complete_DMA_quiescence_and_pending_event_identity",
+    "real_ARC_MLI_timing_and_stack",
+    "independent_backup_and_recovery"
+  ],
+  "external_sources": [
+    {
+      "url": "https://wiki.seeedstudio.com/Grove-Vision-AI-Module/",
+      "use": "V1 generic rate, BL702 role, release note scope"
+    },
+    {
+      "url": "https://files.seeedstudio.com/wiki/Grove_AI_Module/Grove_Vision_AI_NORF_v1.1.pdf",
+      "use": "searchable QFN72 pin and DEBUG_DTR net labels only; connectivity not visually established"
+    }
+  ],
+  "inspected_files": [
+    {
+      "path": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY/arc-clean-build.log",
+      "bytes": 2306722,
+      "sha256": "cb233dfcdb29e5de39ca2a35ee10f77286bf4fe7cedd737f6a73ae3fd9385965",
+      "role": "recorded_build_or_validation_evidence"
+    },
+    {
+      "path": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY/arc-dryrun.log",
+      "bytes": 2320459,
+      "sha256": "b7fd1c473f79830718db9566aa357f697ecc8a1f1d13b810c494d8c5ff3e4b57",
+      "role": "recorded_build_or_validation_evidence"
+    },
+    {
+      "path": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY/arc-reviewed-plan.json",
+      "bytes": 3109329,
+      "sha256": "51cda0f2872aceacf83601d7cbc5cc0fdd24b17382904057990fde5cb8ba1325",
+      "role": "recorded_build_or_validation_evidence"
+    },
+    {
+      "path": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY/arc-build-status.json",
+      "bytes": 388,
+      "sha256": "aeace4b9fd778112a2bc9bcc7d6e582b406b39365a50e8145beb91ba6d40e0d7",
+      "role": "recorded_build_or_validation_evidence"
+    },
+    {
+      "path": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY/source-before-build.json",
+      "bytes": 17809,
+      "sha256": "18bae983e7986c77d1751ef215f121a961a312898850863d217fc2f6620819b6",
+      "role": "recorded_build_or_validation_evidence"
+    },
+    {
+      "path": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY/postlink.json",
+      "bytes": 9382,
+      "sha256": "30d1782539fcc4490c8ee9e60a6e15d818365330b67763dfde0b0d913dee6c71",
+      "role": "recorded_build_or_validation_evidence"
+    },
+    {
+      "path": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY/operator-audit.json",
+      "bytes": 19514,
+      "sha256": "0397d5286c5d23bd989a2ce0d7313d7aacce268a9489f560d229a444dd2a5d2e",
+      "role": "recorded_build_or_validation_evidence"
+    },
+    {
+      "path": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY/diagnostic-postlink.json",
+      "bytes": 1943,
+      "sha256": "9ec6298990a0af301a97e06a47add93f006f5bcab8b003afd2dd43ae1ee9ff96",
+      "role": "recorded_build_or_validation_evidence"
+    },
+    {
+      "path": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY/package-native-terminal-01.json",
+      "bytes": 10120,
+      "sha256": "2960e37d8daf607defd58676a1164ed6e615dabfc1af51523438702aac7d8bc6",
+      "role": "recorded_build_or_validation_evidence"
+    },
+    {
+      "path": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY/arc/obj_socket_24/gnu_arcem9d_wei_r16/WEI_FW_gnu_arcem9d_wei_r16.elf",
+      "bytes": 1667964,
+      "sha256": "3e350b171ed79ae9cdc96d635475b9f6de921288adbc29aab34905d96db41eee",
+      "role": "exact_build_binary_map_or_dependency"
+    },
+    {
+      "path": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY/arc/obj_socket_24/gnu_arcem9d_wei_r16/WEI_FW_gnu_arcem9d_wei_r16.map",
+      "bytes": 8152787,
+      "sha256": "be4e9f3c98562522e306ac0072642dd918e5d62d63540aeec94f34417bd15206",
+      "role": "exact_build_binary_map_or_dependency"
+    },
+    {
+      "path": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY/arc/obj_socket_24/gnu_arcem9d_wei_r16/linker_gnu.ldf",
+      "bytes": 7739,
+      "sha256": "3cc31bd1d2e0205aa887075bfa9c8b76f23a244dcb07e19ec95073101662a5e9",
+      "role": "exact_build_binary_map_or_dependency"
+    },
+    {
+      "path": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY/arc/obj_socket_24/gnu_arcem9d_wei_r16/libembarc.a",
+      "bytes": 3519656,
+      "sha256": "b8adb824933b34929c018f0020317405729a52c41421cea31462922f514aa8db",
+      "role": "exact_build_binary_map_or_dependency"
+    },
+    {
+      "path": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY/arc/obj_socket_24/gnu_arcem9d_wei_r16/libboard_open_socket.a",
+      "bytes": 111692,
+      "sha256": "30314e24fb5b35167f8b494076c6cefbe8dfe6315e498c8301a703e7c52b9e90",
+      "role": "exact_build_binary_map_or_dependency"
+    },
+    {
+      "path": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY/arc/obj_socket_24/gnu_arcem9d_wei_r16/app/main.o.d",
+      "bytes": 279,
+      "sha256": "ce173370240e191371ab2c0e0522535fdde6980e059875926330ce0dd30e141f",
+      "role": "exact_build_binary_map_or_dependency"
+    },
+    {
+      "path": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY/arc/obj_socket_24/gnu_arcem9d_wei_r16/app/scenario_app/edge_impulse_visionai/edge_impulse_visionai.o.d",
+      "bytes": 4876,
+      "sha256": "0a497c23331d9975d5963f8e817729b2d19fb1b197494b9675df793940cbd9cb",
+      "role": "exact_build_binary_map_or_dependency"
+    },
+    {
+      "path": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY/arc/obj_socket_24/gnu_arcem9d_wei_r16/library/common/console_io.o.d",
+      "bytes": 1194,
+      "sha256": "4a302743ab9a676d42d3ec40336090a32381a1ac0286910d6fdf87f55819e9a9",
+      "role": "exact_build_binary_map_or_dependency"
+    },
+    {
+      "path": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY/arc/obj_socket_24/gnu_arcem9d_wei_r16/library/common/console_io.o",
+      "bytes": 13760,
+      "sha256": "86c49fbf9d1eb57f02fb41fe0ab579dbbbfc670e07a5e927a7fc542c466c60f7",
+      "role": "exact_build_binary_map_or_dependency"
+    },
+    {
+      "path": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY/arc/obj_socket_24/gnu_arcem9d_wei_r16/app/scenario_app/edge_impulse_visionai/edge_impulse_visionai.o",
+      "bytes": 161736,
+      "sha256": "d2616136217cc8d208fd2366e16a15447afca715eb09cd84452c7e027d4dab9e",
+      "role": "exact_build_binary_map_or_dependency"
+    },
+    {
+      "path": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY/arc/birdhouse/tflm_config.macros",
+      "bytes": 26845,
+      "sha256": "bf3c5cc4f1bbaa89272e803aaa699c3efdaa5fdaa55bde5a04c2dc82806bd57f",
+      "role": "operator_macro_probe_not_console_dump"
+    },
+    {
+      "path": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY/package-native-terminal-01/out/birdhouse_candidate_OFFLINE_ONLY_do_not_deploy.uf2",
+      "bytes": 1260032,
+      "sha256": "0eb316e68ba5b88c407d9f2f907891bab722820077e40de8d93f167d746f9cf8",
+      "role": "exact_release_container"
+    },
+    {
+      "path": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY/package-native-terminal-01/out/birdhouse_candidate_output.img",
+      "bytes": 629808,
+      "sha256": "abb9a98da36447c9632d14d8b913a21480aedd8c9afbc594ffc8b91d1159fe1b",
+      "role": "exact_release_container"
+    },
+    {
+      "path": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY/package-native-terminal-01/run1/image_gen.log",
+      "bytes": 1781,
+      "sha256": "ae836a83e5ba75bd3864ba324b03f5ac70c13b4e61bb2fd58d742f5e73d68062",
+      "role": "exact_package_run_evidence"
+    },
+    {
+      "path": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY/package-native-terminal-01/run1/image_gen/input/WEI_FW_gnu_arcem9d_wei_r16.elf",
+      "bytes": 1667964,
+      "sha256": "3e350b171ed79ae9cdc96d635475b9f6de921288adbc29aab34905d96db41eee",
+      "role": "exact_package_run_evidence"
+    },
+    {
+      "path": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY/package-native-terminal-01/run1/image_gen/input/WEI_FW_gnu_arcem9d_wei_r16.map",
+      "bytes": 3945,
+      "sha256": "33dc5164e706445c86c710c6ce57f5a5ddbc3f18da7b8512640ec24e5d066bda",
+      "role": "exact_package_run_evidence"
+    },
+    {
+      "path": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY/package-native-terminal-01/run1/image_gen/output/output.img",
+      "bytes": 629808,
+      "sha256": "abb9a98da36447c9632d14d8b913a21480aedd8c9afbc594ffc8b91d1159fe1b",
+      "role": "exact_package_run_evidence"
+    },
+    {
+      "path": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY/package-native-terminal-01/run2/image_gen.log",
+      "bytes": 1781,
+      "sha256": "ae836a83e5ba75bd3864ba324b03f5ac70c13b4e61bb2fd58d742f5e73d68062",
+      "role": "exact_package_run_evidence"
+    },
+    {
+      "path": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY/package-native-terminal-01/run2/image_gen/input/WEI_FW_gnu_arcem9d_wei_r16.elf",
+      "bytes": 1667964,
+      "sha256": "3e350b171ed79ae9cdc96d635475b9f6de921288adbc29aab34905d96db41eee",
+      "role": "exact_package_run_evidence"
+    },
+    {
+      "path": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY/package-native-terminal-01/run2/image_gen/input/WEI_FW_gnu_arcem9d_wei_r16.map",
+      "bytes": 3945,
+      "sha256": "33dc5164e706445c86c710c6ce57f5a5ddbc3f18da7b8512640ec24e5d066bda",
+      "role": "exact_package_run_evidence"
+    },
+    {
+      "path": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY/package-native-terminal-01/run2/image_gen/output/output.img",
+      "bytes": 629808,
+      "sha256": "abb9a98da36447c9632d14d8b913a21480aedd8c9afbc594ffc8b91d1159fe1b",
+      "role": "exact_package_run_evidence"
+    },
+    {
+      "path": ".local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3/app/main.c",
+      "bytes": 2123,
+      "sha256": "5d8392dd443f8cc25df536b35e213a2608a9baa845b3cbf5980e9f49780472ff",
+      "role": "pinned_sdk_relevant_source_or_header"
+    },
+    {
+      "path": ".local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3/app/scenario_app/edge_impulse_visionai/edge_impulse_visionai.cc",
+      "bytes": 4046,
+      "sha256": "2a7baa40341877bd2851749c7ccc9cf9782c52f1857d82c4b3fec3a1c26d9162",
+      "role": "pinned_sdk_relevant_source_or_header"
+    },
+    {
+      "path": ".local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3/board/socket/configs/24/core_config.h",
+      "bytes": 11190,
+      "sha256": "89e3aca5041714c4959eca2e9ac1b7d8c9fbbf565f454711990f72b2c74516d5",
+      "role": "pinned_sdk_relevant_source_or_header"
+    },
+    {
+      "path": ".local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3/board/socket/configs/24/board_config.h",
+      "bytes": 7164,
+      "sha256": "f4f34c8edb20ffc622a247c5ffc80aa1f4963346c28df74704f21a80abdc36c3",
+      "role": "pinned_sdk_relevant_source_or_header"
+    },
+    {
+      "path": ".local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3/board/socket/common/socket_init.c",
+      "bytes": 9082,
+      "sha256": "a9fa615ae282cf6c1910d7d1f42541de732f1aad0a7b17bf9f96be77352a0b93",
+      "role": "pinned_sdk_relevant_source_or_header"
+    },
+    {
+      "path": ".local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3/board/socket/common/sysconf.c",
+      "bytes": 11368,
+      "sha256": "b42f2cdfc1db0a8570fa2988da393f94c20b06453226cccddea20d5484fd77c2",
+      "role": "pinned_sdk_relevant_source_or_header"
+    },
+    {
+      "path": ".local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3/board/socket/common/sysconf.h",
+      "bytes": 7141,
+      "sha256": "6fe845e9eda034d945b391ed71b8a47d06896a403f3857d01d6292d8ebb8f982",
+      "role": "pinned_sdk_relevant_source_or_header"
+    },
+    {
+      "path": ".local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3/library/common/console_io.c",
+      "bytes": 7744,
+      "sha256": "3e883bdd9c5ef57131ed1a7fa164c41fe921ff8228225a36ee1588ba9a5f3196",
+      "role": "pinned_sdk_relevant_source_or_header"
+    },
+    {
+      "path": ".local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3/library/common/console_io.h",
+      "bytes": 2834,
+      "sha256": "d5809f83c1288de6331dc94e505f91979b15260afef5fcd3713ef182a7df1a59",
+      "role": "pinned_sdk_relevant_source_or_header"
+    },
+    {
+      "path": ".local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3/platform/inc/hx_drv_uart.h",
+      "bytes": 21596,
+      "sha256": "e335d3d04a7bcc299df5d0d27566ac7db592d17011229c47cb83a75a581e54c1",
+      "role": "pinned_sdk_relevant_source_or_header"
+    },
+    {
+      "path": ".local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3/platform/inc/hx_drv_iomux.h",
+      "bytes": 6102,
+      "sha256": "0ac31ca974e7afe750360ddc2e7e58b976a80e71ab668da4132fd65871cb225f",
+      "role": "pinned_sdk_relevant_source_or_header"
+    },
+    {
+      "path": ".local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3/platform/peripheral/uart/uart.h",
+      "bytes": 3924,
+      "sha256": "6530774ba62f34f01771e6d85171f11f1c2ae7677b60ae483ee6bf8ada5eaf70",
+      "role": "pinned_sdk_relevant_source_or_header"
+    },
+    {
+      "path": ".local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3/platform/peripheral/uart/ss_uart.h",
+      "bytes": 3086,
+      "sha256": "871116fc4d02cade71630db1db686d085aa3e2184c28e690672a3fb14bc728d5",
+      "role": "pinned_sdk_relevant_source_or_header"
+    },
+    {
+      "path": ".local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3/platform/peripheral/iomux/hx_drv_iomux.c",
+      "bytes": 28885,
+      "sha256": "d87ebf79999165600b69346e88f8815f5856038f26ddade6fdcb750fd38ce280",
+      "role": "pinned_sdk_relevant_source_or_header"
+    },
+    {
+      "path": ".local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3/app/scenario_app/edge_impulse_visionai/configs/grove_ai_config.h",
+      "bytes": 1180,
+      "sha256": "78863a617f78d9bfeae1e57dfc2e01290926297db713f55b0c496d8923e30fe8",
+      "role": "pinned_sdk_relevant_source_or_header"
+    },
+    {
+      "path": ".local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3/app/scenario_app/edge_impulse_visionai/configs/boards/grove_vision_ai_config.h",
+      "bytes": 1321,
+      "sha256": "6855ab60d5b61a504ee1af0c0e8507ea3b44ffaec7f4bff1fb5df9ac9aad8903",
+      "role": "pinned_sdk_relevant_source_or_header"
+    },
+    {
+      "path": ".local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3/app/scenario_app/edge_impulse_visionai/debugger/debugger.c",
+      "bytes": 1872,
+      "sha256": "69b5578f69b9e13f6b85ecccdcc5ece81459c0f4feaa857ed5737ff7479e1274",
+      "role": "pinned_sdk_relevant_source_or_header"
+    },
+    {
+      "path": ".local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3/app/scenario_app/edge_impulse_visionai/drivers/webusb/webusb.c",
+      "bytes": 2499,
+      "sha256": "990460c431121d5d6850bad3e0700e282d473c2f5be54557cd268336476a2f56",
+      "role": "pinned_sdk_relevant_source_or_header"
+    },
+    {
+      "path": ".local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3/app/scenario_app/edge_impulse_visionai/src/ei_at_handlers.cpp",
+      "bytes": 14768,
+      "sha256": "6fee7276f641174cee06a2c61e1059ba63a9423cfb5a21deb8506522187fcccd",
+      "role": "pinned_sdk_relevant_source_or_header"
+    },
+    {
+      "path": ".local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3/app/scenario_app/edge_impulse_visionai/src/ei_device_vision_ai.cpp",
+      "bytes": 5907,
+      "sha256": "70e3429d2387a924bfe645c4d64ac0bd4911025c50f008ab4d2df80a44889dd8",
+      "role": "pinned_sdk_relevant_source_or_header"
+    },
+    {
+      "path": ".local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3/app/scenario_app/edge_impulse_visionai/firmware-sdk/ei_device_info_lib.h",
+      "bytes": 14568,
+      "sha256": "295997da7b18a5b89efa0c9443feb49935608d0c304121a3bbeb092d62e015dc",
+      "role": "pinned_sdk_relevant_source_or_header"
+    },
+    {
+      "path": ".local-tools/source/firmware-seeed-grove-vision-ai/Synopsys_PA8535_EM9D_DFSS_SDK_3.3/app/scenario_app/edge_impulse_visionai/firmware-sdk/at-server/ei_at_server.cpp",
+      "bytes": 15394,
+      "sha256": "28499effeeb887020c65c6d9daccededc78fec356f4aa053b71ae79478847ac3",
+      "role": "pinned_sdk_relevant_source_or_header"
+    },
+    {
+      "path": "firmware/himax_arc/birdhouse/bh_arc_glue.cc",
+      "bytes": 6636,
+      "sha256": "91f0a021fa8f8064830fe9923ecc1266afdd134b9334f9fe1bf1ff43b7734ceb",
+      "role": "first_party_audit_source_or_prior_report"
+    },
+    {
+      "path": "firmware/himax_arc/birdhouse/bh_console.cc",
+      "bytes": 7872,
+      "sha256": "0d34dffff14ade844d96d10c74ce6c7b30822f7241483748c37ffa472247d45b",
+      "role": "first_party_audit_source_or_prior_report"
+    },
+    {
+      "path": "firmware/himax_arc/birdhouse/build/birdhouse_overlay.mk",
+      "bytes": 4050,
+      "sha256": "d4bb10e8b921e8408e73b4653d8b3ea03dd0fae6e5f41dd421b503efa18e721c",
+      "role": "first_party_audit_source_or_prior_report"
+    },
+    {
+      "path": "tools/himax/package_offline.py",
+      "bytes": 21290,
+      "sha256": "d4c60ccf89f7a63873ff579c9d53a394f54cd1f52d439c70a56103c6d7d4611d",
+      "role": "first_party_audit_source_or_prior_report"
+    },
+    {
+      "path": "tools/himax/uf2_tool.py",
+      "bytes": 7426,
+      "sha256": "5b2656e457b31c4de451988ff486cf3620c6040f345c51852d7db2f7fbbd0b96",
+      "role": "first_party_audit_source_or_prior_report"
+    },
+    {
+      "path": "docs/research/birdhouse_v1_pdm_quiescence_diagnostic_20261113/FINAL_DECISION.md",
+      "bytes": 7836,
+      "sha256": "1f13103cb2f7e0e3cf88973ea9d33d2823490fbbd67772304df424bc8fe55a0a",
+      "role": "first_party_audit_source_or_prior_report"
+    },
+    {
+      "path": "docs/research/birdhouse_v1_windows_uf2_write_audit_20261113/EVIDENCE_MATRIX.md",
+      "bytes": 12960,
+      "sha256": "706043cb4b513ef3b464cb04d5a27f2052cc5c0d53013ad85e81ad170d770f31",
+      "role": "first_party_audit_source_or_prior_report"
+    },
+    {
+      "path": "docs/research/birdhouse_v1_windows_uf2_write_audit_20261113/UF2_WRITE_MECHANISM_AUDIT.md",
+      "bytes": 13165,
+      "sha256": "40f124efe636a1e0da0645e9c0919ab4309b9a119c44e1685c80dbdf673d6a44",
+      "role": "first_party_audit_source_or_prior_report"
+    }
+  ],
+  "publication": {
+    "status": "BLOCKED_GIT_METADATA_READ_ONLY",
+    "preexisting_worktree_dirty": true,
+    "remote_head_checked": "5a94940fcce5708ff686c7aaa18ae5606ee035c6",
+    "remote_head_read_method": "GitHub connector commits API for dedicated branch",
+    "new_content_published": false,
+    "ordinary_add_exit": 0,
+    "ordinary_commit_exit": 128,
+    "commit_error": "cannot create .git/index.lock: Read-only file system",
+    "permission_escalation": false,
+    "push_attempted": false,
+    "local_head": "5a94940fcce5708ff686c7aaa18ae5606ee035c6",
+    "local_remote_head_equal_for_existing_commits": true,
+    "worktree_clean": false,
+    "preexisting_pending_contents_preserved": true,
+    "staged_audit_snapshot_now_stale": true
+  },
+  "validation": {
+    "json_links_privacy": "PASS",
+    "all_60_inspected_file_hashes": "PASS",
+    "all_98_source_inventory_files": "PASS",
+    "independent_2461_block_uf2_image_comparison": "PASS",
+    "existing_pending_file_contents_unchanged": "PASS",
+    "firmware_artifact_hashes_unchanged": "PASS",
+    "git_diff_whitespace": "PASS"
+  }
+}

@@ -127,6 +127,8 @@ uint32_t IrqSave();
 void IrqRestore(uint32_t state);
 void SetIrqState(uint32_t state);
 uint32_t irq_state();
+// Model a changed DMA word without an ISR, clock advance or Capture access.
+void ChangeDmaWordForTest(uint32_t index);
 
 }  // namespace fake_aud
 

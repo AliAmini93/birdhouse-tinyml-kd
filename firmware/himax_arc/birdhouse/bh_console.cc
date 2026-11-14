@@ -2,6 +2,7 @@
 #include "firmware/himax_arc/birdhouse/bh_console.h"
 #include "firmware/himax_arc/birdhouse/bh_port.h"
 #include "firmware/himax_arc/birdhouse/bh_runtime.h"
+#include "firmware/himax_arc/birdhouse/bh_pdm_diag.h"
 #include "firmware-sdk/at-server/ei_at_server.h"
 #include <utility>
 
@@ -96,6 +97,20 @@ bool AtLast() {
   return true;
 }
 
+bool AtDmaQuery() {
+  if (bh::RuntimeState() == bh::kRunCapturing || bh::RuntimePendingRuns() != 0) return true;
+  bh_port_pdm_diag_print();
+  return true;
+}
+bool AtDmaArm(const char** argv, const int argc) {
+  bool ok = false;
+  const uint32_t one = argc == 1 ? ParseU32(argv[0], &ok) : 0;
+  if (Busy()) return true;
+  const int rc = ok && one == 1 ? bh_port_pdm_diag_arm() : -2;
+  bh_port_printf("BIRDHOUSE DMA arm_rc=%d capture_queued=0\n", rc);
+  return true;
+}
+
 bool AtSelfTest() {
   if (Busy()) return true;
   bh::RuntimeSelfTestModelAll();
@@ -154,6 +169,7 @@ void RegisterCommandsOnce() {
   at->register_command("BIRDRUN", "Birdhouse: one capture attempt; stop quarantines PDM (=1 only)", AtRunOnce, nullptr, AtRunMany, "COUNT");
   at->register_command("BIRDSTOP", "Birdhouse: abort capture and queued runs", AtStop, nullptr, nullptr, nullptr);
   at->register_command("BIRDLAST", "Birdhouse: print the last result", nullptr, AtLast, nullptr, nullptr);
+  at->register_command("BIRDDMA", "Birdhouse: arm one shutdown observation (=1); query stored records", nullptr, AtDmaQuery, AtDmaArm, "ONE");
   at->register_command("BIRDSELFTEST", "Birdhouse: model self-test on reference features (=STEP for one)", AtSelfTest, nullptr, AtSelfTestStep, "STEP");
   at->register_command("BIRDSYNTH", "Birdhouse: pipeline self-test on a built-in signal", nullptr, nullptr, AtSynth, "KIND");
   at->register_command("BIRDPCM", "Birdhouse: base64 dump of captured PCM", nullptr, nullptr, AtDumpPcm, "OFFSET,COUNT");

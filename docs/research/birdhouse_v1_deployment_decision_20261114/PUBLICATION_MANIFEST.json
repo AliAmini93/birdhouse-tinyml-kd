@@ -1,0 +1,858 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-14",
+  "repository": "AliAmini93/birdhouse-tinyml-kd",
+  "branch": "research/birdhouse-v1-first-flash-prep-20261113",
+  "base_head": "5a94940fcce5708ff686c7aaa18ae5606ee035c6",
+  "firmware_baseline_commit": "3d0fb3fd4c1889d79462bbc404aee722c1811894",
+  "sdk_commit": "9dc2370d4dc269dc4bcafcf0354b8f745d08801f",
+  "intended_publication_paths": [
+    "docs/research/birdhouse_v1_console_forensic_20261114/FORENSIC_CONSOLE_AUDIT.md",
+    "docs/research/birdhouse_v1_console_forensic_20261114/PUBLICATION.md",
+    "docs/research/birdhouse_v1_console_forensic_20261114/results/summary.json",
+    "docs/research/birdhouse_v1_deployment_decision_20261114/FINAL_AT_BL702_DECISION.md",
+    "docs/research/birdhouse_v1_deployment_decision_20261114/PUBLICATION_AND_SYNC.md",
+    "docs/research/birdhouse_v1_deployment_decision_20261114/PUBLICATION_MANIFEST.json",
+    "docs/research/birdhouse_v1_deployment_decision_20261114/SYNC_RECEIPT.md",
+    "docs/research/birdhouse_v1_first_flash_prep_20261113/BUILD_AND_SOURCE_PROVENANCE.md",
+    "docs/research/birdhouse_v1_first_flash_prep_20261113/FINAL_ARTIFACT_DECISION.md",
+    "docs/research/birdhouse_v1_first_flash_prep_20261113/FIRMWARE_UF2_VALIDATION.md",
+    "docs/research/birdhouse_v1_first_flash_prep_20261113/OWNER_RISK_ACCEPTANCE_RECORD.md",
+    "docs/research/birdhouse_v1_first_flash_prep_20261113/WINDOWS10_SINGLE_FLASH_OPERATOR_PLAN.md",
+    "docs/research/birdhouse_v1_first_flash_prep_20261113/results/summary.json",
+    "docs/research/birdhouse_v1_pdm_quiescence_diagnostic_20261113/FINAL_DECISION.md",
+    "docs/research/birdhouse_v1_pdm_quiescence_diagnostic_20261113/OBSERVABILITY_AND_DESIGN.md",
+    "docs/research/birdhouse_v1_pdm_quiescence_diagnostic_20261113/OFFLINE_VALIDATION.md",
+    "docs/research/birdhouse_v1_pdm_quiescence_diagnostic_20261113/WINDOWS10_SINGLE_CAPTURE_PROTOCOL.md",
+    "docs/research/birdhouse_v1_pdm_quiescence_diagnostic_20261113/results/summary.json",
+    "firmware/himax_arc/birdhouse/bh_arc_glue.cc",
+    "firmware/himax_arc/birdhouse/bh_console.cc",
+    "firmware/himax_arc/birdhouse/bh_pdm_diag.h",
+    "firmware/himax_arc/birdhouse/bh_pdm_port.cc",
+    "firmware/himax_arc/birdhouse/build/birdhouse_overlay.mk",
+    "firmware/himax_arc/tests/Makefile",
+    "firmware/himax_arc/tests/fake_aud_lib.cc",
+    "firmware/himax_arc/tests/fake_aud_lib.h",
+    "firmware/himax_arc/tests/host_port.cc",
+    "firmware/himax_arc/tests/host_port.h",
+    "firmware/himax_arc/tests/test_console.cc",
+    "firmware/himax_arc/tests/test_pdm_diag.cc",
+    "tools/himax/tests/test_pdm_quiescence.py",
+    "tools/himax/tests/test_pdm_safety.py"
+  ],
+  "publication_path_count": 32,
+  "payload_files": [
+    {
+      "path": "docs/research/birdhouse_v1_console_forensic_20261114/FORENSIC_CONSOLE_AUDIT.md",
+      "bytes": 16779,
+      "sha256": "f890691ea30a7f82e5fe4ba0949fc388ec3181d9e1684d4316bce440761bd4da",
+      "git_blob_sha1": "1cbda78c114d586afc2b4b4f84a0b8cd9ddd7ff6"
+    },
+    {
+      "path": "docs/research/birdhouse_v1_console_forensic_20261114/PUBLICATION.md",
+      "bytes": 4487,
+      "sha256": "a7a6004166387f271c79f5b931457d5c660df57f30687831e0e7e283e70a45a5",
+      "git_blob_sha1": "1ec2761536933a7f946e8f6d6ed18fe65bf81f36"
+    },
+    {
+      "path": "docs/research/birdhouse_v1_console_forensic_20261114/results/summary.json",
+      "bytes": 29648,
+      "sha256": "864224f77af146c21ca0b987906925cbc3518b5075f8ccaddf678c45159187de",
+      "git_blob_sha1": "74935bd2fd9eea8b945a97957454e9e3e469cbd1"
+    },
+    {
+      "path": "docs/research/birdhouse_v1_deployment_decision_20261114/FINAL_AT_BL702_DECISION.md",
+      "bytes": 9871,
+      "sha256": "b85d5c5fa45343147eb0567ad7b5a1bc51bdae0c15a3031d96dce802abb8d9d0",
+      "git_blob_sha1": "daff16f40f110eaeeb1fc261b6083627ed443634"
+    },
+    {
+      "path": "docs/research/birdhouse_v1_deployment_decision_20261114/PUBLICATION_AND_SYNC.md",
+      "bytes": 5764,
+      "sha256": "4fbb2c628745c74994384c51fc71bf6d7519dfc105db51b127d7be05e2f372de",
+      "git_blob_sha1": "28c052395965a2fe24361065e7f2d8886b5b715d"
+    },
+    {
+      "path": "docs/research/birdhouse_v1_first_flash_prep_20261113/BUILD_AND_SOURCE_PROVENANCE.md",
+      "bytes": 7890,
+      "sha256": "3027ac80d2010a60d928b6c55dafee436f00e825575a27f925f1ba1b0460fb4c",
+      "git_blob_sha1": "f0dcfae0f620552ed77afec33381344464790029"
+    },
+    {
+      "path": "docs/research/birdhouse_v1_first_flash_prep_20261113/FINAL_ARTIFACT_DECISION.md",
+      "bytes": 7656,
+      "sha256": "175c7eb88bd8ef3ccb48a03be0d581da66ea70da613109d547ce6ad029aa8508",
+      "git_blob_sha1": "809ad7d307619bff14cbfca3651b8359f3c79584"
+    },
+    {
+      "path": "docs/research/birdhouse_v1_first_flash_prep_20261113/FIRMWARE_UF2_VALIDATION.md",
+      "bytes": 6011,
+      "sha256": "fabae9265963935419ba0775be3f2e549805461e1f4bb4faf225f11f4257cf57",
+      "git_blob_sha1": "b3e9d1cc411bdde2ef1f024003ba0b8293b781f8"
+    },
+    {
+      "path": "docs/research/birdhouse_v1_first_flash_prep_20261113/OWNER_RISK_ACCEPTANCE_RECORD.md",
+      "bytes": 3817,
+      "sha256": "7f0d571ff0b8d022890aec33bf2f08325efa4cfb1c632c8a2c8fc540ef31a294",
+      "git_blob_sha1": "407a9380b0220fcfc1f36c4c31271b9bbb410b1e"
+    },
+    {
+      "path": "docs/research/birdhouse_v1_first_flash_prep_20261113/WINDOWS10_SINGLE_FLASH_OPERATOR_PLAN.md",
+      "bytes": 10481,
+      "sha256": "37c835d63c907eac12f33235e48efe2a08935c5645194fdd62066ee336415134",
+      "git_blob_sha1": "0d263c15672ee34f380743becb0ee80df8ead760"
+    },
+    {
+      "path": "docs/research/birdhouse_v1_first_flash_prep_20261113/results/summary.json",
+      "bytes": 16667,
+      "sha256": "a53f76eb358593468bb6b4e1393e5b9c136ebd9ad7b887c72b10ce6c386a5d89",
+      "git_blob_sha1": "a4e6ff5c8990064bcdcf50052eb83430f94d5436"
+    },
+    {
+      "path": "docs/research/birdhouse_v1_pdm_quiescence_diagnostic_20261113/FINAL_DECISION.md",
+      "bytes": 7836,
+      "sha256": "1f13103cb2f7e0e3cf88973ea9d33d2823490fbbd67772304df424bc8fe55a0a",
+      "git_blob_sha1": "85b77cc6b0e9d543c64e87acec41970579af0bc2"
+    },
+    {
+      "path": "docs/research/birdhouse_v1_pdm_quiescence_diagnostic_20261113/OBSERVABILITY_AND_DESIGN.md",
+      "bytes": 7397,
+      "sha256": "dc74ba0a2ff280f642d3e5c5e61faee18d590cb338719dd8ee88cbd87400352e",
+      "git_blob_sha1": "1d7a0da9b0e7d2e06afd0750fc3b38745e5dd021"
+    },
+    {
+      "path": "docs/research/birdhouse_v1_pdm_quiescence_diagnostic_20261113/OFFLINE_VALIDATION.md",
+      "bytes": 7506,
+      "sha256": "90e22080b97f832b307208894be3cea1f210fa847948a0260026862a23ce0a46",
+      "git_blob_sha1": "cac50158532cebd450d1cc0200caa69df2321ba9"
+    },
+    {
+      "path": "docs/research/birdhouse_v1_pdm_quiescence_diagnostic_20261113/WINDOWS10_SINGLE_CAPTURE_PROTOCOL.md",
+      "bytes": 7680,
+      "sha256": "ed085ac2486aadbdc70d105ccc2ba84909d5d2f5c70b33bc1fadb92478b0bcaa",
+      "git_blob_sha1": "2aa55a9a6e10dbc5e33a381df10c705229b82c63"
+    },
+    {
+      "path": "docs/research/birdhouse_v1_pdm_quiescence_diagnostic_20261113/results/summary.json",
+      "bytes": 7407,
+      "sha256": "326fa3df892942d1636c9ab0918b091c7ffe645d714361ed00ae555c1d209777",
+      "git_blob_sha1": "abc1414ca9c291be0fa1fd7d4d16ec59392b44f7"
+    },
+    {
+      "path": "firmware/himax_arc/birdhouse/bh_arc_glue.cc",
+      "bytes": 6636,
+      "sha256": "91f0a021fa8f8064830fe9923ecc1266afdd134b9334f9fe1bf1ff43b7734ceb",
+      "git_blob_sha1": "5b900a0737ec3798250ade1fc6ab3cebd0944f65"
+    },
+    {
+      "path": "firmware/himax_arc/birdhouse/bh_console.cc",
+      "bytes": 7872,
+      "sha256": "0d34dffff14ade844d96d10c74ce6c7b30822f7241483748c37ffa472247d45b",
+      "git_blob_sha1": "aec8358db846bbd7a7da90f70cae868d8e3ffb0f"
+    },
+    {
+      "path": "firmware/himax_arc/birdhouse/bh_pdm_diag.h",
+      "bytes": 2082,
+      "sha256": "5d5a18988213552454c03d0c4d5ae244285f1fc9bd1418c94af4819628e51af0",
+      "git_blob_sha1": "fb686c872217419c211d2dda13a94e119d035fde"
+    },
+    {
+      "path": "firmware/himax_arc/birdhouse/bh_pdm_port.cc",
+      "bytes": 12123,
+      "sha256": "1d76343d7fdba8597c5e57d46ca7e31e62e08540b09a654d65d35f7fc20ef6cd",
+      "git_blob_sha1": "4bf9167d6cf9f0935449a03ab82aeaa38e4cdf52"
+    },
+    {
+      "path": "firmware/himax_arc/birdhouse/build/birdhouse_overlay.mk",
+      "bytes": 4050,
+      "sha256": "d4bb10e8b921e8408e73b4653d8b3ea03dd0fae6e5f41dd421b503efa18e721c",
+      "git_blob_sha1": "e3efa5d0d2fbfc92a20514598fdf92a0555480eb"
+    },
+    {
+      "path": "firmware/himax_arc/tests/Makefile",
+      "bytes": 6548,
+      "sha256": "aa8a6d65e74225809cc8d078a443e3eb443810dca6853894b706498d3547e74a",
+      "git_blob_sha1": "173badcbdf25f7b0bda548d13dbe8c78c603e063"
+    },
+    {
+      "path": "firmware/himax_arc/tests/fake_aud_lib.cc",
+      "bytes": 7935,
+      "sha256": "ce0e5e7d8da13a20f0d38ad343171e1bfade457e21dd24aec4b3edae1023eb6b",
+      "git_blob_sha1": "8ae06f8e984619ad48c034d033ef94d4645190fa"
+    },
+    {
+      "path": "firmware/himax_arc/tests/fake_aud_lib.h",
+      "bytes": 5243,
+      "sha256": "e08300b520d52fff9fe898cb93ad5e6cda4315a52d7cf63333dd9321257cd69c",
+      "git_blob_sha1": "ed9e7a00f1f036333dc8d0051d95a8879dd44ce7"
+    },
+    {
+      "path": "firmware/himax_arc/tests/host_port.cc",
+      "bytes": 1964,
+      "sha256": "f0d8d321b466b4c1630d385455dc2ebea0171c4434058e10e3caa508ee8a239c",
+      "git_blob_sha1": "d4a44004d6b9249997fcf6d3007c9dd69d454df1"
+    },
+    {
+      "path": "firmware/himax_arc/tests/host_port.h",
+      "bytes": 902,
+      "sha256": "b2dd9145e80d983098a86104bc92fc1f36f94bdc9523cdf6d69338bd2b89a988",
+      "git_blob_sha1": "fc19923a0371cfed4a57e3f31462a948bbedba18"
+    },
+    {
+      "path": "firmware/himax_arc/tests/test_console.cc",
+      "bytes": 5195,
+      "sha256": "142f93cb028f6e1326ed5b295bd05db7f3ef08aae8eea50ab4d2c5bceed49f0f",
+      "git_blob_sha1": "d8f4ac22dc1fffbd2eda3f98755d37bbf28fef5a"
+    },
+    {
+      "path": "firmware/himax_arc/tests/test_pdm_diag.cc",
+      "bytes": 7482,
+      "sha256": "2c1d2cc8dd09fb24c14c3538d4ceb2eb1c6a0bbbd45bc86b65c34a1d27117406",
+      "git_blob_sha1": "c6af2bcaf64fe05fb45225ca97e0b59dde88f5e4"
+    },
+    {
+      "path": "tools/himax/tests/test_pdm_quiescence.py",
+      "bytes": 6947,
+      "sha256": "af8386cff7dd38a5cf1c10cebdb2b6b6e0c24bb0dc5a171b828b7a37036e7851",
+      "git_blob_sha1": "f468545a03d18539b10d31b387692f97e49cf07c"
+    },
+    {
+      "path": "tools/himax/tests/test_pdm_safety.py",
+      "bytes": 12612,
+      "sha256": "3b93145938474e2c3f660748f02a743bd12988aeb732c24041bd41dd1ab2273d",
+      "git_blob_sha1": "396add13ab9f11f4b5ead96d3a8db2c9c64e03ca"
+    }
+  ],
+  "commit_identified_metadata_files": [
+    "docs/research/birdhouse_v1_deployment_decision_20261114/PUBLICATION_MANIFEST.json",
+    "docs/research/birdhouse_v1_deployment_decision_20261114/SYNC_RECEIPT.md"
+  ],
+  "metadata_hash_scope": "Manifest and sync receipt are identified by their Git commit-tree blobs, avoiding recursive hashes.",
+  "source_inventory_encoding": "Sorted UTF-8 path + NUL + decimal byte length + NUL + lowercase SHA-256 + LF",
+  "source_inventory_sha256": "796a930d078b1bfa83a6c869d66a55a0df0571313c5948ff3b38d3138891084e",
+  "source_inventory_files": [
+    {
+      "path": "firmware/esp32s3_preprocess_inference/CMakeLists.txt",
+      "bytes": 128,
+      "sha256": "027b2b302697a9abc05c22f5997cb41bea10c76b6f72ef90d03e021e1d46a50d",
+      "git_blob_sha1": "5830535041a39f94b11bf69938df3a6cba6b158b"
+    },
+    {
+      "path": "firmware/esp32s3_preprocess_inference/dependencies.lock",
+      "bytes": 1259,
+      "sha256": "9bfa223931c0061ebdd510fb6cb0c60fa79b9dfbb95a5d271c69e099af50f9a4",
+      "git_blob_sha1": "a913064f2cb331b41a274b3e6bcbab4995184ea0"
+    },
+    {
+      "path": "firmware/esp32s3_preprocess_inference/main/CMakeLists.txt",
+      "bytes": 345,
+      "sha256": "2aca9a23f206899644697599513104b2d6a24d259fdcbe73c1e1332ca3ddcfbe",
+      "git_blob_sha1": "2a37176c6d853bb9cdee069ce808174b4c9f7d5c"
+    },
+    {
+      "path": "firmware/esp32s3_preprocess_inference/main/idf_component.yml",
+      "bytes": 81,
+      "sha256": "c8ddd1a0e44c85ff2986c286c822eee50a08b7a73305ed2f7352035903acb279",
+      "git_blob_sha1": "de15d0b0f46e09dcdfe03ae4d7b302eb7cf61ed0"
+    },
+    {
+      "path": "firmware/esp32s3_preprocess_inference/main/main.cc",
+      "bytes": 6864,
+      "sha256": "c5e048da009e12cb1d5d67fdb592b5a28d44e5d5e2ed0307ca8e09251c629640",
+      "git_blob_sha1": "0a2f6140d3feb7ef01102b1bd31db73ddf282074"
+    },
+    {
+      "path": "firmware/esp32s3_preprocess_inference/sdkconfig",
+      "bytes": 92840,
+      "sha256": "fd2e10dd1864c2bb37fbab80c0a794c028680cdf3c244cbee634b0bd83b4c023",
+      "git_blob_sha1": "30de41d251944c63be2b4dc033bf206f3e7bfa9f"
+    },
+    {
+      "path": "firmware/esp32s3_preprocess_inference/sdkconfig.defaults",
+      "bytes": 320,
+      "sha256": "7be2a96fabe624792ae915e72f027cd256bb580e144afc6c9b43eb7420b53149",
+      "git_blob_sha1": "aa4b278ffb5a25e665488721dd1c3be5393426af"
+    },
+    {
+      "path": "firmware/esp32s3_tflm_smoke/CMakeLists.txt",
+      "bytes": 195,
+      "sha256": "7701a395c00768d03bd9017f47596fa7cb96e2d48dd096dbfbd773683c561b22",
+      "git_blob_sha1": "00642218f340bcc9bf6baf8af9be91a64f586069"
+    },
+    {
+      "path": "firmware/esp32s3_tflm_smoke/dependencies.lock",
+      "bytes": 948,
+      "sha256": "adb9d7e8ee0f47d5a975ce106280c1a93d1d0e1c85d477e30ff11d7999411770",
+      "git_blob_sha1": "e1d7c32effe38a618d2050838e234424371f01c7"
+    },
+    {
+      "path": "firmware/esp32s3_tflm_smoke/main/CMakeLists.txt",
+      "bytes": 215,
+      "sha256": "07250701077c9b00fdacdfc98c17d81b1897ea9afdd1c179b91da5694c90c0aa",
+      "git_blob_sha1": "6ec6a78d326926f351c610704093c314e03aaa37"
+    },
+    {
+      "path": "firmware/esp32s3_tflm_smoke/main/idf_component.yml",
+      "bytes": 48,
+      "sha256": "6974fa4c489a665fc94580a537c8aaaf7d4e425cf4522f5dc794dba0a6174361",
+      "git_blob_sha1": "f029caab4ff7d76a7f59d1ee576c8adb4de1f258"
+    },
+    {
+      "path": "firmware/esp32s3_tflm_smoke/main/main.cc",
+      "bytes": 2707,
+      "sha256": "ca55acead782e748f0e9e3a9b1cbefa9ebdeae530e04a57f1e756e7212b87e96",
+      "git_blob_sha1": "8d95d65e8ea85ad7959ebd856c4c49b8f464bdaa"
+    },
+    {
+      "path": "firmware/esp32s3_tflm_smoke/sdkconfig.defaults",
+      "bytes": 129,
+      "sha256": "03d0edf6bcea576c552b80dd1549fd3aa226904bfc91f9801c8867f1710719f6",
+      "git_blob_sha1": "26bc631e2dde4a4609a076aeb4009235e995f949"
+    },
+    {
+      "path": "firmware/himax_arc/README.md",
+      "bytes": 2549,
+      "sha256": "f64e930ce5a6c824ac41bce0089bd78129369cc5d9f494b2104ed9c8a5b6f743",
+      "git_blob_sha1": "32d814bc1f30eabe1cc26a4e02b3db8dee285436"
+    },
+    {
+      "path": "firmware/himax_arc/birdhouse/bh_arc_glue.cc",
+      "bytes": 6636,
+      "sha256": "91f0a021fa8f8064830fe9923ecc1266afdd134b9334f9fe1bf1ff43b7734ceb",
+      "git_blob_sha1": "5b900a0737ec3798250ade1fc6ab3cebd0944f65"
+    },
+    {
+      "path": "firmware/himax_arc/birdhouse/bh_capture.cc",
+      "bytes": 6602,
+      "sha256": "a61a1af02a84b5d0fcdb3d8d590455fe842293954c5708617d20ba357583d6e3",
+      "git_blob_sha1": "2d126fb7220a052d0d1632f0306b3b22a922a2b9"
+    },
+    {
+      "path": "firmware/himax_arc/birdhouse/bh_capture.h",
+      "bytes": 4909,
+      "sha256": "cba9f40d822567f0a9dcf0a71b21f90a35a0c53535001488c9c6708a29dbebff",
+      "git_blob_sha1": "fb5c943a9bf81dca72d7ae1e7a1dd74fdd5182b4"
+    },
+    {
+      "path": "firmware/himax_arc/birdhouse/bh_config.h",
+      "bytes": 2336,
+      "sha256": "529a30b24286bac2e2f3483f5ff4a9849145da511a51e37f8aa53d87ea2c196c",
+      "git_blob_sha1": "fd91c15fa11af5babf0e16ba0164e8898b49905d"
+    },
+    {
+      "path": "firmware/himax_arc/birdhouse/bh_console.cc",
+      "bytes": 7872,
+      "sha256": "0d34dffff14ade844d96d10c74ce6c7b30822f7241483748c37ffa472247d45b",
+      "git_blob_sha1": "aec8358db846bbd7a7da90f70cae868d8e3ffb0f"
+    },
+    {
+      "path": "firmware/himax_arc/birdhouse/bh_console.h",
+      "bytes": 132,
+      "sha256": "0e3c639b0b77f5d6b4ef498b725a38185c2fa2af9f971e153384a3af49a10395",
+      "git_blob_sha1": "d7b67befebc3c95fc7c76467087d47ae5c3f392e"
+    },
+    {
+      "path": "firmware/himax_arc/birdhouse/bh_diag.cc",
+      "bytes": 4483,
+      "sha256": "92d7a4d7a3c6449904b918524c1c0426c6c170a4974adc86af18279be67a8806",
+      "git_blob_sha1": "68d6137e3f34be7d6a79707d7d382d8a39855297"
+    },
+    {
+      "path": "firmware/himax_arc/birdhouse/bh_diag.h",
+      "bytes": 1746,
+      "sha256": "0383ee7cd4b1c0a45bf59eb22606c5d51d51027e48c5d931dc79c8ae562a58ca",
+      "git_blob_sha1": "4731c3ac5970e509ec73e6cf52ed1c040726b6cd"
+    },
+    {
+      "path": "firmware/himax_arc/birdhouse/bh_model.cc",
+      "bytes": 6243,
+      "sha256": "e8e07a99d2ed52cb86c0d8c9f636dc3f24999b0f45f08d7fc3efed2ce3e1fd09",
+      "git_blob_sha1": "199bc4e3ed9bc2f95be45334e13a6448a3e765bd"
+    },
+    {
+      "path": "firmware/himax_arc/birdhouse/bh_model.h",
+      "bytes": 2218,
+      "sha256": "11d1ba1ed115d1077780998a958ca11786d4d5ea15617b82009a387cda64e567",
+      "git_blob_sha1": "659a2973f5ae66496122bc5d57eacc535f6283b5"
+    },
+    {
+      "path": "firmware/himax_arc/birdhouse/bh_pdm_diag.h",
+      "bytes": 2082,
+      "sha256": "5d5a18988213552454c03d0c4d5ae244285f1fc9bd1418c94af4819628e51af0",
+      "git_blob_sha1": "fb686c872217419c211d2dda13a94e119d035fde"
+    },
+    {
+      "path": "firmware/himax_arc/birdhouse/bh_pdm_port.cc",
+      "bytes": 12123,
+      "sha256": "1d76343d7fdba8597c5e57d46ca7e31e62e08540b09a654d65d35f7fc20ef6cd",
+      "git_blob_sha1": "4bf9167d6cf9f0935449a03ab82aeaa38e4cdf52"
+    },
+    {
+      "path": "firmware/himax_arc/birdhouse/bh_port.h",
+      "bytes": 1846,
+      "sha256": "6cf42967e69bd5fd00d03e39d9fb7bef8104153d40ae2dbac55b362e08130317",
+      "git_blob_sha1": "23188b81f227a3bfa41ff81a2026d65b76285f86"
+    },
+    {
+      "path": "firmware/himax_arc/birdhouse/bh_runtime.cc",
+      "bytes": 18122,
+      "sha256": "ccbad306476a32cdd8ba8da7caefc430b56e0ca9f8a27bd7f44ea8888ad32ebb",
+      "git_blob_sha1": "03f0b97c665b2bf61574c64244b4d132c3d8e41b"
+    },
+    {
+      "path": "firmware/himax_arc/birdhouse/bh_runtime.h",
+      "bytes": 4172,
+      "sha256": "1acdbc686a86a8841eba0a64097aefe2031e60c03462383554c79428eed19519",
+      "git_blob_sha1": "e2444f37d6d6b172449ad1ee78ead5746ae844d5"
+    },
+    {
+      "path": "firmware/himax_arc/birdhouse/bh_selftest_expected.h",
+      "bytes": 603,
+      "sha256": "a0d7c682bede6d17565e111f5461ac128378bb2c3424762b092451b089be075c",
+      "git_blob_sha1": "d82f6a9c8606446785a5165590e462ef31726c4f"
+    },
+    {
+      "path": "firmware/himax_arc/birdhouse/build/birdhouse_overlay.mk",
+      "bytes": 4050,
+      "sha256": "d4bb10e8b921e8408e73b4653d8b3ea03dd0fae6e5f41dd421b503efa18e721c",
+      "git_blob_sha1": "e3efa5d0d2fbfc92a20514598fdf92a0555480eb"
+    },
+    {
+      "path": "firmware/himax_arc/birdhouse/build/tflm_config_probe.cc",
+      "bytes": 271,
+      "sha256": "e65534a157d97cc178ab3ee8c960e9944ff0621317487555b86e85fe291bb18d",
+      "git_blob_sha1": "edefe3ee0d794575ace914a135ee4d42316144d7"
+    },
+    {
+      "path": "firmware/himax_arc/birdhouse/model_manifest.json",
+      "bytes": 36568,
+      "sha256": "f1834aecc97437de3dbc84dcc93b0e8b9a6b911482de949bdac4739cbb44de99",
+      "git_blob_sha1": "5952b868116b7e32fa8eb994ebff386688a18f3d"
+    },
+    {
+      "path": "firmware/himax_arc/birdhouse/tflm_overlay/tflite-model/trained_model_ops_define.h",
+      "bytes": 1348,
+      "sha256": "477acd33ceba2546e2e667cd715b2c0a207c301cf24bc79529d86d4d7c852f7c",
+      "git_blob_sha1": "8cb80660592a374ac677645ffba80a332544d6a5"
+    },
+    {
+      "path": "firmware/himax_arc/experiments/audio_window_ring_step28.cc",
+      "bytes": 2143,
+      "sha256": "7757a0f4babeaf806b19441a2556a398218c4364af9b1c97583cfce9ca9b0980",
+      "git_blob_sha1": "1470989c4c4ec160f8b1c73c262dd09f9870a90a"
+    },
+    {
+      "path": "firmware/himax_arc/experiments/bird_model_himax_compat.cc",
+      "bytes": 3056,
+      "sha256": "62f1bfc622065f2b8a60373d5d4c2bc9a3b65b29607523828d9f2d8200050b17",
+      "git_blob_sha1": "a6217d2f6cef67c15a2a793019816eeda0926f28"
+    },
+    {
+      "path": "firmware/himax_arc/experiments/birdhouse_link.mk",
+      "bytes": 317,
+      "sha256": "a19ec104ee7ee74285c61e872e3408a5bd192b92df899b85c00e4caad4b049db",
+      "git_blob_sha1": "9d50586cb1d2e83073066940ae8ec8eb559b6f29"
+    },
+    {
+      "path": "firmware/himax_arc/experiments/birdhouse_link_probe.cc",
+      "bytes": 774,
+      "sha256": "f56a8550edc6f5be36ff5de5efc2f31679660a36c152b8775c7b9b6925a3b569",
+      "git_blob_sha1": "191e1469d9a8a73521a22caf22900fc9396e4152"
+    },
+    {
+      "path": "firmware/himax_arc/experiments/birdhouse_runtime_step43.cc",
+      "bytes": 3697,
+      "sha256": "6e43e169bdecca1989d51beb96b2de493db6133e567bb96d9f1ca935a49a0975",
+      "git_blob_sha1": "4e5b5b305419e016cddae946f9c4e6e8179e45a5"
+    },
+    {
+      "path": "firmware/himax_arc/experiments/birdhouse_runtime_step50.cc",
+      "bytes": 3968,
+      "sha256": "ebf4d7048c68867379ee3b5d8fbdc3c1ccdc80dd7fee1468eea839b86c4c1ac6",
+      "git_blob_sha1": "2a4da1b485a9cccd0841678c7ba8a7502685e577"
+    },
+    {
+      "path": "firmware/himax_arc/experiments/pdm_bridge_link_step32.mk",
+      "bytes": 98,
+      "sha256": "6f4a9be63db75dbe649a688c3a88b095d1b1381e3187095d21327513cde9a2c7",
+      "git_blob_sha1": "bcd56face51265e26d6373c4f7fb1f7d0f3e5cb2"
+    },
+    {
+      "path": "firmware/himax_arc/experiments/pdm_hardware_adapter_step41.cc",
+      "bytes": 3049,
+      "sha256": "c382096c93986cd344536082324092cf9cc8e49169dfcaced3e7362b12079e49",
+      "git_blob_sha1": "90a6f7456b6953eca0c8ddfeb62f15ba12ed02ba"
+    },
+    {
+      "path": "firmware/himax_arc/experiments/pdm_hardware_adapter_step46.cc",
+      "bytes": 3499,
+      "sha256": "2ad239a004f94465bfb71f298be7f9577537e03186f92f61cec0a594ac87b015",
+      "git_blob_sha1": "1a570af4757f5e7329caa2699082c77a3ed844ff"
+    },
+    {
+      "path": "firmware/himax_arc/experiments/pdm_mono_queue_step33.cc",
+      "bytes": 4729,
+      "sha256": "1ec49d6d6dd3b31d3cbceaa2fc555215a4b464c28b1f0dca9aca9bcdc5097e5e",
+      "git_blob_sha1": "22dbfeb4a5061d6a19d3aed5a5d05e7697389479"
+    },
+    {
+      "path": "firmware/himax_arc/experiments/pdm_mono_queue_step37.cc",
+      "bytes": 4853,
+      "sha256": "742586fcd28d4e9fa8b7ec8a491d9fcfd19d69a31b6e6dd5b1797064998ad227",
+      "git_blob_sha1": "d353fa4e3dcedf21e6063652cbf594f6978d38ac"
+    },
+    {
+      "path": "firmware/himax_arc/experiments/pdm_stream_bridge_step31.cc",
+      "bytes": 3645,
+      "sha256": "842a7527ea4b73f7fec5621fd5ab5059a7bfe7df48dc8821f15619935aeae41e",
+      "git_blob_sha1": "529409e4aa93178dd3039018014b66e0749ac802"
+    },
+    {
+      "path": "firmware/himax_arc/experiments/streaming_arc_wrapper_step30.cc",
+      "bytes": 509,
+      "sha256": "f8935c8b4d5740d2b12ef29c874106b04bee168e8606cc55227c6dfd81507b0d",
+      "git_blob_sha1": "ac6d4556cfa7492bf9315aef3866355114c7e6a0"
+    },
+    {
+      "path": "firmware/himax_arc/experiments/streaming_logmel_step29.cc",
+      "bytes": 5534,
+      "sha256": "1875ccee6d821c5090c06726ed8e76b0a85a0b9270cc85e3bfae8fc7a315e089",
+      "git_blob_sha1": "7765ad45742e5de61ef383b5b8ebbd349d546f9e"
+    },
+    {
+      "path": "firmware/himax_arc/tests/Makefile",
+      "bytes": 6548,
+      "sha256": "aa8a6d65e74225809cc8d078a443e3eb443810dca6853894b706498d3547e74a",
+      "git_blob_sha1": "173badcbdf25f7b0bda548d13dbe8c78c603e063"
+    },
+    {
+      "path": "firmware/himax_arc/tests/bh_test.h",
+      "bytes": 1107,
+      "sha256": "cd76d88f9d09988fb5fc42ddf825fb2d02748a4e4983daa0bef24c5e274eb1fb",
+      "git_blob_sha1": "6e3ca00d0d5e6e284f516e5e54cd5c0a599f121e"
+    },
+    {
+      "path": "firmware/himax_arc/tests/fake_aud_lib.cc",
+      "bytes": 7935,
+      "sha256": "ce0e5e7d8da13a20f0d38ad343171e1bfade457e21dd24aec4b3edae1023eb6b",
+      "git_blob_sha1": "8ae06f8e984619ad48c034d033ef94d4645190fa"
+    },
+    {
+      "path": "firmware/himax_arc/tests/fake_aud_lib.h",
+      "bytes": 5243,
+      "sha256": "e08300b520d52fff9fe898cb93ad5e6cda4315a52d7cf63333dd9321257cd69c",
+      "git_blob_sha1": "ed9e7a00f1f036333dc8d0051d95a8879dd44ce7"
+    },
+    {
+      "path": "firmware/himax_arc/tests/host_port.cc",
+      "bytes": 1964,
+      "sha256": "f0d8d321b466b4c1630d385455dc2ebea0171c4434058e10e3caa508ee8a239c",
+      "git_blob_sha1": "d4a44004d6b9249997fcf6d3007c9dd69d454df1"
+    },
+    {
+      "path": "firmware/himax_arc/tests/host_port.h",
+      "bytes": 902,
+      "sha256": "b2dd9145e80d983098a86104bc92fc1f36f94bdc9523cdf6d69338bd2b89a988",
+      "git_blob_sha1": "fc19923a0371cfed4a57e3f31462a948bbedba18"
+    },
+    {
+      "path": "firmware/himax_arc/tests/test_capture.cc",
+      "bytes": 13381,
+      "sha256": "07491270d50fb3a1a1e739ac1b1b92156b40cdbf88e169cc200a41e0bf05b01f",
+      "git_blob_sha1": "a617d41c633a4f545aadde7fc226510b715b9226"
+    },
+    {
+      "path": "firmware/himax_arc/tests/test_console.cc",
+      "bytes": 5195,
+      "sha256": "142f93cb028f6e1326ed5b295bd05db7f3ef08aae8eea50ab4d2c5bceed49f0f",
+      "git_blob_sha1": "d8f4ac22dc1fffbd2eda3f98755d37bbf28fef5a"
+    },
+    {
+      "path": "firmware/himax_arc/tests/test_diag.cc",
+      "bytes": 3244,
+      "sha256": "8c09d86302685d37c39e186f65b1c3096740667c977ba11a3927de64f9ecebc2",
+      "git_blob_sha1": "c3f265ad665ad979f5616731e8416633892e945c"
+    },
+    {
+      "path": "firmware/himax_arc/tests/test_pdm_diag.cc",
+      "bytes": 7482,
+      "sha256": "2c1d2cc8dd09fb24c14c3538d4ceb2eb1c6a0bbbd45bc86b65c34a1d27117406",
+      "git_blob_sha1": "c6af2bcaf64fe05fb45225ca97e0b59dde88f5e4"
+    },
+    {
+      "path": "firmware/himax_arc/tests/test_pdm_lifecycle.cc",
+      "bytes": 8691,
+      "sha256": "2047076633779bedc65fe73260a0c7a50e4a6ed16919a7e7cb7478d8fbfb766c",
+      "git_blob_sha1": "1f79c60e3d8afd175354be313bbe5d6b2bb33a70"
+    },
+    {
+      "path": "firmware/himax_arc/tests/test_pdm_port.cc",
+      "bytes": 10480,
+      "sha256": "b4a617387fcb2cd741163d89e7ea7e7b11b2153713f204ed27731dd534b20a3c",
+      "git_blob_sha1": "0a9c5ecee1fe23e6f5ed62e65dac6159e32e8cc8"
+    },
+    {
+      "path": "firmware/himax_arc/tests/test_preprocess_reference.cc",
+      "bytes": 1539,
+      "sha256": "8b4316fdfdb5d206f18699c0755349e8e2fd3c10c5356fe9309590847ab6b94b",
+      "git_blob_sha1": "fbfd3832bf642b070b4f6fe7f6b9a8b9f8031737"
+    },
+    {
+      "path": "firmware/himax_arc/tests/test_runtime.cc",
+      "bytes": 21610,
+      "sha256": "5195cc031784c94f11dd8901f16b983788ef5fd097bdaf3f8dc34abd850f6ff9",
+      "git_blob_sha1": "c3646656eb63120113ef51403124ad314b6101e9"
+    },
+    {
+      "path": "firmware/himax_arc/tests/test_tflm_inference.cc",
+      "bytes": 12784,
+      "sha256": "b7aaddc7002bdad3f10976458a92fa41eadeaef8d2e94546a8a7cfb69009db3b",
+      "git_blob_sha1": "4834850cbd93f6f2225a7f804ee4ec11e1610987"
+    },
+    {
+      "path": "firmware/himax_arc/tests/testdata/tflm_reference_vectors.h",
+      "bytes": 3073,
+      "sha256": "12e7cf1576f9cd0e7cdf08193ed1a4ad5190bcf43f1c37454ec3e3ddbc04e0b0",
+      "git_blob_sha1": "3f63ba3e3381252e0c813b47ed0a387abecc4601"
+    },
+    {
+      "path": "firmware/himax_arc/tests/testdata/tflm_reference_vectors.json",
+      "bytes": 9842,
+      "sha256": "eced8266204e4793888960b54cbd39591970aab583e769526d3aaf5cdb1914d1",
+      "git_blob_sha1": "2427d1ec6fab1d88823b639e010e8bceafd36986"
+    },
+    {
+      "path": "firmware/himax_arc/tests/tflm_vectors.h",
+      "bytes": 3395,
+      "sha256": "3971ae9f4d127e6287973acba3b7deec35dbc98262cddbb4f4f419f6bbddfcab",
+      "git_blob_sha1": "6c1ebc12559c8602ff1122c69787acaba9e1c266"
+    },
+    {
+      "path": "firmware/inference/bird_model.cc",
+      "bytes": 3052,
+      "sha256": "c4f6155131a5761faffdbf0633015e4d761ba9b18268acacc6208571be92d9b5",
+      "git_blob_sha1": "e0df52230b26438fc24287a39910cb1755507e96"
+    },
+    {
+      "path": "firmware/inference/bird_model.h",
+      "bytes": 646,
+      "sha256": "6c383d091a69471037156244ae879d0e5290cc4621d3b95f5f47dbc9d856342e",
+      "git_blob_sha1": "94edcf8cac6a09331e72b4a84a240c0a6560d8c0"
+    },
+    {
+      "path": "firmware/inference/reference_inference_example.cc",
+      "bytes": 1556,
+      "sha256": "0080de6b024e0710932a1978233c4ed19e73e4936fb9308afde52664603f6821",
+      "git_blob_sha1": "c23c7633f0fcd7dbe05d46fe9f0045e91b92c8d7"
+    },
+    {
+      "path": "firmware/inference/testdata/reference_model_output.h",
+      "bytes": 385,
+      "sha256": "6c98e51693bbd9bacfed4130ac08bac3ac9e591705f1ae0d1d40c43a5e782372",
+      "git_blob_sha1": "c365cc65cfb7ad4d6b96a755f6c455200a325743"
+    },
+    {
+      "path": "firmware/model/model_asset_summary.json",
+      "bytes": 3539,
+      "sha256": "c43705cc3f45850407ff694f868b65c28472476cd463657e4de926313d54a9aa",
+      "git_blob_sha1": "a4a187746edd356025ac3ab8d19f1479dfc27b8d"
+    },
+    {
+      "path": "firmware/model/model_constants.h",
+      "bytes": 1004,
+      "sha256": "b3f6fcadde94dd113b86154323f6e938252fb32a6c884efe8b6f4513568c8c99",
+      "git_blob_sha1": "bd06c34d32fd23883adeebda8e80c7bec435effd"
+    },
+    {
+      "path": "firmware/model/student_final_int8_model_data.cc",
+      "bytes": 368768,
+      "sha256": "fea5d5e41a982687a80c7d83deb6463e2427abbf0a0383921c3b5836259be311",
+      "git_blob_sha1": "8ca6901a63107f9388b1cb10dda3c3595f43b3c7"
+    },
+    {
+      "path": "firmware/model/student_final_int8_model_data.h",
+      "bytes": 353,
+      "sha256": "ad0494eeaa292384e0cbf497ec81db33aba45df493e40cec1507dcbdde4f6a9e",
+      "git_blob_sha1": "79cebb9f6777855b89367ecef800726a61a28233"
+    },
+    {
+      "path": "firmware/preprocess/audio_preprocess.cc",
+      "bytes": 6090,
+      "sha256": "b644a15438c3d3eb3854f92a96825b0ed76a05633ec5830bea655a2897991650",
+      "git_blob_sha1": "f82d26a69355b7d26df646e5c32a1d2743fd8684"
+    },
+    {
+      "path": "firmware/preprocess/audio_preprocess.h",
+      "bytes": 1455,
+      "sha256": "33215f77561b2871c2a4971874f11b142a64e5f5fcfef60d6f075f046a22c566",
+      "git_blob_sha1": "56a2626c9791e07d32392ad53680dfac6a177ee7"
+    },
+    {
+      "path": "firmware/preprocess/mel_filterbank.cc",
+      "bytes": 197156,
+      "sha256": "3dcad8d090380147b8cb8d902c59a3240b6f9fb3e7cc29d146640b60aee96a44",
+      "git_blob_sha1": "3d0ee19b28e5ed1e24ba0437a92b78a8492817a3"
+    },
+    {
+      "path": "firmware/preprocess/mel_filterbank.h",
+      "bytes": 322,
+      "sha256": "3e94c4cd3bd6694044a2f4143abf5e4163b65278dcef117686c5007680100b8c",
+      "git_blob_sha1": "d96662d1196995f7c9c081c4758401cee2c8a5a9"
+    },
+    {
+      "path": "firmware/preprocess/mel_filterbank_summary.json",
+      "bytes": 503,
+      "sha256": "293c9c8855c0f4959585d84dd257c7d8d036d867a263306e3c73a35267dd32d8",
+      "git_blob_sha1": "f3e95588fa9dfc02bc9eb927e0e7a0f4c37533c4"
+    },
+    {
+      "path": "firmware/preprocess/preprocess_constants.h",
+      "bytes": 1110,
+      "sha256": "6abf55a5bc5aea4edcd075902d8ea871c07e398a081e995f662da27d77e66bc3",
+      "git_blob_sha1": "064486d17a106dc26c7d6d68b846b5eb4b140ef8"
+    },
+    {
+      "path": "firmware/preprocess/test_preprocess_parity.cc",
+      "bytes": 5909,
+      "sha256": "4415e7738ab104dac16b54aca251652287c7bd91da46c5553e6b2802c690fb48",
+      "git_blob_sha1": "b2ae426976e5410d97187aa99ce394445515fb34"
+    },
+    {
+      "path": "firmware/preprocess/testdata/preprocess_parity_report.txt",
+      "bytes": 888,
+      "sha256": "59ccfd5c19af6dc1aa4a4a99d1d9162f0e6b63f77d00be2dd092af88c24cd6d7",
+      "git_blob_sha1": "68da18191e3ee26816873b2ab4b650fc6e36ffb3"
+    },
+    {
+      "path": "firmware/preprocess/testdata/reference_input_int8.h",
+      "bytes": 55242,
+      "sha256": "c1cef3290f42f48e42a93be8708f6052af16ad01566007427881fd1df1fb13a3",
+      "git_blob_sha1": "ef3907e39f6805c3f3e66b551693b2a719f723ee"
+    },
+    {
+      "path": "firmware/preprocess/testdata/reference_pcm_float32.h",
+      "bytes": 1503996,
+      "sha256": "dc2d6ac56f25390512c9fe321593e7dab512f0e2679ecd0cabb1691efe0e8f8e",
+      "git_blob_sha1": "e776192e721064b67c82f47a564a80281de59ec8"
+    },
+    {
+      "path": "firmware/preprocess/testdata/reference_preprocess_summary.json",
+      "bytes": 1544,
+      "sha256": "4bd6eaba5ca191f96cdf4aa4c7ffc45ded11cbcaeabedc7c4f785ea274fc1497",
+      "git_blob_sha1": "0703b86db1d077197107c8f88b7fe541f07a0d12"
+    },
+    {
+      "path": "tools/himax/audit_deployment_barriers.py",
+      "bytes": 21975,
+      "sha256": "036ad76d9498091faef7be0194a7056b867727c4b2d51cf57d6a0fc4cd0b46e9",
+      "git_blob_sha1": "450ae39d062fe689a44977690c76677f26ca0465"
+    },
+    {
+      "path": "tools/himax/gen_tflm_reference.py",
+      "bytes": 11037,
+      "sha256": "f399eec9805d1389a0cdd28b899da118cf81c6d1454d42217648b43544024e77",
+      "git_blob_sha1": "45b6cb287682c0b94d7eb7208c7fe178927a1abc"
+    },
+    {
+      "path": "tools/himax/model_manifest.py",
+      "bytes": 6922,
+      "sha256": "284a3a1ab9d43440e4f00cf3cdf647e52ad9fe7c6fcf179c1cf77c2c9b1ebd5b",
+      "git_blob_sha1": "f4ca35f5aa44d26a2c20271fc1dbb4562b49dffb"
+    },
+    {
+      "path": "tools/himax/package_offline.py",
+      "bytes": 21290,
+      "sha256": "d4c60ccf89f7a63873ff579c9d53a394f54cd1f52d439c70a56103c6d7d4611d",
+      "git_blob_sha1": "342ffb2c2ca1439ea7f5e6a952ec2c421de14091"
+    },
+    {
+      "path": "tools/himax/postlink_audit.py",
+      "bytes": 17664,
+      "sha256": "79b3d357f6139546a289b79faf53838ee2a660b4a81e142c72af55cdb72c8adb",
+      "git_blob_sha1": "e6a0f8378d406ec686e24ccb7c413523538ebbe6"
+    },
+    {
+      "path": "tools/himax/run_offline_checks.py",
+      "bytes": 25917,
+      "sha256": "7bb277acfda0c6bc4e9120ebf57c0df5d9be4cb6965ebc806462ebd820ab75a7",
+      "git_blob_sha1": "689389bd155e40128ca2cf2668ddc4e31869e9ed"
+    },
+    {
+      "path": "tools/himax/sdk_make.sh",
+      "bytes": 2240,
+      "sha256": "973786adce68117ddd4aea0db98fd9b4460e1d78a84dcd9158bd1601d258e8e0",
+      "git_blob_sha1": "1ebee09cb7e5e34e774c8d8acb82dd4498eb7312"
+    },
+    {
+      "path": "tools/himax/tests/test_deployment_barriers.py",
+      "bytes": 6066,
+      "sha256": "47e01033a72ec3238b7ae9e5f5096cba758330e0c56b151de91f5460c82d2982",
+      "git_blob_sha1": "6d6087aafbd782f74511a86b2c82b76a06fe7ece"
+    },
+    {
+      "path": "tools/himax/tests/test_offline_tools.py",
+      "bytes": 5520,
+      "sha256": "4706dca00f79a271fe1170c93040e57c382868d29ba965f362a0c20e2fb15255",
+      "git_blob_sha1": "9a166ab545e33336e949969a989fb814e6607a01"
+    },
+    {
+      "path": "tools/himax/tests/test_pdm_quiescence.py",
+      "bytes": 6947,
+      "sha256": "af8386cff7dd38a5cf1c10cebdb2b6b6e0c24bb0dc5a171b828b7a37036e7851",
+      "git_blob_sha1": "f468545a03d18539b10d31b387692f97e49cf07c"
+    },
+    {
+      "path": "tools/himax/tests/test_pdm_safety.py",
+      "bytes": 12612,
+      "sha256": "3b93145938474e2c3f660748f02a743bd12988aeb732c24041bd41dd1ab2273d",
+      "git_blob_sha1": "396add13ab9f11f4b5ead96d3a8db2c9c64e03ca"
+    },
+    {
+      "path": "tools/himax/uf2_tool.py",
+      "bytes": 7426,
+      "sha256": "5b2656e457b31c4de451988ff486cf3620c6040f345c51852d7db2f7fbbd0b96",
+      "git_blob_sha1": "a6cd29e6833f888ab40bcabe02434682c2177b3c"
+    },
+    {
+      "path": "tools/himax/verify_tflm_ops.py",
+      "bytes": 16645,
+      "sha256": "786e9f9aabb969e56fa0791d65d1d0eb9270f421b8b2fd0fb2ba8778b2580b72",
+      "git_blob_sha1": "1ce1c24114eff9b669567e7147875a2836a05a28"
+    }
+  ],
+  "exact_private_artifact": {
+    "uf2": {
+      "path": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY/package-native-terminal-01/out/birdhouse_candidate_OFFLINE_ONLY_do_not_deploy.uf2",
+      "sha256": "0eb316e68ba5b88c407d9f2f907891bab722820077e40de8d93f167d746f9cf8",
+      "bytes": 1260032,
+      "blocks": 2461,
+      "payload_bytes": 630016,
+      "padding_bytes": 208,
+      "family": "0xef32c892",
+      "start": "0x10000000",
+      "end": "0x10099d00"
+    },
+    "elf": {
+      "path": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY/arc/obj_socket_24/gnu_arcem9d_wei_r16/WEI_FW_gnu_arcem9d_wei_r16.elf",
+      "sha256": "3e350b171ed79ae9cdc96d635475b9f6de921288adbc29aab34905d96db41eee",
+      "bytes": 1667964
+    },
+    "image": {
+      "path": ".local-tools/port-himax/pdm-quiescence-diagnostic-20261113-OFFLINE_ONLY/package-native-terminal-01/out/birdhouse_candidate_output.img",
+      "sha256": "abb9a98da36447c9632d14d8b913a21480aedd8c9afbc594ffc8b91d1159fe1b",
+      "bytes": 629808
+    }
+  },
+  "firmware_modified_or_rebuilt": false,
+  "hardware_operations": 0,
+  "vendor_files_published": false,
+  "historical_reports_preserved_byte_for_byte": true,
+  "review": {
+    "all_initial_pending_files": 28,
+    "first_party_source_test_files": 14,
+    "historical_report_files": 14,
+    "new_decision_publication_files": 4,
+    "unrelated_pending_files_found": 0,
+    "publication_outcome": "see SYNC_RECEIPT.md; this manifest is not a sync claim"
+  }
+}

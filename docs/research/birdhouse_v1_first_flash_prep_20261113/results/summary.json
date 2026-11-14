@@ -1,0 +1,511 @@
+{
+  "date": "2026-11-13",
+  "repository": "AliAmini93/birdhouse-tinyml-kd",
+  "branch": "research/birdhouse-v1-first-flash-prep-20261113",
+  "verdict": "BLOCKED",
+  "technical_blocker": "BUBBLEWRAP_NAMESPACE_CREATION_DENIED",
+  "artifact_ready_for_owner_risk_decision": false,
+  "hardware_authorization": false,
+  "starting_head": "5a94940fcce5708ff686c7aaa18ae5606ee035c6",
+  "firmware_source_commit": "3d0fb3fd4c1889d79462bbc404aee722c1811894",
+  "source": {
+    "git_tree_object_id": "1fe29b76ed6e1dc46b47fe5ac0ea108e8fbee317",
+    "scope": "95 tracked files under firmware and tools/himax",
+    "tracked_files_compared": 95,
+    "byte_identical_to_required_commit": true,
+    "inventory_sha256": "c6e529b1bd495d4534c38bc77d92ba193a472e2cc8d5b46761f8ff8591b54b18",
+    "inventory_algorithm": "SHA256 of lexicographically sorted UTF-8 path + NUL + decimal bytes + NUL + lowercase SHA256 + LF records",
+    "head_delta": "three mission/launcher/README files only",
+    "first_party_changes": false
+  },
+  "sdk": {
+    "commit": "9dc2370d4dc269dc4bcafcf0354b8f745d08801f",
+    "clean_before_and_after": true,
+    "changed": false
+  },
+  "python": {
+    "mandated_interpreter_used": true,
+    "isolated_no_bytecode": true,
+    "version": "3.11.15"
+  },
+  "preflight_tool_versions": {
+    "python": "3.11.15",
+    "g++": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+    "make": "GNU Make 4.3",
+    "bwrap": "bubblewrap 0.9.0",
+    "arc-elf32-gcc": "arc-elf32-gcc (ARCompact/ARCv2 ISA elf32 toolchain arc-2020.09-1-release) 10.2.0"
+  },
+  "private_work_root": ".local-tools/port-himax/first-flash-prep-20261113-OFFLINE_ONLY-3",
+  "prior_roots_preserved": true,
+  "failed_package_root_preserved": true,
+  "owner_physical_isolation_confirmation": {
+    "status": "EXPLICITLY_CONFIRMED_IN_FOLLOWUP",
+    "board_connected_only_to_separate_windows10": true,
+    "inferred_from_probes": false
+  },
+  "authorization_followup": {
+    "existing_passive_proc_mounts_guard_permitted": true,
+    "guard_must_remain_unchanged": true,
+    "stop_on_unreliable_read_or_grove_volume": true,
+    "active_device_probing_permitted": false,
+    "hardware_operation_permitted": false,
+    "sandbox_bypass_or_escalation_permitted": false
+  },
+  "earlier_policy_blocker": {
+    "status": "RESOLVED_BY_EXPLICIT_OWNER_EXCEPTION",
+    "guard_removal_proposal": "SUPERSEDED_NOT_APPLIED"
+  },
+  "blockers": [
+    {
+      "id": "B2",
+      "stage": "FIRST_SANDBOX_STARTUP",
+      "status": "CONFIRMED_RUNTIME",
+      "reason": "BUBBLEWRAP_NAMESPACE_CREATION_DENIED",
+      "diagnostic": "bwrap: No permissions to create new namespace",
+      "exact_kernel_security_policy_cause": "NOT_PROBED",
+      "packager_exit": 1,
+      "bubblewrap_flags_changed": false,
+      "generator_launched": false,
+      "host_fallback_attempted": false,
+      "permission_escalation_attempted": false,
+      "retry_attempted": false
+    }
+  ],
+  "mount_guard": {
+    "source_sha256": "d4c60ccf89f7a63873ff579c9d53a394f54cd1f52d439c70a56103c6d7d4611d",
+    "source_changed": false,
+    "executed_through_existing_main": true,
+    "all_observed_reads_reliable": true,
+    "grove_volume_detected": false,
+    "raw_mount_data_published": false,
+    "additional_fail_closed_observer": "Standard Python trace observer stops on read exception, malformed row, empty/incomplete return or Grove hit; no function/open replacement"
+  },
+  "model": {
+    "sha256": "9e04d17723b87f9acbba3030c23e1e50b551493125e9bf7dc0aeb27f0b12db55",
+    "bytes": 59760
+  },
+  "preprocessing_byte_identical": true,
+  "focused_tests": {
+    "status": "PASS",
+    "test_methods": 4,
+    "failures": 0,
+    "errors": 0,
+    "static_first": true,
+    "native_variants": 16,
+    "native_assertions_total": 5048,
+    "native": [
+      {
+        "suite": "diag",
+        "checks_passed": 71,
+        "checks_failed": 0,
+        "status": "PASS",
+        "sanitizer": "none"
+      },
+      {
+        "suite": "capture",
+        "checks_passed": 281,
+        "checks_failed": 0,
+        "status": "PASS",
+        "sanitizer": "none"
+      },
+      {
+        "suite": "pdm_port",
+        "checks_passed": 95,
+        "checks_failed": 0,
+        "status": "PASS",
+        "sanitizer": "none"
+      },
+      {
+        "suite": "pdm_lifecycle_model_only",
+        "checks_passed": 969,
+        "checks_failed": 0,
+        "status": "PASS",
+        "sanitizer": "none"
+      },
+      {
+        "suite": "runtime",
+        "checks_passed": 466,
+        "checks_failed": 0,
+        "status": "PASS",
+        "sanitizer": "none"
+      },
+      {
+        "suite": "console",
+        "checks_passed": 35,
+        "checks_failed": 0,
+        "status": "PASS",
+        "sanitizer": "none"
+      },
+      {
+        "suite": "preprocess_reference",
+        "checks_passed": 21,
+        "checks_failed": 0,
+        "status": "PASS",
+        "sanitizer": "none"
+      },
+      {
+        "suite": "tflm_inference",
+        "checks_passed": 586,
+        "checks_failed": 0,
+        "status": "PASS",
+        "sanitizer": "none"
+      },
+      {
+        "suite": "diag",
+        "checks_passed": 71,
+        "checks_failed": 0,
+        "status": "PASS",
+        "sanitizer": "ASan+UBSan"
+      },
+      {
+        "suite": "capture",
+        "checks_passed": 281,
+        "checks_failed": 0,
+        "status": "PASS",
+        "sanitizer": "ASan+UBSan"
+      },
+      {
+        "suite": "pdm_port",
+        "checks_passed": 95,
+        "checks_failed": 0,
+        "status": "PASS",
+        "sanitizer": "ASan+UBSan"
+      },
+      {
+        "suite": "pdm_lifecycle_model_only",
+        "checks_passed": 969,
+        "checks_failed": 0,
+        "status": "PASS",
+        "sanitizer": "ASan+UBSan"
+      },
+      {
+        "suite": "runtime",
+        "checks_passed": 466,
+        "checks_failed": 0,
+        "status": "PASS",
+        "sanitizer": "ASan+UBSan"
+      },
+      {
+        "suite": "console",
+        "checks_passed": 35,
+        "checks_failed": 0,
+        "status": "PASS",
+        "sanitizer": "ASan+UBSan"
+      },
+      {
+        "suite": "preprocess_reference",
+        "checks_passed": 21,
+        "checks_failed": 0,
+        "status": "PASS",
+        "sanitizer": "ASan+UBSan"
+      },
+      {
+        "suite": "tflm_inference",
+        "checks_passed": 586,
+        "checks_failed": 0,
+        "status": "PASS",
+        "sanitizer": "ASan+UBSan"
+      }
+    ],
+    "compiled_mutants_rejected": [
+      {
+        "mutation": "stop_reopens",
+        "rejected_by_assertion": true
+      },
+      {
+        "mutation": "restart_guard_bypassed",
+        "rejected_by_assertion": true
+      },
+      {
+        "mutation": "owner_not_detached",
+        "rejected_by_assertion": true
+      },
+      {
+        "mutation": "start_mask_removed",
+        "rejected_by_assertion": true
+      },
+      {
+        "mutation": "irq_restore_enables_caller",
+        "rejected_by_assertion": true
+      },
+      {
+        "mutation": "model_ack_too_early",
+        "rejected_by_assertion": true
+      },
+      {
+        "mutation": "model_rearm_too_late",
+        "rejected_by_assertion": true
+      }
+    ],
+    "static_mutants_rejected": 4,
+    "original_static_observations": 16,
+    "focused_call_path_facts": 9,
+    "all_static_facts_pass": true,
+    "only_harness_change": "WORK redirected into new ignored root",
+    "cached_native_inputs_unchanged": true,
+    "leak_validation_claim": false
+  },
+  "clean_arc_build": {
+    "status": "PASS",
+    "exit": 0,
+    "source_compiles": 286,
+    "first_party_source_compiles": 10,
+    "sdk_source_compiles": 276,
+    "linker_script_preprocessing_commands": 1,
+    "tcftool_local_conversions": 7,
+    "new_archives": 2,
+    "sdk_prebuilt_library_copies": 3,
+    "elf_links": 1,
+    "fresh_output_no_old_objects": true,
+    "previous_arc_build_inputs_reused": false,
+    "original_sdk_prebuilt_libraries_still_required": true,
+    "first_party_warning_count": 0,
+    "vendor_warning_diagnostics": 44,
+    "all_reviewed_inputs_unchanged": true,
+    "entire_elf_matches_incremental_p1_reference": true,
+    "elf": {
+      "path": ".local-tools/port-himax/first-flash-prep-20261113-OFFLINE_ONLY-3/arc/obj_socket_24/gnu_arcem9d_wei_r16/WEI_FW_gnu_arcem9d_wei_r16.elf",
+      "bytes": 1650872,
+      "sha256": "bc49e1610fcff768b2f8aef36a42f17f928e20227494c29de3a6c0e3a34c09af"
+    }
+  },
+  "fresh_elf_audits": {
+    "postlink_status": "PASS",
+    "postlink_checks": 28,
+    "operator_status": "PASS",
+    "operator_checks": 83,
+    "all_three_wraps_retained": true,
+    "operator_macro_dump_from_actual_build": true,
+    "int8_mli_workers_retained": true,
+    "production_host_reset_fake_test_sanitizer_symbols_absent": true,
+    "memory": {
+      "ICCM0": {
+        "origin": "0x0",
+        "length": 65536,
+        "used": 0,
+        "free": 65536,
+        "used_percent": 0.0
+      },
+      "ICCM1": {
+        "origin": "0x10000000",
+        "length": 327680,
+        "used": 301306,
+        "free": 26374,
+        "used_percent": 91.95
+      },
+      "BOOT": {
+        "origin": "0x20000000",
+        "length": 133120,
+        "used": 133120,
+        "free": 0,
+        "used_percent": 100.0
+      },
+      "SYSTEM0": {
+        "origin": "0x20020800",
+        "length": 1439744,
+        "used": 849204,
+        "free": 590540,
+        "used_percent": 58.98
+      },
+      "DCCM": {
+        "origin": "0x80000000",
+        "length": 253952,
+        "used": 76960,
+        "free": 176992,
+        "used_percent": 30.3
+      },
+      ".stack": {
+        "origin": "0x8003e000",
+        "length": 8192,
+        "used": 0,
+        "free": 8192,
+        "used_percent": 0.0
+      },
+      "XCCM": {
+        "origin": "0x90000000",
+        "length": 32768,
+        "used": 32768,
+        "free": 0,
+        "used_percent": 100.0
+      },
+      "YCCM": {
+        "origin": "0xa0000000",
+        "length": 32768,
+        "used": 32768,
+        "free": 0,
+        "used_percent": 100.0
+      }
+    },
+    "heap_bytes": 176992,
+    "stack_extent_bytes": 8188,
+    "partial_known_inference_frames_bytes": 1664,
+    "physical_stack_safety": "UNPROVEN",
+    "model": {
+      "addr": "0x2002e620",
+      "size": 59760,
+      "sha256_in_elf": "9e04d17723b87f9acbba3030c23e1e50b551493125e9bf7dc0aeb27f0b12db55"
+    }
+  },
+  "packaging": {
+    "status": "BLOCKED",
+    "existing_tool_source_unchanged": true,
+    "constraints_status": "PASS",
+    "rejected_output_cases": [
+      "existing root",
+      "outside root",
+      "symlink escape"
+    ],
+    "sandbox_launch_attempted": true,
+    "sandbox_startup": "FAILED_NAMESPACE_PERMISSION",
+    "packager_exit": 1,
+    "normal_packager_validation_json_created": false,
+    "separate_private_invocation_status_preserved": true,
+    "deterministic_twice_generated_image": "NOT_RUN",
+    "elf_sbs_reconstruction": "NOT_RUN_NO_IMAGE",
+    "packaged_model_identity": "NOT_RUN_NO_IMAGE",
+    "new_uf2_independent_parsers": "NOT_RUN_NO_UF2",
+    "final_double_read_hash": "NOT_RUN_NO_UF2",
+    "new_hash_unequal_to_pre_p1": "NOT_EVALUABLE_NO_UF2"
+  },
+  "new_candidate": {
+    "elf": {
+      "path": ".local-tools/port-himax/first-flash-prep-20261113-OFFLINE_ONLY-3/arc/obj_socket_24/gnu_arcem9d_wei_r16/WEI_FW_gnu_arcem9d_wei_r16.elf",
+      "bytes": 1650872,
+      "sha256": "bc49e1610fcff768b2f8aef36a42f17f928e20227494c29de3a6c0e3a34c09af"
+    },
+    "elf_status": "FRESH_CLEAN_UNPACKAGED_UNEXECUTED",
+    "image": null,
+    "uf2": null,
+    "path": null,
+    "sha256": null,
+    "bytes": null,
+    "blocks": null,
+    "family_expected": "0xef32c892",
+    "addresses": null,
+    "app_sections": null,
+    "loader_config_comparison": null,
+    "factory_tail_difference": null,
+    "clean_build_reproduced_p1_source": true,
+    "physical_boot": "UNKNOWN"
+  },
+  "references_only": {
+    "factory": {
+      "bytes": 1541632,
+      "sha256": "8854e09348cec166c127e3bafda89b0b35e3a7a62916e27661410ff03f4b5b3c",
+      "blocks": 3011,
+      "payload_bytes": 770816,
+      "payload_sha256": "809bfedf75413355d88b97564b07eab2b526ec0c00c112e5e04edf4ad4768a40",
+      "family": "0xef32c892",
+      "flags": "0x2000",
+      "first_address": "0x10000000",
+      "end_address": "0x100bc300",
+      "independent_parser": "PASS"
+    },
+    "p1_incremental_elf": {
+      "bytes": 1650872,
+      "sha256": "bc49e1610fcff768b2f8aef36a42f17f928e20227494c29de3a6c0e3a34c09af"
+    },
+    "pre_p1_elf": {
+      "bytes": 1650872,
+      "sha256": "8a280fa470c5e6a40b10a941a4e1fe99625233e8d28253b6bcfe4104aff7142f"
+    },
+    "pre_p1_image": {
+      "sha256": "c2d7e176436433f714633bc817cec3bc232c8fabd62389567be518358b6de388",
+      "bytes": 628016
+    },
+    "pre_p1_uf2_EXCLUDED": {
+      "bytes": 1256448,
+      "sha256": "009799e1ca3b39fa9f3fcee9ce97dd6f5d93a3bedf383b2172bfa873c21600ae",
+      "blocks": 2454,
+      "payload_bytes": 628224,
+      "payload_sha256": "b8a12eb299aaa7ce0428c05eab0c4fe1c7ed0ce21b4b15d387f03d9dacfcab2d",
+      "family": "0xef32c892",
+      "flags": "0x2000",
+      "first_address": "0x10000000",
+      "end_address": "0x10099600",
+      "independent_parser": "PASS"
+    },
+    "pre_p1_comparison_NEVER_NEW_CANDIDATE": {
+      "loader_slots_identical": true,
+      "config_slot_identical": true,
+      "metadata_slot_identical": false,
+      "factory_only_tail_bytes": 142592,
+      "tail_begin": "0x99600",
+      "tail_end": "0xbc300",
+      "scope": "PRE-P1 REFERENCE ONLY; never a new candidate"
+    }
+  },
+  "reference_integrity_before_and_after_resumed_work": "PASS_UNCHANGED",
+  "physical_uncertainties": {
+    "G1_preservation": "OPEN",
+    "G2_installed_updater": "OPEN_UNQUALIFIED",
+    "G3_windows_write_transport": "OPEN",
+    "G4_independent_full_himax_recovery": "OPEN_UNQUALIFIED",
+    "P1": "PARTIALLY_MITIGATED_FAIL_CLOSED",
+    "P1_dma_pending_and_stop_quiescence": "UNPROVEN",
+    "P4": "VENDOR_LEVEL_BLOCKED",
+    "ARC_MLI_microphone_timing_stack": "NOT_PHYSICALLY_VALIDATED",
+    "qualified_independent_backup": false,
+    "permanent_board_loss_possible": true,
+    "settings_calibration_loss_possible": true
+  },
+  "windows_plan": {
+    "status": "TEXT_ONLY_INACTIVE",
+    "conditional_recommendation": "DIRECT_NEW_P1_BIRDHOUSE_ONE_WRITE_AFTER_ALL_OFFLINE_GATES_AND_EXACT_DIGEST_OWNER_APPROVAL",
+    "conditional_write_count": 1,
+    "factory_rehearsal_then_birdhouse_write_count": 2,
+    "reason": "Avoid an additional full write that cannot prove independent recovery; rehearsal adds only evidence for its exact successful case",
+    "currently_enabled_writes": 0,
+    "owner_record_signed": false,
+    "console_contract_verified": false,
+    "at_probes_authorized": false,
+    "future_microphone_max_attempts_if_separately_authorized": 1
+  },
+  "hardware_operations_performed": false,
+  "active_device_probing_performed": false,
+  "passive_authorized_mount_guard_performed": true,
+  "windows_automation_performed": false,
+  "vendor_generator_executed": false,
+  "old_artifact_relabelled": false,
+  "binaries_public": false,
+  "source_or_verifier_patch_applied": false,
+  "publication": {
+    "status": "REPORTS_UNCOMMITTED_AND_UNSYNCED",
+    "earlier_commit_attempt_exit": 128,
+    "earlier_commit_failure": "Unable to create .git/index.lock: Read-only file system",
+    "read_only_observed_in_this_live_mission": true,
+    "git_mutation_after_followup": false,
+    "permission_escalation_attempted": false,
+    "automatic_approval_review_rejected": false,
+    "new_reports_committed": false,
+    "new_content_push_attempted": false,
+    "local_head": "5a94940fcce5708ff686c7aaa18ae5606ee035c6",
+    "remote_head": "5a94940fcce5708ff686c7aaa18ae5606ee035c6",
+    "old_head_match_is_report_sync": false,
+    "worktree_clean": false,
+    "earlier_staged_snapshot_stale": true,
+    "ordinary_terminal_recipe": "FINAL_ARTIFACT_DECISION.md",
+    "recipe_rehashes": "Fresh unpackaged ELF, factory and excluded PRE-P1 UF2; no new UF2 exists"
+  },
+  "report_validation": {
+    "status": "PASS",
+    "six_text_files_only": true,
+    "json": "PASS",
+    "relative_links": "PASS",
+    "known_sha256_consistency": "PASS",
+    "privacy_patterns_and_manual_review": "PASS",
+    "owner_approvals_all_unchecked": true,
+    "source_sdk_prior_reference_integrity": "PASS",
+    "fresh_elf_double_read_hash": "PASS",
+    "new_uf2_double_read_hash": "NOT_RUN_NO_UF2"
+  },
+  "next_human_step": "Review a separately authorized offline environment that supports the unchanged required sandbox; no device command or digest-specific flash approval now",
+  "reports": [
+    "BUILD_AND_SOURCE_PROVENANCE.md",
+    "FIRMWARE_UF2_VALIDATION.md",
+    "WINDOWS10_SINGLE_FLASH_OPERATOR_PLAN.md",
+    "OWNER_RISK_ACCEPTANCE_RECORD.md",
+    "FINAL_ARTIFACT_DECISION.md",
+    "results/summary.json"
+  ]
+}

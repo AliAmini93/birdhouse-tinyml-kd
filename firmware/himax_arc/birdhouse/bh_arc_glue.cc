@@ -29,6 +29,7 @@
 #include <cstdlib>
 
 #include "firmware/himax_arc/birdhouse/bh_port.h"
+#include "firmware/himax_arc/birdhouse/bh_pdm_diag.h"
 #include "firmware/himax_arc/birdhouse/bh_runtime.h"
 
 #include "firmware/himax_arc/birdhouse/bh_console.h"
@@ -41,6 +42,9 @@
 extern "C" {
 #include "hx_drv_pdm_rx.h"
 #include "arc/arc_exception.h"
+#include "arc/arc.h"
+#include "arc/arc_builtin.h"
+#include "io_config.h"
 #include "xprintf.h"
 uint64_t board_get_cur_us(void);
 bool __real_is_inference_running(void);
@@ -52,6 +56,29 @@ PDM_ERROR_E __wrap_hx_drv_pdm_deinit(PDM_DEV_INFO* pdm_dev_info);
 extern char _e_heap[];
 extern char _e_stack[];
 extern char _f_heap[];
+void __real__dma_chan_enable(unsigned int mask, int enable);
+}
+
+static_assert(IO_PDM_RX0_DMA == kBhPdmDmaChannel, "PDM DMA mapping changed; re-audit diagnostics");
+extern "C" void __wrap__dma_chan_enable(unsigned int mask, int enable) {
+  bh_port_pdm_diag_enable_event(mask, enable);
+  __real__dma_chan_enable(mask, enable);
+}
+
+BhPdmDmaStatus bh_port_pdm_diag_read_status() {
+  // SDK arc_udma.c read-only getters and _dmac_wait_channel define these bits.
+  // Reads never use a clear/ack API or the banked IRQ_SELECT interface.
+  const uint32_t busy = _arc_aux_read(AUX_DMACSTAT0);
+  const uint32_t complete = _arc_aux_read(AUX_DMACSTAT1);
+  const uint32_t irq = _arc_aux_read(AUX_DMACIRQ);
+  const BhPdmDmaStatus s = {kBhPdmDiagValid, (busy >> kBhPdmDmaChannel) & 1u,
+      (complete >> kBhPdmDmaChannel) & 1u,
+      (complete >> (kBhPdmDmaChannel + 16)) & 1u, (irq >> kBhPdmDmaChannel) & 1u};
+  return s;
+}
+uint32_t bh_port_pdm_diag_read_word(const uint32_t* word) {
+  // Only called with an aligned address inside our lifetime-static DMA buffer.
+  return _arc_read_uncached_32(const_cast<uint32_t*>(word));
 }
 
 uint64_t bh_port_now_us() { return board_get_cur_us(); }

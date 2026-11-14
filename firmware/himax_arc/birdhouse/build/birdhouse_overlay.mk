@@ -86,6 +86,7 @@ $(BH_OBJS): $(BH_OBJ)/%.o: $(BH_REPO)/%.cc $(CORE_ARG_FILES) $(BH_SRC_DIR)/build
 EXTRA_OBJS += $(BH_OBJS)
 LINK_OPT += -Wl,--wrap=is_inference_running
 LINK_OPT += -Wl,--wrap=hx_drv_pdm_deinit
+LINK_OPT += -Wl,--wrap=_dma_chan_enable
 LINK_OPT += -Wl,--wrap=_ZN8ATParser5parseENSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
 
 $(APPL_FULL_NAME).elf: $(BH_OBJS)

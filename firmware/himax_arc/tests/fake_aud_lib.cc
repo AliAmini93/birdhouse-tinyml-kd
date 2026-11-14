@@ -1,4 +1,5 @@
 #include "firmware/himax_arc/tests/fake_aud_lib.h"
+#include "firmware/himax_arc/birdhouse/bh_pdm_diag.h"
 
 #include <cstring>
 
@@ -67,6 +68,7 @@ extern "C" AUDIO_ERROR_E hx_lib_audio_start(audio_config_t* cfg) {
   g.read_idx = 0;
   g.write_idx = 0;
   g.frame = 0;
+  bh_port_pdm_diag_enable_event(kBhPdmDmaMask, 1);
   g.running = true;
   g.queue_published = false;
   ++g.counters.starts;
@@ -203,6 +205,7 @@ bool DispatchPending() {
     g.write_idx = 0;
     g.read_idx = 0;
   }
+  bh_port_pdm_diag_enable_event(kBhPdmDmaMask, 1);
   g.running = true;
   ++g.counters.rearms;
   g.counters.last_rearm = ++g.counters.sequence;
@@ -233,6 +236,10 @@ void IrqRestore(uint32_t state) {
 }
 void SetIrqState(uint32_t state) { g.irq_state = state; }
 uint32_t irq_state() { return g.irq_state; }
+void ChangeDmaWordForTest(uint32_t index) {
+  if (g.config.buffer_addr && index < g.config.block_num * g.config.block_sz / 4)
+    g.config.buffer_addr[index] ^= 1u;
+}
 
 void CompleteBlocks(uint32_t n) {
   for (uint32_t i = 0; i < n; ++i) CompleteBlock();

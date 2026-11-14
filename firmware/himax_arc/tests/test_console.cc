@@ -6,6 +6,7 @@
 #include "firmware/himax_arc/birdhouse/bh_console.h"
 #include "firmware/himax_arc/birdhouse/bh_runtime.h"
 #include "firmware/himax_arc/birdhouse/bh_port.h"
+#include "firmware/himax_arc/birdhouse/bh_pdm_diag.h"
 #include "firmware/himax_arc/tests/bh_test.h"
 #include "firmware/himax_arc/tests/host_port.h"
 #include "firmware/himax_arc/tests/fake_aud_lib.h"
@@ -64,6 +65,15 @@ int main() {
   BH_CASE("actual dispatcher routes read, run, write and CRLF");
   Send("AT+BIRDINFO?\r\n");
   BH_CHECK(Has("BIRDHOUSE INFO version="));
+  Send("AT+BIRDDMA=2\r");
+  BH_CHECK(Has("arm_rc=-2") && !bh_port_pdm_diag_report().armed);
+  Send("AT+BIRDDMA=1\r");
+  BH_CHECK(Has("arm_rc=0 capture_queued=0") && bh_port_pdm_diag_report().armed);
+  BH_CHECK(bh::RuntimePendingRuns() == 0 && fake_aud::counters().starts == 0);
+  Send("AT+BIRDDMA?\r");
+  BH_CHECK(Has("NOT_FINISHED") && Has("full_quiescence=UNOBSERVABLE"));
+  // Ordinary dispatcher/capture regression below is deliberately unarmed.
+  bh_port_pdm_test_reset();
   Send("AT+BIRDSYNTH=0\r");
   BH_CHECK(Has("source=SYNTH state=DONE decision="));
   Send("AT+BIRDPCM=0,1,2\r");
@@ -91,6 +101,8 @@ int main() {
   BH_CHECK(Has("BIRDHOUSE ERROR busy"));
   Send("AT+BIRDRUN=1\r");
   BH_CHECK(Has("BIRDHOUSE RUN queued=0 rc=-1"));
+  Send("AT+BIRDDMA=1\r");
+  BH_CHECK(Has("ERROR busy") && !bh_port_pdm_diag_report().armed);
   Send("AT+BIRDSTOP\r");  // stop retry cannot reopen vendor or Birdhouse
   BH_CHECK(bh_port_pdm_faulted());
   Send("AT+RUNIMPULSE\r");

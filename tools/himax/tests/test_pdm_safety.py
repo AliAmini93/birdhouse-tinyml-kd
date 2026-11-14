@@ -37,6 +37,7 @@ NATIVE = {
     'capture': [BH+'bh_capture.cc'],
     'pdm_port': COMMON,
     'pdm_lifecycle': COMMON,
+    'pdm_diag': COMMON,
     'runtime': COMMON+PIPE,
     'console': COMMON+PIPE+[BH+'bh_console.cc'],
     'preprocess_reference': ['firmware/preprocess/audio_preprocess.cc', 'firmware/preprocess/mel_filterbank.cc'],

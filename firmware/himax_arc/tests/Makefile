@@ -126,11 +126,13 @@ $(OBJ)/test_capture: $(R)/himax_arc/tests/test_capture.o $(R)/himax_arc/birdhous
 	$(CXX) $(SANFLAGS) -o $@ $^
 $(OBJ)/test_pdm_port: $(R)/himax_arc/tests/test_pdm_port.o $(CORE_OBJS) $(PORT_OBJS) $(FAKE_OBJS)
 	$(CXX) $(SANFLAGS) -o $@ $^
+$(OBJ)/test_pdm_diag: $(R)/himax_arc/tests/test_pdm_diag.o $(CORE_OBJS) $(PORT_OBJS) $(FAKE_OBJS)
+	$(CXX) $(SANFLAGS) -o $@ $^
 $(OBJ)/test_runtime: $(R)/himax_arc/tests/test_runtime.o $(CORE_OBJS) $(PORT_OBJS) $(FAKE_OBJS) \
                      $(PIPE_OBJS) $(MODEL_OBJS) $(TFLM_LIB)
 	$(CXX) $(SANFLAGS) -o $@ $^ -lm
 
-UNIT_TESTS := $(OBJ)/test_diag $(OBJ)/test_capture $(OBJ)/test_pdm_port $(OBJ)/test_runtime
+UNIT_TESTS := $(OBJ)/test_diag $(OBJ)/test_capture $(OBJ)/test_pdm_port $(OBJ)/test_pdm_diag $(OBJ)/test_runtime
 
 # Use the real vendor AT parser, server, line buffer/history and singleton.
 AT_DIR := $(EI_MODEL)/../firmware-sdk/at-server
